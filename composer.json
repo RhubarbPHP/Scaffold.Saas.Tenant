@@ -1,0 +1,25 @@
+{
+  "name": "rhubarbphp/scaffold-saas-tenant",
+  "description": "Provides tenant services for software as a service platforms.",
+  "keywords": [ "authentication", "rhubarb", "php", "framework" ],
+  "homepage": "http://www.rhubarbphp.com/",
+  "license": "Apache-2.0",
+  "autoload": {
+    "psr-4": {
+      "Rhubarb\\Scaffolds\\Saas\\Tenant\\": "src/",
+      "Rhubarb\\Scaffolds\\Saas\\Tenant\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "rhubarbphp/rhubarb": "dev-crown",
+    "rhubarbphp/scaffold-authentication-with-roles": "dev-feature/MigrationFromCore",
+    "rhubarbphp/module-stem": "dev-migration",
+    "rhubarbphp/module-leaf": "dev-feature/MigrationFromCore",
+    "rhubarbphp/module-restapi": "dev-feature/MigrationFromCore"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "3.*"
+  }
+}
+
+

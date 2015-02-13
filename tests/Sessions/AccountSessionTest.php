@@ -16,12 +16,12 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Sessions;
+namespace Rhubarb\Crown\Saas\Tenant\Sessions;
 
-use Gcd\Core\Encryption\EncryptionProvider;
-use Gcd\Core\LoginProviders\LoginProvider;
-use Gcd\Core\Saas\Tenant\Exceptions\SaasConnectionException;
-use Gcd\Core\Saas\Tenant\UnitTesting\TenantTestCase;
+use Rhubarb\Crown\Encryption\EncryptionProvider;
+use Rhubarb\Crown\LoginProviders\LoginProvider;
+use Rhubarb\Crown\Saas\Tenant\Exceptions\SaasConnectionException;
+use Rhubarb\Crown\Saas\Tenant\UnitTesting\TenantTestCase;
 
 class AccountSessionTest extends TenantTestCase
 {

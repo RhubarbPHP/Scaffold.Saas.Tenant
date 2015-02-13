@@ -16,12 +16,12 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Presenters\Registration;
+namespace Rhubarb\Crown\Saas\Tenant\Presenters\Registration;
 
-use Gcd\Core\Mvp\Presenters\Controls\Buttons\Button;
-use Gcd\Core\Mvp\Presenters\Controls\Text\Password\Password;
-use Gcd\Core\Mvp\Presenters\Controls\Text\TextBox\TextBox;
-use Gcd\Core\Mvp\Views\HtmlView;
+use Rhubarb\Leaf\Presenters\Controls\Buttons\Button;
+use Rhubarb\Leaf\Presenters\Controls\Text\Password\Password;
+use Rhubarb\Leaf\Presenters\Controls\Text\TextBox\TextBox;
+use Rhubarb\Leaf\Views\HtmlView;
 
 class RegistrationView extends HtmlView
 {

@@ -16,9 +16,9 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Settings;
+namespace Rhubarb\Crown\Saas\Tenant\Settings;
 
-use Gcd\Core\Settings;
+use Rhubarb\Crown\Settings;
 
 /**
  * @property string $Username

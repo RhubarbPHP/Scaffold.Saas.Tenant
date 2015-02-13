@@ -16,12 +16,12 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\RestClients;
+namespace Rhubarb\Crown\Saas\Tenant\RestClients;
 
-use Gcd\Core\RestApi\Exceptions\RestAuthenticationException;
-use Gcd\Core\Saas\Tenant\Exceptions\SaasAuthenticationException;
-use Gcd\Core\Saas\Tenant\Sessions\RestSession;
-use Gcd\Core\RestApi\Clients\TokenAuthenticatedRestClient;
+use Rhubarb\Crown\RestApi\Exceptions\RestAuthenticationException;
+use Rhubarb\Crown\Saas\Tenant\Exceptions\SaasAuthenticationException;
+use Rhubarb\Crown\Saas\Tenant\Sessions\RestSession;
+use Rhubarb\Crown\RestApi\Clients\TokenAuthenticatedRestClient;
 
 class AuthenticatedRestClient extends TokenAuthenticatedRestClient
 {

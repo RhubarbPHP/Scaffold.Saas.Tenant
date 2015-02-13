@@ -16,9 +16,9 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Presenters\Login;
+namespace Rhubarb\Crown\Saas\Tenant\Presenters\Login;
 
-class LoginPresenter extends \Gcd\Core\Scaffolds\Authentication\Presenters\LoginPresenter
+class LoginPresenter extends \Rhubarb\Crown\Scaffolds\Authentication\Presenters\LoginPresenter
 {
 
 } 

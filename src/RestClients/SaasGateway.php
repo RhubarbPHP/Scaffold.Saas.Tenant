@@ -16,11 +16,11 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\RestClients;
+namespace Rhubarb\Crown\Saas\Tenant\RestClients;
 
-use Gcd\Core\Saas\Tenant\Sessions\RestSession;
-use Gcd\Core\Saas\Tenant\Settings\RestClientSettings;
-use Gcd\Core\RestApi\Clients\RestHttpRequest;
+use Rhubarb\Crown\Saas\Tenant\Sessions\RestSession;
+use Rhubarb\Crown\Saas\Tenant\Settings\RestClientSettings;
+use Rhubarb\Crown\RestApi\Clients\RestHttpRequest;
 
 /**
  * A simple static class to simplify to process of talking to the landlord.

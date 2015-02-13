@@ -16,15 +16,15 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant;
+namespace Rhubarb\Crown\Saas\Tenant;
 
-use Gcd\Core\Encryption\EncryptionProvider;
-use Gcd\Core\LoginProviders\LoginProvider;
-use Gcd\Core\Modelling\Repositories\Repository;
-use Gcd\Core\Module;
-use Gcd\Core\Mvp\UrlHandlers\MvpCollectionUrlHandler;
-use Gcd\Core\Scaffolds\AuthenticationWithRoles\AuthenticationWithRolesModule;
-use Gcd\Core\UrlHandlers\ClassMappedUrlHandler;
+use Rhubarb\Crown\Encryption\EncryptionProvider;
+use Rhubarb\Crown\LoginProviders\LoginProvider;
+use Rhubarb\Stem\Repositories\Repository;
+use Rhubarb\Crown\Module;
+use Rhubarb\Leaf\UrlHandlers\MvpCollectionUrlHandler;
+use Rhubarb\Crown\Scaffolds\AuthenticationWithRoles\AuthenticationWithRolesModule;
+use Rhubarb\Crown\UrlHandlers\ClassMappedUrlHandler;
 
 class SaasTenantModule extends Module
 {
@@ -40,26 +40,26 @@ class SaasTenantModule extends Module
 	{
 		parent::Initialise();
 
-		EncryptionProvider::SetEncryptionProviderClassName( '\Gcd\Core\Encryption\Aes256ComputedKeyEncryptionProvider' );
-		Repository::SetDefaultRepositoryClassName( '\Gcd\Core\Saas\Tenant\Repositories\SaasMySqlRepository' );
+		EncryptionProvider::SetEncryptionProviderClassName( '\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider' );
+		Repository::SetDefaultRepositoryClassName( '\Rhubarb\Crown\Saas\Tenant\Repositories\SaasMySqlRepository' );
 	}
 
 	protected function RegisterDependantModules()
 	{
 		parent::RegisterDependantModules();
 
-		Module::RegisterModule( new AuthenticationWithRolesModule( '\Gcd\Core\Saas\Tenant\LoginProviders\TenantLoginProvider' ) );
+		Module::RegisterModule( new AuthenticationWithRolesModule( '\Rhubarb\Crown\Saas\Tenant\LoginProviders\TenantLoginProvider' ) );
 	}
 
 	protected function RegisterUrlHandlers()
 	{
 		parent::RegisterUrlHandlers();
 
-		$signUp = new ClassMappedUrlHandler( "\Gcd\Core\Saas\Tenant\Presenters\Registration\RegistrationPresenter" );
+		$signUp = new ClassMappedUrlHandler( "\Rhubarb\Crown\Saas\Tenant\Presenters\Registration\RegistrationPresenter" );
 		$signUp->SetPriority( 20 );
 
-		$login = new ClassMappedUrlHandler( "\Gcd\Core\Saas\Tenant\Presenters\Login\LoginPresenter", [
-			"reset/" => new MvpCollectionUrlHandler( '\Gcd\Core\Saas\Tenant\Presenters\Login\ResetPasswordPresenter', '\Gcd\Core\Saas\Tenant\Presenters\Login\ConfirmResetPasswordPresenter' )
+		$login = new ClassMappedUrlHandler( "\Rhubarb\Crown\Saas\Tenant\Presenters\Login\LoginPresenter", [
+			"reset/" => new MvpCollectionUrlHandler( '\Rhubarb\Crown\Saas\Tenant\Presenters\Login\ResetPasswordPresenter', '\Rhubarb\Crown\Saas\Tenant\Presenters\Login\ConfirmResetPasswordPresenter' )
 		] );
 
 		$login->SetPriority( 20 );
@@ -67,9 +67,9 @@ class SaasTenantModule extends Module
 
 		$this->AddUrlHandlers(
 		[
-			"/accounts/" => new ClassMappedUrlHandler( "\Gcd\Core\Saas\Tenant\Presenters\Accounts\AccountsListPresenter",
+			"/accounts/" => new ClassMappedUrlHandler( "\Rhubarb\Crown\Saas\Tenant\Presenters\Accounts\AccountsListPresenter",
 			[
-				"new/" => new ClassMappedUrlHandler( '\Gcd\Core\Saas\Tenant\Presenters\Accounts\NewAccountPresenter' )
+				"new/" => new ClassMappedUrlHandler( '\Rhubarb\Crown\Saas\Tenant\Presenters\Accounts\NewAccountPresenter' )
 			]),
 			"/sign-up/" => $signUp,
 			"/login/" => $login

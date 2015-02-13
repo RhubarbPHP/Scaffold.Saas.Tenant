@@ -16,13 +16,13 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Presenters\Accounts;
+namespace Rhubarb\Crown\Saas\Tenant\Presenters\Accounts;
 
-use Gcd\Core\Exceptions\ForceResponseException;
-use Gcd\Core\Mvp\Views\UnitTestView;
-use Gcd\Core\Saas\Tenant\Sessions\AccountSession;
-use Gcd\Core\Saas\Tenant\UnitTesting\TenantTestCase;
-use Gcd\Core\Scaffolds\Saas\Model\Accounts\Account;
+use Rhubarb\Crown\Exceptions\ForceResponseException;
+use Rhubarb\Leaf\Views\UnitTestView;
+use Rhubarb\Crown\Saas\Tenant\Sessions\AccountSession;
+use Rhubarb\Crown\Saas\Tenant\UnitTesting\TenantTestCase;
+use Rhubarb\Crown\Scaffolds\Saas\Model\Accounts\Account;
 
 class NewAccountPresenterTest extends TenantTestCase
 {

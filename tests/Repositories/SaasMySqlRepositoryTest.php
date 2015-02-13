@@ -16,14 +16,14 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Repositories;
+namespace Rhubarb\Crown\Saas\Tenant\Repositories;
 
-use Gcd\Core\HttpHeaders;
-use Gcd\Core\Modelling\Exceptions\RepositoryConnectionException;
-use Gcd\Core\Modelling\ModellingSettings;
-use Gcd\Core\Saas\Tenant\Sessions\AccountSession;
-use Gcd\Core\Saas\Tenant\UnitTesting\TenantTestCase;
-use Gcd\Core\Sessions\Session;
+use Rhubarb\Crown\HttpHeaders;
+use Rhubarb\Stem\Exceptions\RepositoryConnectionException;
+use Rhubarb\Stem\ModellingSettings;
+use Rhubarb\Crown\Saas\Tenant\Sessions\AccountSession;
+use Rhubarb\Crown\Saas\Tenant\UnitTesting\TenantTestCase;
+use Rhubarb\Crown\Sessions\Session;
 
 class SaasMySqlRepositoryTest extends TenantTestCase
 {

@@ -16,12 +16,12 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\RestModels;
+namespace Rhubarb\Crown\Saas\Tenant\RestModels;
 
-use Gcd\Core\Modelling\ModelState;
-use Gcd\Core\RestApi\Clients\RestClient;
-use Gcd\Core\RestApi\Clients\RestHttpRequest;
-use Gcd\Core\RestApi\Exceptions\RestImplementationException;
+use Rhubarb\Stem\ModelState;
+use Rhubarb\Crown\RestApi\Clients\RestClient;
+use Rhubarb\Crown\RestApi\Clients\RestHttpRequest;
+use Rhubarb\Crown\RestApi\Exceptions\RestImplementationException;
 
 /**
  * Base class for RestModel objects.

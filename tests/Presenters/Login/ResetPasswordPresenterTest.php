@@ -16,11 +16,11 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Presenters\Login;
+namespace Rhubarb\Crown\Saas\Tenant\Presenters\Login;
 
-use Gcd\Core\Integration\Email\UnitTestingEmailProvider;
-use Gcd\Core\Mvp\Views\UnitTestView;
-use Gcd\Core\Saas\Tenant\UnitTesting\TenantTestCase;
+use Rhubarb\Crown\Integration\Email\UnitTestingEmailProvider;
+use Rhubarb\Leaf\Views\UnitTestView;
+use Rhubarb\Crown\Saas\Tenant\UnitTesting\TenantTestCase;
 
 class ResetPasswordPresenterTest extends TenantTestCase
 {

@@ -16,15 +16,15 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Presenters\Registration;
+namespace Rhubarb\Crown\Saas\Tenant\Presenters\Registration;
 
-use Gcd\Core\Exceptions\ForceResponseException;
-use Gcd\Core\Response\RedirectResponse;
-use Gcd\Core\Saas\Tenant\LoginProviders\TenantLoginProvider;
-use Gcd\Core\Saas\Tenant\RestModels\User;
-use Gcd\Core\LoginProviders\LoginProvider;
-use Gcd\Core\Mvp\Presenters\Forms\Form;
-use Gcd\Core\Saas\Tenant\Settings\TenantSettings;
+use Rhubarb\Crown\Exceptions\ForceResponseException;
+use Rhubarb\Crown\Response\RedirectResponse;
+use Rhubarb\Crown\Saas\Tenant\LoginProviders\TenantLoginProvider;
+use Rhubarb\Crown\Saas\Tenant\RestModels\User;
+use Rhubarb\Crown\LoginProviders\LoginProvider;
+use Rhubarb\Leaf\Presenters\Forms\Form;
+use Rhubarb\Crown\Saas\Tenant\Settings\TenantSettings;
 
 class RegistrationPresenter extends Form
 {

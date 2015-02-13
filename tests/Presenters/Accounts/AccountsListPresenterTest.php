@@ -16,12 +16,12 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Presenters\Accounts;
+namespace Rhubarb\Crown\Saas\Tenant\Presenters\Accounts;
 
-use Gcd\Core\Mvp\Views\UnitTestView;
-use Gcd\Core\Saas\Tenant\LoginProviders\TenantLoginProvider;
-use Gcd\Core\Saas\Tenant\UnitTesting\TenantTestCase;
-use Gcd\Core\Scaffolds\Authentication\LoginProvider;
+use Rhubarb\Leaf\Views\UnitTestView;
+use Rhubarb\Crown\Saas\Tenant\LoginProviders\TenantLoginProvider;
+use Rhubarb\Crown\Saas\Tenant\UnitTesting\TenantTestCase;
+use Rhubarb\Crown\Scaffolds\Authentication\LoginProvider;
 
 class AccountsListPresenterTest extends TenantTestCase
 {

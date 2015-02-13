@@ -16,12 +16,12 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Repositories;
+namespace Rhubarb\Crown\Saas\Tenant\Repositories;
 
-use Gcd\Core\Modelling\ModellingSettings;
-use Gcd\Core\Modelling\Repositories\MySql\MySql;
-use Gcd\Core\Saas\Tenant\Exceptions\SaasConnectionException;
-use Gcd\Core\Saas\Tenant\Sessions\AccountSession;
+use Rhubarb\Stem\ModellingSettings;
+use Rhubarb\Stem\Repositories\MySql\MySql;
+use Rhubarb\Crown\Saas\Tenant\Exceptions\SaasConnectionException;
+use Rhubarb\Crown\Saas\Tenant\Sessions\AccountSession;
 
 class SaasMySqlRepository extends MySql
 {

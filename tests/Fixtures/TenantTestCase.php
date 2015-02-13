@@ -16,23 +16,23 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\UnitTesting;
+namespace Rhubarb\Crown\Saas\Tenant\UnitTesting;
 
-use Gcd\Core\Encryption\EncryptionProvider;
-use Gcd\Core\LoginProviders\LoginProvider;
-use Gcd\Core\Saas\Tenant\RestClients\SaasGateway;
-use Gcd\Core\Saas\Tenant\SaasTenantModule;
-use Gcd\Core\Saas\Tenant\Settings\RestClientSettings;
-use Gcd\Core\Context;
-use Gcd\Core\CoreModule;
-use Gcd\Core\Encryption\HashProvider;
-use Gcd\Core\Integration\Http\HttpClient;
-use Gcd\Core\Modelling\Repositories\Repository;
-use Gcd\Core\Modelling\Schema\SolutionSchema;
-use Gcd\Core\Module;
-use Gcd\Core\Scaffolds\Saas\SaasModule;
-use Gcd\Core\Scaffolds\Saas\UnitTesting\SaasTestCaseTrait;
-use Gcd\Core\UnitTesting\CoreTestCase;
+use Rhubarb\Crown\Encryption\EncryptionProvider;
+use Rhubarb\Crown\LoginProviders\LoginProvider;
+use Rhubarb\Crown\Saas\Tenant\RestClients\SaasGateway;
+use Rhubarb\Crown\Saas\Tenant\SaasTenantModule;
+use Rhubarb\Crown\Saas\Tenant\Settings\RestClientSettings;
+use Rhubarb\Crown\Context;
+use Rhubarb\Crown\CoreModule;
+use Rhubarb\Crown\Encryption\HashProvider;
+use Rhubarb\Crown\Integration\Http\HttpClient;
+use Rhubarb\Stem\Repositories\Repository;
+use Rhubarb\Stem\Schema\SolutionSchema;
+use Rhubarb\Crown\Module;
+use Rhubarb\Crown\Scaffolds\Saas\SaasModule;
+use Rhubarb\Crown\Scaffolds\Saas\UnitTesting\SaasTestCaseTrait;
+use Rhubarb\Crown\UnitTesting\CoreTestCase;
 
 class TenantTestCase extends CoreTestCase
 {
@@ -50,23 +50,23 @@ class TenantTestCase extends CoreTestCase
 		Module::RegisterModule( new SaasTenantModule() );
 		Module::InitialiseModules();
 
-		Repository::SetDefaultRepositoryClassName( "\Gcd\Core\Modelling\Repositories\Offline\Offline" );
+		Repository::SetDefaultRepositoryClassName( "\Rhubarb\Stem\Repositories\Offline\Offline" );
 
-		\Gcd\Core\Layout\LayoutModule::DisableLayout();
+		\Rhubarb\Crown\Layout\LayoutModule::DisableLayout();
 
-		$context = new \Gcd\Core\Context();
+		$context = new \Rhubarb\Crown\Context();
 		$context->UnitTesting = true;
 
 		$request = Context::CurrentRequest();
 		$request->Reset();
 
-		HashProvider::SetHashProviderClassName( "\Gcd\Core\Encryption\Sha512HashProvider" );
+		HashProvider::SetHashProviderClassName( "\Rhubarb\Crown\Encryption\Sha512HashProvider" );
 
-		EncryptionProvider::SetEncryptionProviderClassName( '\Gcd\Core\Encryption\Aes256ComputedKeyEncryptionProvider' );
+		EncryptionProvider::SetEncryptionProviderClassName( '\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider' );
 
 
 		// Make sure HTTP requests go the unit testing route.
-		HttpClient::SetDefaultHttpClientClassName( '\Gcd\Core\Integration\Http\UnitTestingHttpClient' );
+		HttpClient::SetDefaultHttpClientClassName( '\Rhubarb\Crown\Integration\Http\UnitTestingHttpClient' );
 
 		$restClientSettings = new RestClientSettings();
 		$restClientSettings->ApiUrl = "/api";

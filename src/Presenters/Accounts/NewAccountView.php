@@ -16,11 +16,11 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Presenters\Accounts;
+namespace Rhubarb\Crown\Saas\Tenant\Presenters\Accounts;
 
-use Gcd\Core\Mvp\Presenters\Controls\Buttons\Button;
-use Gcd\Core\Mvp\Presenters\Controls\Text\TextBox\TextBox;
-use Gcd\Core\Mvp\Views\HtmlView;
+use Rhubarb\Leaf\Presenters\Controls\Buttons\Button;
+use Rhubarb\Leaf\Presenters\Controls\Text\TextBox\TextBox;
+use Rhubarb\Leaf\Views\HtmlView;
 
 class NewAccountView extends HtmlView
 {

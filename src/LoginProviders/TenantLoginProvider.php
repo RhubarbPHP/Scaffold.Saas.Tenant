@@ -16,14 +16,14 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\LoginProviders;
+namespace Rhubarb\Crown\Saas\Tenant\LoginProviders;
 
-use Gcd\Core\Saas\Tenant\RestClients\AuthenticatedRestClient;
-use Gcd\Core\Saas\Tenant\RestClients\SaasGateway;
-use Gcd\Core\LoginProviders\LoginProvider;
-use Gcd\Core\RestApi\Clients\RestHttpRequest;
-use Gcd\Core\RestApi\Exceptions\RestAuthenticationException;
-use Gcd\Core\Scaffolds\Saas\Model\SaasSolutionSchema;
+use Rhubarb\Crown\Saas\Tenant\RestClients\AuthenticatedRestClient;
+use Rhubarb\Crown\Saas\Tenant\RestClients\SaasGateway;
+use Rhubarb\Crown\LoginProviders\LoginProvider;
+use Rhubarb\Crown\RestApi\Clients\RestHttpRequest;
+use Rhubarb\Crown\RestApi\Exceptions\RestAuthenticationException;
+use Rhubarb\Crown\Scaffolds\Saas\Model\SaasSolutionSchema;
 
 /**
  * A login provider that understands when a user has logged into the saas system.

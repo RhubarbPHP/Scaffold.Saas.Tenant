@@ -16,13 +16,13 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Presenters\Login;
+namespace Rhubarb\Crown\Saas\Tenant\Presenters\Login;
 
-use Gcd\Core\Logging\Log;
-use Gcd\Core\Saas\Tenant\RestClients\SaasGateway;
-use Gcd\Core\Scaffolds\Authentication\User;
+use Rhubarb\Crown\Logging\Log;
+use Rhubarb\Crown\Saas\Tenant\RestClients\SaasGateway;
+use Rhubarb\Crown\Scaffolds\Authentication\User;
 
-class ConfirmResetPasswordPresenter extends \Gcd\Core\Scaffolds\Authentication\Presenters\ConfirmResetPasswordPresenter
+class ConfirmResetPasswordPresenter extends \Rhubarb\Crown\Scaffolds\Authentication\Presenters\ConfirmResetPasswordPresenter
 {
     protected function CreateView()
     {

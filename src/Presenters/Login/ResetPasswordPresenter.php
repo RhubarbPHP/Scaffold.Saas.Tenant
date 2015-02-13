@@ -16,16 +16,16 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Presenters\Login;
+namespace Rhubarb\Crown\Saas\Tenant\Presenters\Login;
 
-use Gcd\Core\Integration\Email\Email;
-use Gcd\Core\Saas\Tenant\RestClients\SaasGateway;
-use Gcd\Core\Scaffolds\Authentication\User;
+use Rhubarb\Crown\Integration\Email\Email;
+use Rhubarb\Crown\Saas\Tenant\RestClients\SaasGateway;
+use Rhubarb\Crown\Scaffolds\Authentication\User;
 
 /**
  * Overrides the normal password reset presenter as we must intercept the reset request to pass it to the landlord.
  */
-class ResetPasswordPresenter extends \Gcd\Core\Scaffolds\Authentication\Presenters\ResetPasswordPresenter
+class ResetPasswordPresenter extends \Rhubarb\Crown\Scaffolds\Authentication\Presenters\ResetPasswordPresenter
 {
 	protected function InitiateResetPassword()
 	{

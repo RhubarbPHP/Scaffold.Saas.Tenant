@@ -16,10 +16,10 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Presenters\Accounts;
+namespace Rhubarb\Crown\Saas\Tenant\Presenters\Accounts;
 
-use Gcd\Core\Mvp\Views\HtmlView;
-use Gcd\Core\Saas\Tenant\Sessions\AccountSession;
+use Rhubarb\Leaf\Views\HtmlView;
+use Rhubarb\Crown\Saas\Tenant\Sessions\AccountSession;
 
 class AccountsListView extends HtmlView
 {

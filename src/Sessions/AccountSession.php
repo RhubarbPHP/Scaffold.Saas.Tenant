@@ -16,15 +16,15 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Sessions;
+namespace Rhubarb\Crown\Saas\Tenant\Sessions;
 
-use Gcd\Core\Context;
-use Gcd\Core\Modelling\Repositories\MySql\MySql;
-use Gcd\Core\Modelling\Repositories\Repository;
-use Gcd\Core\Modelling\Schema\SolutionSchema;
-use Gcd\Core\Saas\Tenant\RestClients\SaasGateway;
-use Gcd\Core\Scaffolds\Saas\Model\SaasSolutionSchema;
-use Gcd\Core\Sessions\EncryptedSession;
+use Rhubarb\Crown\Context;
+use Rhubarb\Stem\Repositories\MySql\MySql;
+use Rhubarb\Stem\Repositories\Repository;
+use Rhubarb\Stem\Schema\SolutionSchema;
+use Rhubarb\Crown\Saas\Tenant\RestClients\SaasGateway;
+use Rhubarb\Crown\Scaffolds\Saas\Model\SaasSolutionSchema;
+use Rhubarb\Crown\Sessions\EncryptedSession;
 
 /**
  * Stores key details for the selected tenant.

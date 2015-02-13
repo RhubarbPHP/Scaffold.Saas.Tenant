@@ -16,9 +16,9 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Sessions;
+namespace Rhubarb\Crown\Saas\Tenant\Sessions;
 
-use Gcd\Core\Sessions\Session;
+use Rhubarb\Crown\Sessions\Session;
 
 /**
  * Stores the token used for authenticated api access.

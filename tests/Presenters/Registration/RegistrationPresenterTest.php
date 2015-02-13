@@ -16,15 +16,15 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\Presenters\Registration;
+namespace Rhubarb\Crown\Saas\Tenant\Presenters\Registration;
 
-use Gcd\Core\Exceptions\ForceResponseException;
-use Gcd\Core\Response\RedirectResponse;
-use Gcd\Core\Saas\Tenant\Settings\TenantSettings;
-use Gcd\Core\Saas\Tenant\UnitTesting\TenantTestCase;
-use Gcd\Core\Mvp\Views\UnitTestView;
-use Gcd\Core\LoginProviders\LoginProvider;
-use Gcd\Core\Scaffolds\AuthenticationWithRoles\User;
+use Rhubarb\Crown\Exceptions\ForceResponseException;
+use Rhubarb\Crown\Response\RedirectResponse;
+use Rhubarb\Crown\Saas\Tenant\Settings\TenantSettings;
+use Rhubarb\Crown\Saas\Tenant\UnitTesting\TenantTestCase;
+use Rhubarb\Leaf\Views\UnitTestView;
+use Rhubarb\Crown\LoginProviders\LoginProvider;
+use Rhubarb\Crown\Scaffolds\AuthenticationWithRoles\User;
 
 class RegistrationPresenterTest extends TenantTestCase
 {

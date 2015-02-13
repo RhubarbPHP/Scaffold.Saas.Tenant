@@ -16,10 +16,10 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\RestClients;
+namespace Rhubarb\Crown\Saas\Tenant\RestClients;
 
-use Gcd\Core\Saas\Tenant\Settings\UnAuthenticatedRestClientSettings;
-use Gcd\Core\RestApi\Clients\BasicAuthenticatedRestClient;
+use Rhubarb\Crown\Saas\Tenant\Settings\UnAuthenticatedRestClientSettings;
+use Rhubarb\Crown\RestApi\Clients\BasicAuthenticatedRestClient;
 
 /**
  * The RestClient that handles activities such as user registration, forgot password etc.

@@ -16,9 +16,9 @@
  *  limitations under the License.
  */
 
-namespace Gcd\Core\Saas\Tenant\LoginProviders;
+namespace Rhubarb\Crown\Saas\Tenant\LoginProviders;
 
-use Gcd\Core\Saas\Tenant\UnitTesting\TenantTestCase;
+use Rhubarb\Crown\Saas\Tenant\UnitTesting\TenantTestCase;
 
 class TenantLoginProviderTest extends TenantTestCase
 {

@@ -16,13 +16,13 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Presenters\Registration;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Registration;
 
 use Rhubarb\Crown\Exceptions\ForceResponseException;
 use Rhubarb\Crown\LoginProviders\LoginProvider;
 use Rhubarb\Crown\Response\RedirectResponse;
-use Rhubarb\Crown\Saas\Tenant\RestModels\User;
-use Rhubarb\Crown\Saas\Tenant\Settings\TenantSettings;
+use Rhubarb\Scaffolds\Saas\Tenant\RestModels\User;
+use Rhubarb\Scaffolds\Saas\Tenant\Settings\TenantSettings;
 use Rhubarb\Leaf\Presenters\Forms\Form;
 
 class RegistrationPresenter extends Form

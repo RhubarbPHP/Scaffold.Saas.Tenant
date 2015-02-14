@@ -16,12 +16,12 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Tests\Presenters\Accounts;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Tests\Presenters\Accounts;
 
+use Rhubarb\Crown\LoginProviders\LoginProvider;
 use Rhubarb\Leaf\Views\UnitTestView;
-use Rhubarb\Crown\Saas\Tenant\LoginProviders\TenantLoginProvider;
-use Rhubarb\Crown\Saas\Tenant\UnitTesting\TenantTestCase;
-use Rhubarb\Crown\Scaffolds\Authentication\LoginProvider;
+use Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\AccountsListPresenter;
+use Rhubarb\Scaffolds\Saas\Tenant\Tests\Fixtures\TenantTestCase;
 
 class AccountsListPresenterTest extends TenantTestCase
 {
@@ -33,7 +33,7 @@ class AccountsListPresenterTest extends TenantTestCase
 		$presenter->AttachMockView( $mockView );
 
 		$loginProvider = LoginProvider::GetDefaultLoginProvider();
-		$loginProvider->Login( "unit-tester", "abc123" );
+		$loginProvider->login( "unit-tester", "abc123" );
 
 		$presenter->Test();
 

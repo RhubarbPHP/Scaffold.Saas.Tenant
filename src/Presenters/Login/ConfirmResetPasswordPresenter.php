@@ -16,10 +16,10 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Presenters\Login;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Login;
 
 use Rhubarb\Crown\Logging\Log;
-use Rhubarb\Crown\Saas\Tenant\RestClients\SaasGateway;
+use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\Crown\Scaffolds\Authentication\User;
 
 class ConfirmResetPasswordPresenter extends \Rhubarb\Scaffolds\Authentication\Presenters\ConfirmResetPasswordPresenter

@@ -16,9 +16,9 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Presenters\Accounts;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts;
 
-use Rhubarb\Crown\Saas\Tenant\Sessions\AccountSession;
+use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
 use Rhubarb\Leaf\Views\HtmlView;
 
 class AccountsListView extends HtmlView

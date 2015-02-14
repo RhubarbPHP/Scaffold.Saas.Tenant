@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Presenters\Login;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Login;
 
 class ConfirmResetPasswordView extends \Rhubarb\Scaffolds\Authentication\Presenters\ConfirmResetPasswordView
 {

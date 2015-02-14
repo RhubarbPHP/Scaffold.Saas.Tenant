@@ -16,99 +16,94 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Tests\Presenters\Registration;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Tests\Presenters\Registration;
 
 use Rhubarb\Crown\Exceptions\ForceResponseException;
-use Rhubarb\Crown\Response\RedirectResponse;
-use Rhubarb\Crown\Saas\Tenant\Settings\TenantSettings;
-use Rhubarb\Crown\Saas\Tenant\UnitTesting\TenantTestCase;
-use Rhubarb\Leaf\Views\UnitTestView;
 use Rhubarb\Crown\LoginProviders\LoginProvider;
-use Rhubarb\Crown\Scaffolds\AuthenticationWithRoles\User;
+use Rhubarb\Leaf\Views\UnitTestView;
+use Rhubarb\Scaffolds\AuthenticationWithRoles\User;
+use Rhubarb\Scaffolds\Saas\Tenant\Presenters\Registration\RegistrationPresenter;
+use Rhubarb\Scaffolds\Saas\Tenant\Settings\TenantSettings;
+use Rhubarb\Scaffolds\Saas\Tenant\Tests\Fixtures\TenantTestCase;
 
 class RegistrationPresenterTest extends TenantTestCase
 {
-	public function testRegistrationCreatesUser()
-	{
-		$view = new UnitTestView();
+    public function testRegistrationCreatesUser()
+    {
+        $view = new UnitTestView();
 
-		$presenter = new RegistrationPresenter();
-		$presenter->AttachMockView( $view );
+        $presenter = new RegistrationPresenter();
+        $presenter->AttachMockView($view);
 
-		$presenter->Forename = "Jenny";
-		$presenter->Surname = "Smith";
-		$presenter->Username = "jsmith";
-		$presenter->Email = "jsmith@hotmail.com";
-		$presenter->NewPassword = "abc123";
+        $presenter->Forename = "Jenny";
+        $presenter->Surname = "Smith";
+        $presenter->Username = "jsmith";
+        $presenter->Email = "jsmith@hotmail.com";
+        $presenter->NewPassword = "abc123";
 
-		try
-		{
-			$view->SimulateEvent( "CreateUser" );
-		}
-		catch( ForceResponseException $er ){}
+        try {
+            $view->SimulateEvent("CreateUser");
+        } catch (ForceResponseException $er) {
+        }
 
-		$user = User::FindLast();
+        $user = User::FindLast();
 
-		$this->assertEquals( "Jenny", $user->Forename );
-		$this->assertEquals( "Smith", $user->Surname );
-		$this->assertTrue( $user->Enabled, "New users should be enabled" );
-	}
+        $this->assertEquals("Jenny", $user->Forename);
+        $this->assertEquals("Smith", $user->Surname);
+        $this->assertTrue($user->Enabled, "New users should be enabled");
+    }
 
-	public function testRegistrationLogsYouIn()
-	{
-		$view = new UnitTestView();
+    public function testRegistrationLogsYouIn()
+    {
+        $view = new UnitTestView();
 
-		$presenter = new RegistrationPresenter();
-		$presenter->AttachMockView( $view );
+        $presenter = new RegistrationPresenter();
+        $presenter->AttachMockView($view);
 
-		$presenter->Forename = "Jenny";
-		$presenter->Surname = "Smith";
-		$presenter->Username = "jsmith";
-		$presenter->Email = "jsmith@hotmail.com";
-		$presenter->NewPassword = "abc123";
+        $presenter->Forename = "Jenny";
+        $presenter->Surname = "Smith";
+        $presenter->Username = "jsmith";
+        $presenter->Email = "jsmith@hotmail.com";
+        $presenter->NewPassword = "abc123";
 
-		try
-		{
-			$view->SimulateEvent( "CreateUser" );
-		}
-		catch( ForceResponseException $er ){}
+        try {
+            $view->SimulateEvent("CreateUser");
+        } catch (ForceResponseException $er) {
+        }
 
-		$loginProvider = LoginProvider::GetDefaultLoginProvider();
+        $loginProvider = LoginProvider::GetDefaultLoginProvider();
 
-		$this->assertTrue( $loginProvider->isLoggedIn() );
-	}
+        $this->assertTrue($loginProvider->isLoggedIn());
+    }
 
-	public function testRegistrationRedirectsToAccounts()
-	{
-		$view = new UnitTestView();
+    public function testRegistrationRedirectsToAccounts()
+    {
+        $view = new UnitTestView();
 
-		$presenter = new RegistrationPresenter();
-		$presenter->AttachMockView( $view );
+        $presenter = new RegistrationPresenter();
+        $presenter->AttachMockView($view);
 
-		$presenter->Forename = "Jenny";
-		$presenter->Surname = "Smith";
-		$presenter->Username = "jsmith";
-		$presenter->Email = "jsmith@hotmail.com";
-		$presenter->NewPassword = "abc123";
+        $presenter->Forename = "Jenny";
+        $presenter->Surname = "Smith";
+        $presenter->Username = "jsmith";
+        $presenter->Email = "jsmith@hotmail.com";
+        $presenter->NewPassword = "abc123";
 
-		try
-		{
-			$view->SimulateEvent( "CreateUser" );
+        try {
+            $view->SimulateEvent("CreateUser");
 
-			$this->fail( "Registration should redirect to the post registration url." );
-		}
-		catch( ForceResponseException $er )
-		{
-			/**
-			 * @var RedirectResponse $response
-			 */
-			$response = $er->GetResponse();
-			$url = $response->GetUrl();
+            $this->fail("Registration should redirect to the post registration url.");
+        } catch (ForceResponseException $er) {
+            /**
+             * @var RedirectResponse $response
+             */
+            $response = $er->GetResponse();
+            $url = $response->GetUrl();
 
-			$tenantSettings = new TenantSettings();
+            $tenantSettings = new TenantSettings();
 
-			$this->assertEquals( $tenantSettings->PostRegistrationUrl, $url );
-		}
-	}
+            $this->assertEquals($tenantSettings->PostRegistrationUrl, $url);
+        }
+    }
 }
  

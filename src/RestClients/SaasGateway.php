@@ -16,9 +16,9 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\RestClients;
+namespace Rhubarb\Scaffolds\Saas\Tenant\RestClients;
 
-use Rhubarb\Crown\Saas\Tenant\Settings\RestClientSettings;
+use Rhubarb\Scaffolds\Saas\Tenant\Settings\RestClientSettings;
 use Rhubarb\RestApi\Clients\RestHttpRequest;
 
 /**

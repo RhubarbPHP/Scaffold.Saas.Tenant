@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\RestModels;
+namespace Rhubarb\Scaffolds\Saas\Tenant\RestModels;
 
 use Rhubarb\Crown\Modelling\ModelState;
 use Rhubarb\RestApi\Clients\RestClient;

@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Settings;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Settings;
 
 use Rhubarb\Crown\Settings;
 

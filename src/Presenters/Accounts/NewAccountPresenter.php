@@ -16,13 +16,13 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Presenters\Accounts;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts;
 
 use Rhubarb\Crown\Exceptions\ForceResponseException;
 use Rhubarb\Crown\Response\RedirectResponse;
-use Rhubarb\Crown\Saas\Tenant\RestModels\Account;
-use Rhubarb\Crown\Saas\Tenant\Sessions\AccountSession;
-use Rhubarb\Crown\Saas\Tenant\Settings\TenantSettings;
+use Rhubarb\Scaffolds\Saas\Tenant\RestModels\Account;
+use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
+use Rhubarb\Scaffolds\Saas\Tenant\Settings\TenantSettings;
 use Rhubarb\Leaf\Presenters\Forms\Form;
 
 class NewAccountPresenter extends Form

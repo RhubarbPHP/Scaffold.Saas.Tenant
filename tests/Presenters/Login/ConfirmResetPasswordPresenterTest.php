@@ -16,19 +16,19 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Tests\Presenters\Login;
-
+namespace Rhubarb\Scaffolds\Saas\Tenant\Tests\Presenters\Login;
 
 use Rhubarb\Leaf\Views\UnitTestView;
-use Rhubarb\Crown\Saas\Tenant\UnitTesting\TenantTestCase;
+use Rhubarb\Scaffolds\Saas\Tenant\Presenters\Login\ConfirmResetPasswordPresenter;
+use Rhubarb\Scaffolds\Saas\Tenant\Tests\Fixtures\TenantTestCase;
 
 class ConfirmResetPasswordPresenterTest extends TenantTestCase
 {
 	public function testResetHappens()
 	{
-		$oldPassword = $this->_nigel->Password;
+		$oldPassword = $this->nigel->Password;
 
-		$hash = $this->_nigel->GeneratePasswordResetHash();
+		$hash = $this->nigel->generatePasswordResetHash();
 
 		$mvp = new ConfirmResetPasswordPresenter();
 		$view = new UnitTestView();
@@ -37,11 +37,11 @@ class ConfirmResetPasswordPresenterTest extends TenantTestCase
 		$mvp->ItemIdentifier = $hash;
 		$mvp->NewPassword = "def324";
 
-		$view->SimulateEvent( "ConfirmPasswordReset" );
+		$view->simulateEvent( "ConfirmPasswordReset" );
 
-		$this->_nigel->Reload();
+		$this->nigel->reload();
 
-		$this->assertNotEquals( $oldPassword, $this->_nigel->Password, "The password should have changed." );
+		$this->assertNotEquals( $oldPassword, $this->nigel->Password, "The password should have changed." );
 	}
 }
  

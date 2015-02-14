@@ -16,10 +16,10 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Repositories;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Repositories;
 
-use Rhubarb\Crown\Saas\Tenant\Exceptions\SaasConnectionException;
-use Rhubarb\Crown\Saas\Tenant\Sessions\AccountSession;
+use Rhubarb\Scaffolds\Saas\Tenant\Exceptions\SaasConnectionException;
+use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
 use Rhubarb\Stem\Repositories\MySql\MySql;
 use Rhubarb\Stem\StemSettings;
 

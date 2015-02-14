@@ -16,10 +16,10 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Sessions;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Sessions;
 
 use Rhubarb\Crown\Context;
-use Rhubarb\Crown\Saas\Tenant\RestClients\SaasGateway;
+use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\Crown\Scaffolds\Saas\Model\SaasSolutionSchema;
 use Rhubarb\Crown\Sessions\EncryptedSession;
 use Rhubarb\Stem\Repositories\Repository;

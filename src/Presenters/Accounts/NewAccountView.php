@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Presenters\Accounts;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts;
 
 use Rhubarb\Leaf\Presenters\Controls\Buttons\Button;
 use Rhubarb\Leaf\Presenters\Controls\Text\TextBox\TextBox;

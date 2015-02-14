@@ -16,33 +16,34 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Tests\Presenters\Login;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Tests\Presenters\Login;
 
-use Rhubarb\Crown\Integration\Email\UnitTestingEmailProvider;
+use Rhubarb\Crown\Tests\Fixtures\UnitTestingEmailProvider;
 use Rhubarb\Leaf\Views\UnitTestView;
-use Rhubarb\Crown\Saas\Tenant\UnitTesting\TenantTestCase;
+use Rhubarb\Scaffolds\Saas\Tenant\Presenters\Login\ResetPasswordPresenter;
+use Rhubarb\Scaffolds\Saas\Tenant\Tests\Fixtures\TenantTestCase;
 
 class ResetPasswordPresenterTest extends TenantTestCase
 {
-	public function testPasswordResetInvitation()
-	{
-		$view = new UnitTestView();
+    public function testPasswordResetInvitation()
+    {
+        $view = new UnitTestView();
 
-		$presenter = new ResetPasswordPresenter();
-		$presenter->AttachMockView( $view );
+        $presenter = new ResetPasswordPresenter();
+        $presenter->attachMockView($view);
 
-		$presenter->model->Username = "nigel";
-		$view->SimulateEvent( "ResetPassword" );
+        $presenter->model->Username = "nigel";
+        $view->SimulateEvent("ResetPassword");
 
-		$email = UnitTestingEmailProvider::GetLastEmail();
+        $email = UnitTestingEmailProvider::getLastEmail();
 
-		$this->assertEquals( "Your password reset invitation.", $email->GetSubject() );
+        $this->assertEquals("Your password reset invitation.", $email->getSubject());
 
-		$this->_nigel->Reload();
+        $this->nigel->reload();
 
-		$this->assertContains( $this->_nigel->PasswordResetHash, $email->GetText() );
+        $this->assertContains($this->nigel->PasswordResetHash, $email->getText());
 
-		$this->assertEquals( "Nigel Stevenson", $email->GetRecipients()["bignige@ut.com" ]->name );
-	}
+        $this->assertEquals("Nigel Stevenson", $email->getRecipients()["bignige@ut.com"]->name);
+    }
 }
  

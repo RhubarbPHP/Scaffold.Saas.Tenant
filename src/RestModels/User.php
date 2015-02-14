@@ -16,10 +16,10 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\RestModels;
+namespace Rhubarb\Scaffolds\Saas\Tenant\RestModels;
 
-use Rhubarb\Crown\Saas\Tenant\RestClients\UnAuthenticatedRestClient;
-use Rhubarb\Crown\Saas\Tenant\Settings\RestClientSettings;
+use Rhubarb\Scaffolds\Saas\Tenant\RestClients\UnAuthenticatedRestClient;
+use Rhubarb\Scaffolds\Saas\Tenant\Settings\RestClientSettings;
 
 /**
  * @property string $Username

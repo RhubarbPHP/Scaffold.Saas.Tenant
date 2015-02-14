@@ -16,11 +16,11 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\LoginProviders;
+namespace Rhubarb\Scaffolds\Saas\Tenant\LoginProviders;
 
 use Rhubarb\Crown\LoginProviders\LoginProvider;
-use Rhubarb\Crown\Saas\Tenant\RestClients\AuthenticatedRestClient;
-use Rhubarb\Crown\Saas\Tenant\RestClients\SaasGateway;
+use Rhubarb\Scaffolds\Saas\Tenant\RestClients\AuthenticatedRestClient;
+use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\RestApi\Exceptions\RestAuthenticationException;
 
 /**

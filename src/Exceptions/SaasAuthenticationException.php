@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Exceptions;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Exceptions;
 
 class SaasAuthenticationException extends SaasConnectionException
 {

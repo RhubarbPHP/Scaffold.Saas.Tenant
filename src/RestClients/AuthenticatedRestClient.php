@@ -16,10 +16,10 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\RestClients;
+namespace Rhubarb\Scaffolds\Saas\Tenant\RestClients;
 
-use Rhubarb\Crown\Saas\Tenant\Exceptions\SaasAuthenticationException;
-use Rhubarb\Crown\Saas\Tenant\Sessions\RestSession;
+use Rhubarb\Scaffolds\Saas\Tenant\Exceptions\SaasAuthenticationException;
+use Rhubarb\Scaffolds\Saas\Tenant\Sessions\RestSession;
 use Rhubarb\RestApi\Clients\TokenAuthenticatedRestClient;
 
 class AuthenticatedRestClient extends TokenAuthenticatedRestClient

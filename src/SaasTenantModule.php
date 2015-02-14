@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant;
+namespace Rhubarb\Scaffolds\Saas\Tenant;
 
 use Rhubarb\Crown\Encryption\EncryptionProvider;
 use Rhubarb\Crown\Module;
@@ -32,26 +32,26 @@ class SaasTenantModule extends Module
         parent::initialise();
 
         EncryptionProvider::setEncryptionProviderClassName('\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider');
-        Repository::setDefaultRepositoryClassName('\Rhubarb\Crown\Saas\Tenant\Repositories\SaasMySqlRepository');
+        Repository::setDefaultRepositoryClassName('\Rhubarb\Scaffolds\Saas\Tenant\Repositories\SaasMySqlRepository');
     }
 
     protected function registerDependantModules()
     {
         parent::registerDependantModules();
 
-        Module::registerModule(new AuthenticationWithRolesModule('\Rhubarb\Crown\Saas\Tenant\LoginProviders\TenantLoginProvider'));
+        Module::registerModule(new AuthenticationWithRolesModule('\Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider'));
     }
 
     protected function registerUrlHandlers()
     {
         parent::registerUrlHandlers();
 
-        $signUp = new ClassMappedUrlHandler("\Rhubarb\Crown\Saas\Tenant\Presenters\Registration\RegistrationPresenter");
+        $signUp = new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Registration\RegistrationPresenter");
         $signUp->setPriority(20);
 
-        $login = new ClassMappedUrlHandler("\Rhubarb\Crown\Saas\Tenant\Presenters\Login\LoginPresenter", [
-            "reset/" => new MvpCollectionUrlHandler('\Rhubarb\Crown\Saas\Tenant\Presenters\Login\ResetPasswordPresenter',
-                '\Rhubarb\Crown\Saas\Tenant\Presenters\Login\ConfirmResetPasswordPresenter')
+        $login = new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Login\LoginPresenter", [
+            "reset/" => new MvpCollectionUrlHandler('\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Login\ResetPasswordPresenter',
+                '\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Login\ConfirmResetPasswordPresenter')
         ]);
 
         $login->setPriority(20);
@@ -59,9 +59,9 @@ class SaasTenantModule extends Module
 
         $this->AddUrlHandlers(
             [
-                "/accounts/" => new ClassMappedUrlHandler("\Rhubarb\Crown\Saas\Tenant\Presenters\Accounts\AccountsListPresenter",
+                "/accounts/" => new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\AccountsListPresenter",
                     [
-                        "new/" => new ClassMappedUrlHandler('\Rhubarb\Crown\Saas\Tenant\Presenters\Accounts\NewAccountPresenter')
+                        "new/" => new ClassMappedUrlHandler('\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\NewAccountPresenter')
                     ]),
                 "/sign-up/" => $signUp,
                 "/login/" => $login

@@ -16,10 +16,10 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Presenters\Login;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Login;
 
 use Rhubarb\Crown\Email\Email;
-use Rhubarb\Crown\Saas\Tenant\RestClients\SaasGateway;
+use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 
 /**
  * Overrides the normal password reset presenter as we must intercept the reset request to pass it to the landlord.

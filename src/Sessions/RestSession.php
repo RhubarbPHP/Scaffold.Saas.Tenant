@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Sessions;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Sessions;
 
 use Rhubarb\Crown\Sessions\Session;
 

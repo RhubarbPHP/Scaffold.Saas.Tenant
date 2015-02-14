@@ -16,13 +16,14 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Tests\Presenters\Accounts;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Tests\Presenters\Accounts;
 
 use Rhubarb\Crown\Exceptions\ForceResponseException;
 use Rhubarb\Leaf\Views\UnitTestView;
-use Rhubarb\Crown\Saas\Tenant\Sessions\AccountSession;
-use Rhubarb\Crown\Saas\Tenant\UnitTesting\TenantTestCase;
-use Rhubarb\Crown\Scaffolds\Saas\Model\Accounts\Account;
+use Rhubarb\Scaffolds\Saas\Landlord\Model\Accounts\Account;
+use Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\NewAccountPresenter;
+use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
+use Rhubarb\Scaffolds\Saas\Tenant\Tests\Fixtures\TenantTestCase;
 
 class NewAccountPresenterTest extends TenantTestCase
 {

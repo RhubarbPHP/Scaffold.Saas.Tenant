@@ -16,44 +16,40 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Tests\Repositories;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Tests\Repositories;
 
-use Rhubarb\Crown\HttpHeaders;
+use Rhubarb\Scaffolds\Saas\Tenant\Repositories\SaasMySqlRepository;
+use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
+use Rhubarb\Scaffolds\Saas\Tenant\Tests\Fixtures\TenantTestCase;
 use Rhubarb\Stem\Exceptions\RepositoryConnectionException;
-use Rhubarb\Stem\ModellingSettings;
-use Rhubarb\Crown\Saas\Tenant\Sessions\AccountSession;
-use Rhubarb\Crown\Saas\Tenant\UnitTesting\TenantTestCase;
-use Rhubarb\Crown\Sessions\Session;
+use Rhubarb\Stem\StemSettings;
 
 class SaasMySqlRepositoryTest extends TenantTestCase
 {
-	public function testRepositoryGetsConnectionDetails()
-	{
-		$this->Login();
+    public function testRepositoryGetsConnectionDetails()
+    {
+        $this->Login();
 
-		$session = new AccountSession();
-		$session->connectToAccount( 1 );
+        $session = new AccountSession();
+        $session->connectToAccount(1);
 
-		try
-		{
-			SaasMySqlRepository::getDefaultConnection();
-		}
-		catch( RepositoryConnectionException $er )
-		{
-			// The connection will fail as our details are fake but that's okay, it will
-			// have initiated the setup of the ModellingSettings class which we can use
-			// for our assertions below.
-		}
+        try {
+            SaasMySqlRepository::getDefaultConnection();
+        } catch (RepositoryConnectionException $er) {
+            // The connection will fail as our details are fake but that's okay, it will
+            // have initiated the setup of the ModellingSettings class which we can use
+            // for our assertions below.
+        }
 
-		// Examine the modelling settings to see if they've been set correctly.
-		$settings = new ModellingSettings();
+        // Examine the modelling settings to see if they've been set correctly.
+        $settings = new StemSettings();
 
-		$this->assertEquals( "1.2.3.4", $settings->Host );
-		$this->assertEquals( "9876", $settings->Port );
-		$this->assertEquals( "widgets-co", $settings->Username );
-		$this->assertEquals( "widgets-co", $settings->Database );
-		$this->assertEquals( sha1( $session->UniqueReference.strrev( $session->CredentialsIV ) ), $settings->Password );
+        $this->assertEquals("1.2.3.4", $settings->Host);
+        $this->assertEquals("9876", $settings->Port);
+        $this->assertEquals("widgets-co", $settings->Username);
+        $this->assertEquals("widgets-co", $settings->Database);
+        $this->assertEquals(sha1($session->UniqueReference . strrev($session->CredentialsIV)), $settings->Password);
 
-	}
+    }
 }
  

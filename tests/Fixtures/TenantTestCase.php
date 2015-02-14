@@ -16,65 +16,66 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Tests\Fixtures;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Tests\Fixtures;
 
-use Rhubarb\Crown\Encryption\EncryptionProvider;
-use Rhubarb\Crown\LoginProviders\LoginProvider;
-use Rhubarb\Crown\Saas\Tenant\RestClients\SaasGateway;
-use Rhubarb\Crown\Saas\Tenant\SaasTenantModule;
-use Rhubarb\Crown\Saas\Tenant\Settings\RestClientSettings;
 use Rhubarb\Crown\Context;
+use Rhubarb\Crown\Encryption\EncryptionProvider;
 use Rhubarb\Crown\Encryption\HashProvider;
 use Rhubarb\Crown\Http\HttpClient;
+use Rhubarb\Crown\Layout\LayoutModule;
+use Rhubarb\Crown\LoginProviders\LoginProvider;
+use Rhubarb\Crown\Module;
+use Rhubarb\Scaffolds\Saas\Tenant\SaasTenantModule;
 use Rhubarb\Crown\Tests\RhubarbTestCase;
+use Rhubarb\Scaffolds\Saas\Landlord\SaasLandlordModule;
+use Rhubarb\Scaffolds\Saas\Landlord\Tests\Fixtures\SaasTestCaseTrait;
+use Rhubarb\Scaffolds\Saas\Tenant\Settings\RestClientSettings;
 use Rhubarb\Stem\Repositories\Repository;
 use Rhubarb\Stem\Schema\SolutionSchema;
-use Rhubarb\Crown\Module;
-use Rhubarb\Scaffolds\Saas\SaasModule;
 
 class TenantTestCase extends RhubarbTestCase
 {
-	use SaasTestCaseTrait;
+    use SaasTestCaseTrait;
 
-	public static function setUpBeforeClass()
-	{
-		parent::setUpBeforeClass();
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
 
-		SolutionSchema::ClearSchemas();
+        SolutionSchema::clearSchemas();
 
-		Module::ClearModules();
-		Module::RegisterModule( new SaasModule() );
-		Module::RegisterModule( new SaasTenantModule() );
-		Module::InitialiseModules();
+        Module::clearModules();
+        Module::registerModule(new SaasLandlordModule());
+        Module::registerModule(new SaasTenantModule());
+        Module::initialiseModules();
 
-		Repository::SetDefaultRepositoryClassName( "\Rhubarb\Stem\Repositories\Offline\Offline" );
+        Repository::setDefaultRepositoryClassName("\Rhubarb\Stem\Repositories\Offline\Offline");
 
-		\Rhubarb\Crown\Layout\LayoutModule::DisableLayout();
+        LayoutModule::disableLayout();
 
-		$context = new \Rhubarb\Crown\Context();
-		$context->UnitTesting = true;
+        $context = new Context();
+        $context->UnitTesting = true;
 
-		$request = Context::CurrentRequest();
-		$request->Reset();
+        $request = Context::currentRequest();
+        $request->reset();
 
-		HashProvider::SetHashProviderClassName( "\Rhubarb\Crown\Encryption\Sha512HashProvider" );
+        HashProvider::setHashProviderClassName("\Rhubarb\Crown\Encryption\Sha512HashProvider");
 
-		EncryptionProvider::SetEncryptionProviderClassName( '\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider' );
+        EncryptionProvider::setEncryptionProviderClassName('\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider');
 
 
-		// Make sure HTTP requests go the unit testing route.
-		HttpClient::SetDefaultHttpClientClassName( '\Rhubarb\Crown\Integration\Http\UnitTestingHttpClient' );
+        // Make sure HTTP requests go the unit testing route.
+        HttpClient::setDefaultHttpClientClassName('\Rhubarb\Crown\Http\UnitTestingHttpClient');
 
-		$restClientSettings = new RestClientSettings();
-		$restClientSettings->ApiUrl = "/api";
-	}
+        $restClientSettings = new RestClientSettings();
+        $restClientSettings->ApiUrl = "/api";
+    }
 
-	/**
-	 * Login as nigel
-	 */
-	protected function Login()
-	{
-		$login = LoginProvider::GetDefaultLoginProvider();
-		$login->Login( "unit-tester", "abc123" );
-	}
+    /**
+     * Login as nigel
+     */
+    protected function login()
+    {
+        $login = LoginProvider::getDefaultLoginProvider();
+        $login->login("unit-tester", "abc123");
+    }
 } 

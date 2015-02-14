@@ -22,20 +22,20 @@ use Rhubarb\Crown\Logging\Log;
 use Rhubarb\Crown\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\Crown\Scaffolds\Authentication\User;
 
-class ConfirmResetPasswordPresenter extends \Rhubarb\Crown\Scaffolds\Authentication\Presenters\ConfirmResetPasswordPresenter
+class ConfirmResetPasswordPresenter extends \Rhubarb\Scaffolds\Authentication\Presenters\ConfirmResetPasswordPresenter
 {
-    protected function CreateView()
+    protected function createView()
     {
         return new ConfirmResetPasswordView();
     }
 
-	protected function ConfirmPasswordReset()
+	protected function confirmPasswordReset()
 	{
 		$payload = new \stdClass();
 
 		$payload->PasswordResetHash = $this->ItemIdentifier;
 		$payload->NewPassword = $this->NewPassword;
 
-		SaasGateway::PutUnauthenticated( "/users/password-reset-invitations", $payload );
+		SaasGateway::putUnauthenticated( "/users/password-reset-invitations", $payload );
 	}
 }

@@ -19,38 +19,37 @@
 namespace Rhubarb\Crown\Saas\Tenant\Presenters\Accounts;
 
 use Rhubarb\Crown\Exceptions\ForceResponseException;
-use Rhubarb\Leaf\Presenters\Forms\Form;
 use Rhubarb\Crown\Response\RedirectResponse;
+use Rhubarb\Crown\Saas\Tenant\RestModels\Account;
 use Rhubarb\Crown\Saas\Tenant\Sessions\AccountSession;
 use Rhubarb\Crown\Saas\Tenant\Settings\TenantSettings;
-use Rhubarb\Crown\Scaffolds\Saas\Model\Accounts\Account;
+use Rhubarb\Leaf\Presenters\Forms\Form;
 
 class NewAccountPresenter extends Form
 {
-	protected function CreateView()
+    protected function createView()
     {
         return new NewAccountView();
     }
 
-	protected function ConfigureView()
-	{
-		parent::ConfigureView();
+    protected function configureView()
+    {
+        parent::configureView();
 
-		$this->view->AttachEventHandler( "CreateAccount", function()
-		{
-			$account = new \Rhubarb\Crown\Saas\Tenant\RestModels\Account();
-			$account->AccountName = $this->model->AccountName;
-			$account->Save();
+        $this->view->attachEventHandler("CreateAccount", function () {
+            $account = new Account();
+            $account->AccountName = $this->model->AccountName;
+            $account->save();
 
-			$session = new AccountSession();
-			$session->ConnectToAccount( $account->AccountID );
+            $session = new AccountSession();
+            $session->connectToAccount($account->AccountID);
 
-			$settings = new TenantSettings();
-			$response = new RedirectResponse( $settings->DashboardUrl );
+            $settings = new TenantSettings();
+            $response = new RedirectResponse($settings->DashboardUrl);
 
-			throw new ForceResponseException( $response );
-		});
-	}
+            throw new ForceResponseException($response);
+        });
+    }
 
 
 }

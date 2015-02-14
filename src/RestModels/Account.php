@@ -26,24 +26,24 @@ use Rhubarb\Crown\Saas\Tenant\Settings\RestClientSettings;
  */
 class Account extends RestModel
 {
-	/**
-	 * Returns the URI for the collection holding this type of model in the API.
-	 *
-	 * This will normally be just the portion of the full URL unique to this collection. For
-	 * example if the full URL was http://my.service.com/api/users then the return value would
-	 * be just /users
-	 *
-	 * @return string
-	 */
-	protected function GetCollectionUri()
-	{
-		return "/accounts";
-	}
+    /**
+     * Returns the URI for the collection holding this type of model in the API.
+     *
+     * This will normally be just the portion of the full URL unique to this collection. For
+     * example if the full URL was http://my.service.com/api/users then the return value would
+     * be just /users
+     *
+     * @return string
+     */
+    protected function getCollectionUri()
+    {
+        return "/accounts";
+    }
 
-	protected function GetRestClient()
-	{
-		$settings = new RestClientSettings();
+    protected function getRestClient()
+    {
+        $settings = new RestClientSettings();
 
-		return new AuthenticatedRestClient( $settings->ApiUrl, "", "" );
-	}
+        return new AuthenticatedRestClient($settings->ApiUrl, "", "");
+    }
 }

@@ -19,21 +19,19 @@
 namespace Rhubarb\Crown\Saas\Tenant\RestClients;
 
 use Rhubarb\Crown\Saas\Tenant\Settings\UnAuthenticatedRestClientSettings;
-use Rhubarb\Crown\RestApi\Clients\BasicAuthenticatedRestClient;
+use Rhubarb\RestApi\Clients\BasicAuthenticatedRestClient;
 
 /**
  * The RestClient that handles activities such as user registration, forgot password etc.
  *
- * Class UnAuthenticatedRestClient
- * @package Core\Saas\Tenant\RestClients
  */
 class UnAuthenticatedRestClient extends BasicAuthenticatedRestClient
 {
-	/// TODO: Change this class to use PayloadSignatureRestClient
-	public function __construct( $apiUrl )
-	{
-		$clientSettings = new UnAuthenticatedRestClientSettings();
+    /// TODO: Change this class to use PayloadSignatureRestClient
+    public function __construct($apiUrl)
+    {
+        $clientSettings = new UnAuthenticatedRestClientSettings();
 
-		parent::__construct($apiUrl, $clientSettings->Username, $clientSettings->Password );
-	}
+        parent::__construct($apiUrl, $clientSettings->Username, $clientSettings->Password);
+    }
 }

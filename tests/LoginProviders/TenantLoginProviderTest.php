@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\LoginProviders;
+namespace Rhubarb\Crown\Saas\Tenant\Tests\LoginProviders;
 
 use Rhubarb\Crown\Saas\Tenant\UnitTesting\TenantTestCase;
 
@@ -26,30 +26,30 @@ class TenantLoginProviderTest extends TenantTestCase
 	{
 		$loginProvider = new TenantLoginProvider();
 
-		$this->assertFalse( $loginProvider->IsLoggedIn(), "I shouldn't be logged in before Login is called" );
+		$this->assertFalse( $loginProvider->isLoggedIn(), "I shouldn't be logged in before Login is called" );
 
-		$result = $loginProvider->Login( "unit-tester", "abc123" );
+		$result = $loginProvider->login( "unit-tester", "abc123" );
 
 		$this->assertTrue( $result, "Login should have worked" );
-		$this->assertTrue( $loginProvider->IsLoggedIn(), "I should be logged in now" );
+		$this->assertTrue( $loginProvider->isLoggedIn(), "I should be logged in now" );
 
 		$this->assertEquals( "ut@ut.com", $loginProvider->LoggedInData[ "Email" ] );
 		$this->assertEquals( "Unit Tester", $loginProvider->LoggedInData[ "Forename" ] );
 
-		$loginProvider->LogOut();
+		$loginProvider->logOut();
 
 		$this->assertNotContains( "Email", $loginProvider->LoggedInData );
 
-		$this->assertFalse( $loginProvider->IsLoggedIn(), "I just logged out. Can't be logged in" );
+		$this->assertFalse( $loginProvider->isLoggedIn(), "I just logged out. Can't be logged in" );
 
-		$result = $loginProvider->Login( "norma", "abc123" );
+		$result = $loginProvider->login( "norma", "abc123" );
 
 		$this->assertFalse( $result, "Norma isn't active - we shouldn't have logged in." );
 
-		$loginProvider->Login( "unit-tester", "abc123" );
-		$loginProvider->Login( "norma", "abc123" );
+		$loginProvider->login( "unit-tester", "abc123" );
+		$loginProvider->login( "norma", "abc123" );
 
-		$this->assertFalse( $loginProvider->IsLoggedIn(), "Norma isn't active - we should be logged in." );
+		$this->assertFalse( $loginProvider->isLoggedIn(), "Norma isn't active - we should be logged in." );
 	}
 }
  

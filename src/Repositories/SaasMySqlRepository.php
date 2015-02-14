@@ -18,37 +18,35 @@
 
 namespace Rhubarb\Crown\Saas\Tenant\Repositories;
 
-use Rhubarb\Stem\ModellingSettings;
-use Rhubarb\Stem\Repositories\MySql\MySql;
 use Rhubarb\Crown\Saas\Tenant\Exceptions\SaasConnectionException;
 use Rhubarb\Crown\Saas\Tenant\Sessions\AccountSession;
+use Rhubarb\Stem\Repositories\MySql\MySql;
+use Rhubarb\Stem\StemSettings;
 
 class SaasMySqlRepository extends MySql
 {
-	public static function GetDefaultConnection()
-	{
-		if ( self::$defaultConnection === null )
-		{
-			$session = new AccountSession();
+    public static function getDefaultConnection()
+    {
+        if (self::$defaultConnection === null) {
+            $session = new AccountSession();
 
-			if ( !$session->AccountID )
-			{
-				throw new SaasConnectionException( "The application isn't connected to a tenant" );
-			}
+            if (!$session->AccountID) {
+                throw new SaasConnectionException("The application isn't connected to a tenant");
+            }
 
-			/**
-			 * Change the modelling settings to those provided by our SaasConnection
-			 */
-			$db = new ModellingSettings();
-			$db->Host = $session->ServerHost;
-			$db->Port = $session->ServerPort;
-			$db->Username = $session->UniqueReference;
-			$db->Database = $session->UniqueReference;
-			$db->Password = sha1( $session->UniqueReference.strrev( $session->CredentialsIV ) );
-		}
+            /**
+             * Change the modelling settings to those provided by our SaasConnection
+             */
+            $db = new StemSettings();
+            $db->Host = $session->ServerHost;
+            $db->Port = $session->ServerPort;
+            $db->Username = $session->UniqueReference;
+            $db->Database = $session->UniqueReference;
+            $db->Password = sha1($session->UniqueReference . strrev($session->CredentialsIV));
+        }
 
-		parent::GetDefaultConnection();
+        parent::getDefaultConnection();
 
-		return self::$defaultConnection;
-	}
+        return self::$defaultConnection;
+    }
 } 

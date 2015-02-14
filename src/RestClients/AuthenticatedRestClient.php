@@ -18,65 +18,62 @@
 
 namespace Rhubarb\Crown\Saas\Tenant\RestClients;
 
-use Rhubarb\Crown\RestApi\Exceptions\RestAuthenticationException;
 use Rhubarb\Crown\Saas\Tenant\Exceptions\SaasAuthenticationException;
 use Rhubarb\Crown\Saas\Tenant\Sessions\RestSession;
-use Rhubarb\Crown\RestApi\Clients\TokenAuthenticatedRestClient;
+use Rhubarb\RestApi\Clients\TokenAuthenticatedRestClient;
 
 class AuthenticatedRestClient extends TokenAuthenticatedRestClient
 {
-	public function __construct($apiUrl, $username, $password )
-	{
-		$existingToken = self::GetStoredToken();
+    public function __construct($apiUrl, $username, $password)
+    {
+        $existingToken = self::getStoredToken();
 
-		if ( $username == "" && $password == "" && $existingToken == "" )
-		{
-			throw new SaasAuthenticationException( "The authenticated client requires credentials to make it's request." );
-		}
+        if ($username == "" && $password == "" && $existingToken == "") {
+            throw new SaasAuthenticationException("The authenticated client requires credentials to make it's request.");
+        }
 
-		parent::__construct($apiUrl, $username, $password, "/tokens", $existingToken );
-	}
+        parent::__construct($apiUrl, $username, $password, "/tokens", $existingToken);
+    }
 
-	/**
-	 * Stores the token in the session.
-	 *
-	 * @param $token
-	 */
-	protected function OnTokenReceived($token)
-	{
-		$session = new RestSession();
-		$session->ApiToken = $token;
-		$session->StoreSession();
+    /**
+     * Stores the token in the session.
+     *
+     * @param $token
+     */
+    protected function onTokenReceived($token)
+    {
+        $session = new RestSession();
+        $session->ApiToken = $token;
+        $session->storeSession();
 
-		parent::OnTokenReceived($token);
-	}
+        parent::onTokenReceived($token);
+    }
 
-	/**
-	 * Clears the stored token effectively logging you out.
-	 */
-	public static function ClearToken()
-	{
-		$session = new RestSession();
+    /**
+     * Clears the stored token effectively logging you out.
+     */
+    public static function clearToken()
+    {
+        $session = new RestSession();
 
-		unset( $session->ApiToken );
+        unset($session->ApiToken);
 
-		$session->StoreSession();
-	}
+        $session->storeSession();
+    }
 
-	/**
-	 * Gets an existing token stored in the session.
-	 *
-	 * @return mixed|string
-	 */
-	private static function GetStoredToken()
-	{
-		$session = new RestSession();
+    /**
+     * Gets an existing token stored in the session.
+     *
+     * @return mixed|string
+     */
+    private static function getStoredToken()
+    {
+        $session = new RestSession();
 
-		if ( isset( $session->ApiToken ) )
-		{
-			return $session->ApiToken;
-		}
+        if (isset($session->ApiToken)) {
+            return $session->ApiToken;
+        }
 
-		return "";
-	}
+        return "";
+    }
 }

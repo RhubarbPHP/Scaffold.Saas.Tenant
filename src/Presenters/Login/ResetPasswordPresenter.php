@@ -18,36 +18,34 @@
 
 namespace Rhubarb\Crown\Saas\Tenant\Presenters\Login;
 
-use Rhubarb\Crown\Integration\Email\Email;
+use Rhubarb\Crown\Email\Email;
 use Rhubarb\Crown\Saas\Tenant\RestClients\SaasGateway;
-use Rhubarb\Crown\Scaffolds\Authentication\User;
 
 /**
  * Overrides the normal password reset presenter as we must intercept the reset request to pass it to the landlord.
  */
-class ResetPasswordPresenter extends \Rhubarb\Crown\Scaffolds\Authentication\Presenters\ResetPasswordPresenter
+class ResetPasswordPresenter extends \Rhubarb\Scaffolds\Authentication\Presenters\ResetPasswordPresenter
 {
-	protected function InitiateResetPassword()
-	{
-		$data = new \stdClass();
-		$data->Username = $this->model->Username;
+    protected function initiateResetPassword()
+    {
+        $data = new \stdClass();
+        $data->Username = $this->model->Username;
 
-		$response = SaasGateway::PostUnauthenticated( "/users/password-reset-invitations", $data );
+        $response = SaasGateway::postUnauthenticated("/users/password-reset-invitations", $data);
 
-		// If a user could not be found the $response could be null. For security reasons we
-		// just pretend things went okay and simply skip the following process.
-		if ( $response != null )
-		{
-			$emailData = [ "PasswordResetHash" => $response->PasswordResetHash ];
+        // If a user could not be found the $response could be null. For security reasons we
+        // just pretend things went okay and simply skip the following process.
+        if ($response != null) {
+            $emailData = ["PasswordResetHash" => $response->PasswordResetHash];
 
-			$resetPasswordEmailClass = $this->_resetPasswordInvitationEmailClassName;
+            $resetPasswordEmailClass = $this->resetPasswordInvitationEmailClassName;
 
-			/**
-			 * @var Email $resetPasswordEmail
-			 */
-			$resetPasswordEmail = new $resetPasswordEmailClass( $emailData );
-			$resetPasswordEmail->AddRecipient( $response->Email, $response->FullName );
-			$resetPasswordEmail->Send();
-		}
-	}
+            /**
+             * @var Email $resetPasswordEmail
+             */
+            $resetPasswordEmail = new $resetPasswordEmailClass($emailData);
+            $resetPasswordEmail->addRecipient($response->Email, $response->FullName);
+            $resetPasswordEmail->send();
+        }
+    }
 } 

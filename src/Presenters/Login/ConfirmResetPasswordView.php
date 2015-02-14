@@ -18,6 +18,6 @@
 
 namespace Rhubarb\Crown\Saas\Tenant\Presenters\Login;
 
-class ConfirmResetPasswordView extends \Rhubarb\Crown\Scaffolds\Authentication\Presenters\ConfirmResetPasswordView
+class ConfirmResetPasswordView extends \Rhubarb\Scaffolds\Authentication\Presenters\ConfirmResetPasswordView
 {
 }

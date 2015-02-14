@@ -18,9 +18,8 @@
 
 namespace Rhubarb\Crown\Saas\Tenant\RestClients;
 
-use Rhubarb\Crown\Saas\Tenant\Sessions\RestSession;
 use Rhubarb\Crown\Saas\Tenant\Settings\RestClientSettings;
-use Rhubarb\Crown\RestApi\Clients\RestHttpRequest;
+use Rhubarb\RestApi\Clients\RestHttpRequest;
 
 /**
  * A simple static class to simplify to process of talking to the landlord.
@@ -29,96 +28,96 @@ use Rhubarb\Crown\RestApi\Clients\RestHttpRequest;
  */
 class SaasGateway
 {
-	/**
-	 * Makes an unauthenticated GET request
-	 *
-	 * @param $uri
-	 * @return mixed
-	 */
-	public static function GetUnauthenticated( $uri )
-	{
-		$client = self::GetUnAuthenticatedRestClient();
-		$request = new RestHttpRequest( $uri, "get" );
+    /**
+     * Makes an unauthenticated GET request
+     *
+     * @param $uri
+     * @return mixed
+     */
+    public static function getUnauthenticated($uri)
+    {
+        $client = self::getUnAuthenticatedRestClient();
+        $request = new RestHttpRequest($uri, "get");
 
-		return $client->MakeRequest( $request );
-	}
+        return $client->makeRequest($request);
+    }
 
-	/**
-	 * POSTs to an unauthenticated resource
-	 *
-	 * @param $uri
-	 * @param $payload
-	 * @return mixed
-	 */
-	public static function PostUnauthenticated( $uri, $payload )
-	{
-		$client = self::GetUnAuthenticatedRestClient();
-		$request = new RestHttpRequest( $uri, "post", $payload );
+    /**
+     * POSTs to an unauthenticated resource
+     *
+     * @param $uri
+     * @param $payload
+     * @return mixed
+     */
+    public static function postUnauthenticated($uri, $payload)
+    {
+        $client = self::getUnAuthenticatedRestClient();
+        $request = new RestHttpRequest($uri, "post", $payload);
 
-		return $client->MakeRequest( $request );
-	}
+        return $client->makeRequest($request);
+    }
 
-	/**
-	 * PUTs to an unauthenticated resource
-	 *
-	 * @param $uri
-	 * @param $payload
-	 * @return mixed
-	 */
-	public static function PutUnauthenticated( $uri, $payload )
-	{
-		$client = self::GetUnAuthenticatedRestClient();
-		$request = new RestHttpRequest( $uri, "put", $payload );
+    /**
+     * PUTs to an unauthenticated resource
+     *
+     * @param $uri
+     * @param $payload
+     * @return mixed
+     */
+    public static function putUnauthenticated($uri, $payload)
+    {
+        $client = self::getUnAuthenticatedRestClient();
+        $request = new RestHttpRequest($uri, "put", $payload);
 
-		return $client->MakeRequest( $request );
-	}
+        return $client->makeRequest($request);
+    }
 
-	/**
-	 * Makes an authenticated GET request
-	 *
-	 * @param $uri
-	 * @param string $username Only used for logging in
-	 * @param string $password Only used for logging in
-	 * @return mixed
-	 */
-	public static function GetAuthenticated( $uri, $username = "", $password = "" )
-	{
-		$client = self::GetAuthenticatedRestClient( $username, $password );
-		$request = new RestHttpRequest( $uri, "get" );
+    /**
+     * Makes an authenticated GET request
+     *
+     * @param $uri
+     * @param string $username Only used for logging in
+     * @param string $password Only used for logging in
+     * @return mixed
+     */
+    public static function getAuthenticated($uri, $username = "", $password = "")
+    {
+        $client = self::getAuthenticatedRestClient($username, $password);
+        $request = new RestHttpRequest($uri, "get");
 
-		return $client->MakeRequest( $request );
-	}
+        return $client->makeRequest($request);
+    }
 
-	/**
-	 * Gets the unauthenticated rest client.
-	 *
-	 * @return UnAuthenticatedRestClient
-	 */
-	private static function GetUnAuthenticatedRestClient()
-	{
-		return new UnAuthenticatedRestClient( self::GetApiUrl() );
-	}
+    /**
+     * Gets the unauthenticated rest client.
+     *
+     * @return UnAuthenticatedRestClient
+     */
+    private static function getUnAuthenticatedRestClient()
+    {
+        return new UnAuthenticatedRestClient(self::getApiUrl());
+    }
 
-	/**
-	 * Gets the authenticated rest client
-	 *
-	 * @param string $username
-	 * @param string $password
-	 * @return AuthenticatedRestClient
-	 */
-	private static function GetAuthenticatedRestClient( $username = "", $password = "" )
-	{
-		return new AuthenticatedRestClient( self::GetApiUrl(), $username, $password );
-	}
+    /**
+     * Gets the authenticated rest client
+     *
+     * @param string $username
+     * @param string $password
+     * @return AuthenticatedRestClient
+     */
+    private static function getAuthenticatedRestClient($username = "", $password = "")
+    {
+        return new AuthenticatedRestClient(self::getApiUrl(), $username, $password);
+    }
 
-	/**
-	 * Gets the stub url for the api
-	 *
-	 * @return string
-	 */
-	public static function GetApiUrl()
-	{
-		$settings = new RestClientSettings();
-		return $settings->ApiUrl;
-	}
+    /**
+     * Gets the stub url for the api
+     *
+     * @return string
+     */
+    public static function getApiUrl()
+    {
+        $settings = new RestClientSettings();
+        return $settings->ApiUrl;
+    }
 } 

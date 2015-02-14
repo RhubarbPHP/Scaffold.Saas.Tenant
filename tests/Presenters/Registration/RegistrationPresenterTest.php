@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Presenters\Registration;
+namespace Rhubarb\Crown\Saas\Tenant\Tests\Presenters\Registration;
 
 use Rhubarb\Crown\Exceptions\ForceResponseException;
 use Rhubarb\Crown\Response\RedirectResponse;
@@ -75,7 +75,7 @@ class RegistrationPresenterTest extends TenantTestCase
 
 		$loginProvider = LoginProvider::GetDefaultLoginProvider();
 
-		$this->assertTrue( $loginProvider->IsLoggedIn() );
+		$this->assertTrue( $loginProvider->isLoggedIn() );
 	}
 
 	public function testRegistrationRedirectsToAccounts()

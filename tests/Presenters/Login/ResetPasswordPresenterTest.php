@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Presenters\Login;
+namespace Rhubarb\Crown\Saas\Tenant\Tests\Presenters\Login;
 
 use Rhubarb\Crown\Integration\Email\UnitTestingEmailProvider;
 use Rhubarb\Leaf\Views\UnitTestView;

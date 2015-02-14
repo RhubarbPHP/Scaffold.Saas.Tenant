@@ -19,60 +19,54 @@
 namespace Rhubarb\Crown\Saas\Tenant\Presenters\Registration;
 
 use Rhubarb\Crown\Exceptions\ForceResponseException;
-use Rhubarb\Crown\Response\RedirectResponse;
-use Rhubarb\Crown\Saas\Tenant\LoginProviders\TenantLoginProvider;
-use Rhubarb\Crown\Saas\Tenant\RestModels\User;
 use Rhubarb\Crown\LoginProviders\LoginProvider;
-use Rhubarb\Leaf\Presenters\Forms\Form;
+use Rhubarb\Crown\Response\RedirectResponse;
+use Rhubarb\Crown\Saas\Tenant\RestModels\User;
 use Rhubarb\Crown\Saas\Tenant\Settings\TenantSettings;
+use Rhubarb\Leaf\Presenters\Forms\Form;
 
 class RegistrationPresenter extends Form
 {
-	private function CreateUser()
-	{
-		// Assumes the model has been populated with all the various settings.
-		$user = new User();
+    private function createUser()
+    {
+        // Assumes the model has been populated with all the various settings.
+        $user = new User();
 
-		$user->Forename = $this->model->Forename;
-		$user->Surname = $this->model->Surname;
-		$user->Username = $this->model->Username;
-		$user->Email = $this->model->Email;
-		$user->NewPassword = $this->model->NewPassword;
+        $user->Forename = $this->model->Forename;
+        $user->Surname = $this->model->Surname;
+        $user->Username = $this->model->Username;
+        $user->Email = $this->model->Email;
+        $user->NewPassword = $this->model->NewPassword;
 
-		$loggedIn = false;
+        $loggedIn = false;
 
-		try
-		{
-			$user->Save();
+        try {
+            $user->save();
 
-			$loginProvider = LoginProvider::GetDefaultLoginProvider();
-			$loggedIn = $loginProvider->Login( $this->model->Username, $this->model->NewPassword );
+            $loginProvider = LoginProvider::getDefaultLoginProvider();
+            $loggedIn = $loginProvider->login($this->model->Username, $this->model->NewPassword);
 
-			$settings = new TenantSettings();
-		}
-		catch( \Exception $er )
-		{
-			/// TODO: What happens now?
-		}
+            $settings = new TenantSettings();
+        } catch (\Exception $er) {
+            /// TODO: What happens now?
+        }
 
-		if ( $loggedIn )
-		{
-			throw new ForceResponseException( new RedirectResponse( $settings->PostRegistrationUrl ) );
-		}
-	}
+        if ($loggedIn) {
+            throw new ForceResponseException(new RedirectResponse($settings->PostRegistrationUrl));
+        }
+    }
 
-	protected function ConfigureView()
-	{
-		parent::ConfigureView();
+    protected function configureView()
+    {
+        parent::configureView();
 
-		$this->view->AttachEventHandler( "CreateUser", function()
-		{
-			$this->CreateUser();
-		});
-	}
+        $this->view->attachEventHandler("CreateUser", function () {
+            $this->createUser();
+        });
+    }
 
-	protected function CreateView()
-	{
-		return new RegistrationView();
-	}
+    protected function createView()
+    {
+        return new RegistrationView();
+    }
 } 

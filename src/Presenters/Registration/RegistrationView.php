@@ -25,40 +25,39 @@ use Rhubarb\Leaf\Views\HtmlView;
 
 class RegistrationView extends HtmlView
 {
-	protected function ConfigurePresenters()
-	{
-		parent::ConfigurePresenters();
+    protected function configurePresenters()
+    {
+        parent::configurePresenters();
 
-		$this->AddPresenters(
-			new TextBox( "Forename" ),
-			new TextBox( "Surname" ),
-			new TextBox( "Email", 80 ),
-			new TextBox( "Username" ),
-			new Password( "NewPassword" ),
-			new Password( "NewPasswordConfirm" ),
-			$submit = new Button( "Signup", "Sign Up", function()
-			{
-				$this->RaiseEvent( "CreateUser" );
-			})
-		);
-	}
+        $this->addPresenters(
+            new TextBox("Forename"),
+            new TextBox("Surname"),
+            new TextBox("Email", 80),
+            new TextBox("Username"),
+            new Password("NewPassword"),
+            new Password("NewPasswordConfirm"),
+            $submit = new Button("Signup", "Sign Up", function () {
+                $this->raiseEvent("CreateUser");
+            })
+        );
+    }
 
-	protected function PrintViewContent()
-	{
-		parent::PrintViewContent();
+    protected function printViewContent()
+    {
+        parent::printViewContent();
 
-		$this->PrintFieldset(
-			"",
-			[
-				"Forename",
-				"Surname",
-				"Email",
-				"Username",
-				"Password" => "NewPassword",
-				"Confirm Password" => "NewPasswordConfirm"
-			]
-		);
+        $this->printFieldset(
+            "",
+            [
+                "Forename",
+                "Surname",
+                "Email",
+                "Username",
+                "Password" => "NewPassword",
+                "Confirm Password" => "NewPasswordConfirm"
+            ]
+        );
 
-		print $this->presenters[ "Signup" ];
-	}
+        print $this->presenters["Signup"];
+    }
 }

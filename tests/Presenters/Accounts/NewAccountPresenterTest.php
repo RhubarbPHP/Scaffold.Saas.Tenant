@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Presenters\Accounts;
+namespace Rhubarb\Crown\Saas\Tenant\Tests\Presenters\Accounts;
 
 use Rhubarb\Crown\Exceptions\ForceResponseException;
 use Rhubarb\Leaf\Views\UnitTestView;

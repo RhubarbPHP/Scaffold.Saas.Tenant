@@ -18,7 +18,7 @@
 
 namespace Rhubarb\Crown\Saas\Tenant\Presenters\Login;
 
-class LoginPresenter extends \Rhubarb\Crown\Scaffolds\Authentication\Presenters\LoginPresenter
+class LoginPresenter extends \Rhubarb\Scaffolds\Authentication\Presenters\LoginPresenter
 {
 
 } 

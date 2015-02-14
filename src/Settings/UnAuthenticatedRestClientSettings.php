@@ -26,11 +26,11 @@ use Rhubarb\Crown\Settings;
  */
 class UnAuthenticatedRestClientSettings extends Settings
 {
-	protected function InitialiseDefaultValues()
-	{
-		parent::InitialiseDefaultValues();
+    protected function initialiseDefaultValues()
+    {
+        parent::initialiseDefaultValues();
 
-		$this->Username = "";
-		$this->Password = "";
-	}
+        $this->Username = "";
+        $this->Password = "";
+    }
 } 

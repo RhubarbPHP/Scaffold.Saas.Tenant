@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\UnitTesting;
+namespace Rhubarb\Crown\Saas\Tenant\Tests\Fixtures;
 
 use Rhubarb\Crown\Encryption\EncryptionProvider;
 use Rhubarb\Crown\LoginProviders\LoginProvider;
@@ -24,17 +24,15 @@ use Rhubarb\Crown\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\Crown\Saas\Tenant\SaasTenantModule;
 use Rhubarb\Crown\Saas\Tenant\Settings\RestClientSettings;
 use Rhubarb\Crown\Context;
-use Rhubarb\Crown\CoreModule;
 use Rhubarb\Crown\Encryption\HashProvider;
-use Rhubarb\Crown\Integration\Http\HttpClient;
+use Rhubarb\Crown\Http\HttpClient;
+use Rhubarb\Crown\Tests\RhubarbTestCase;
 use Rhubarb\Stem\Repositories\Repository;
 use Rhubarb\Stem\Schema\SolutionSchema;
 use Rhubarb\Crown\Module;
-use Rhubarb\Crown\Scaffolds\Saas\SaasModule;
-use Rhubarb\Crown\Scaffolds\Saas\UnitTesting\SaasTestCaseTrait;
-use Rhubarb\Crown\UnitTesting\CoreTestCase;
+use Rhubarb\Scaffolds\Saas\SaasModule;
 
-class TenantTestCase extends CoreTestCase
+class TenantTestCase extends RhubarbTestCase
 {
 	use SaasTestCaseTrait;
 
@@ -45,7 +43,6 @@ class TenantTestCase extends CoreTestCase
 		SolutionSchema::ClearSchemas();
 
 		Module::ClearModules();
-		Module::RegisterModule( new CoreModule() );
 		Module::RegisterModule( new SaasModule() );
 		Module::RegisterModule( new SaasTenantModule() );
 		Module::InitialiseModules();

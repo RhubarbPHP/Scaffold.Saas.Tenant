@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Repositories;
+namespace Rhubarb\Crown\Saas\Tenant\Tests\Repositories;
 
 use Rhubarb\Crown\HttpHeaders;
 use Rhubarb\Stem\Exceptions\RepositoryConnectionException;
@@ -32,11 +32,11 @@ class SaasMySqlRepositoryTest extends TenantTestCase
 		$this->Login();
 
 		$session = new AccountSession();
-		$session->ConnectToAccount( 1 );
+		$session->connectToAccount( 1 );
 
 		try
 		{
-			SaasMySqlRepository::GetDefaultConnection();
+			SaasMySqlRepository::getDefaultConnection();
 		}
 		catch( RepositoryConnectionException $er )
 		{

@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Crown\Saas\Tenant\Sessions;
+namespace Rhubarb\Crown\Saas\Tenant\Tests\Sessions;
 
 use Rhubarb\Crown\Encryption\EncryptionProvider;
 use Rhubarb\Crown\LoginProviders\LoginProvider;
@@ -66,11 +66,11 @@ class AccountSessionTest extends TenantTestCase
 		$session = new AccountSession();
 
 		$login = LoginProvider::GetDefaultLoginProvider();
-		$login->LogOut();
+		$login->logOut();
 
 		try
 		{
-			$session->ConnectToAccount( 1 );
+			$session->connectToAccount( 1 );
 			$this->fail( "You can't connect to an account - you're not logged in!" );
 		}
 		catch( SaasConnectionException $er )
@@ -79,7 +79,7 @@ class AccountSessionTest extends TenantTestCase
 
 		$this->Login();
 
-		$session->ConnectToAccount( 1 );
+		$session->connectToAccount( 1 );
 
 		$this->assertEquals( "Widgets Co", $session->AccountName );
 		$this->assertEquals( "1.2.3.4", $session->ServerHost );

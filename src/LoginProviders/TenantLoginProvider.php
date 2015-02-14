@@ -18,12 +18,10 @@
 
 namespace Rhubarb\Crown\Saas\Tenant\LoginProviders;
 
+use Rhubarb\Crown\LoginProviders\LoginProvider;
 use Rhubarb\Crown\Saas\Tenant\RestClients\AuthenticatedRestClient;
 use Rhubarb\Crown\Saas\Tenant\RestClients\SaasGateway;
-use Rhubarb\Crown\LoginProviders\LoginProvider;
-use Rhubarb\Crown\RestApi\Clients\RestHttpRequest;
-use Rhubarb\Crown\RestApi\Exceptions\RestAuthenticationException;
-use Rhubarb\Crown\Scaffolds\Saas\Model\SaasSolutionSchema;
+use Rhubarb\RestApi\Exceptions\RestAuthenticationException;
 
 /**
  * A login provider that understands when a user has logged into the saas system.
@@ -34,52 +32,49 @@ use Rhubarb\Crown\Scaffolds\Saas\Model\SaasSolutionSchema;
  */
 class TenantLoginProvider extends LoginProvider
 {
-	public function IsLoggedIn()
-	{
-		return parent::IsLoggedIn();
-	}
+    public function isLoggedIn()
+    {
+        return parent::isLoggedIn();
+    }
 
-	public function LogOut()
-	{
-		AuthenticatedRestClient::ClearToken();
+    public function logOut()
+    {
+        AuthenticatedRestClient::clearToken();
 
-		$this->LoggedInData = [];
+        $this->LoggedInData = [];
 
-		parent::LogOut();
-	}
+        parent::logOut();
+    }
 
-	/**
-	 * Attempts to login by accessing the me resource.
-	 *
-	 * @param $username
-	 * @param $password
-	 * @return bool True if the login succeeded, False if it didn't
-	 */
-	public function Login( $username, $password )
-	{
-		$this->LogOut();
+    /**
+     * Attempts to login by accessing the me resource.
+     *
+     * @param $username
+     * @param $password
+     * @return bool True if the login succeeded, False if it didn't
+     */
+    public function login($username, $password)
+    {
+        $this->logOut();
 
-		try
-		{
-			$me = SaasGateway::GetAuthenticated( "/users/me", $username, $password );
+        try {
+            $me = SaasGateway::getAuthenticated("/users/me", $username, $password);
 
-			// Note we are note capturing the user id from the landlord system as we should not be using it
-			// on the tenant anywhere. Email is our 'unique' handle for each user as far as the tenant is concerned.
-			$this->LoggedIn = true;
-			$this->LoggedInData =
-				[
-					"Forename" => $me->Forename,
-					"Surname" => $me->Surname,
-					"Email" => $me->Email
-				];
+            // Note we are note capturing the user id from the landlord system as we should not be using it
+            // on the tenant anywhere. Email is our 'unique' handle for each user as far as the tenant is concerned.
+            $this->LoggedIn = true;
+            $this->LoggedInData =
+                [
+                    "Forename" => $me->Forename,
+                    "Surname" => $me->Surname,
+                    "Email" => $me->Email
+                ];
 
-			$this->StoreSession();
+            $this->StoreSession();
 
-			return true;
-		}
-		catch( RestAuthenticationException $er )
-		{
-			return false;
-		}
-	}
+            return true;
+        } catch (RestAuthenticationException $er) {
+            return false;
+        }
+    }
 }

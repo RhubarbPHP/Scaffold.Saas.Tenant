@@ -24,27 +24,26 @@ use Rhubarb\Leaf\Views\HtmlView;
 
 class NewAccountView extends HtmlView
 {
-	public function CreatePresenters()
-	{
-		$this->AddPresenters(
-			new TextBox( "AccountName", 50 ),
-			new Button( "CreateAccount", "Create Account", function()
-			{
-				$this->RaiseEvent( "CreateAccount" );
-			})
-		);
-
-		parent::CreatePresenters();
-	}
-
-
-	protected function PrintViewContent()
+    public function createPresenters()
     {
-		$this->PrintFieldset( "",
-		[
-			"AccountName"
-		]);
+        $this->addPresenters(
+            new TextBox("AccountName", 50),
+            new Button("CreateAccount", "Create Account", function () {
+                $this->raiseEvent("CreateAccount");
+            })
+        );
 
-	    print $this->presenters[ "CreateAccount" ];
+        parent::createPresenters();
+    }
+
+
+    protected function printViewContent()
+    {
+        $this->printFieldset("",
+            [
+                "AccountName"
+            ]);
+
+        print $this->presenters["CreateAccount"];
     }
 }

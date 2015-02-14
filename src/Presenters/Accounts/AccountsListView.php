@@ -18,44 +18,38 @@
 
 namespace Rhubarb\Crown\Saas\Tenant\Presenters\Accounts;
 
-use Rhubarb\Leaf\Views\HtmlView;
 use Rhubarb\Crown\Saas\Tenant\Sessions\AccountSession;
+use Rhubarb\Leaf\Views\HtmlView;
 
 class AccountsListView extends HtmlView
 {
-	public $accounts = [];
+    public $accounts = [];
 
-	protected function ParseRequestForCommand()
-	{
-		if ( isset( $_GET[ "choose" ] ) )
-		{
-			$this->RaiseEvent( "SelectAccount", intval( $_GET[ "choose" ] ) );
-		}
-
-		parent::ParseRequestForCommand();
-	}
-
-	protected function PrintViewContent()
+    protected function parseRequestForCommand()
     {
-	    if ( sizeof( $this->accounts ) )
-	    {
-		    $accountSession = new AccountSession();
+        if (isset($_GET["choose"])) {
+            $this->raiseEvent("SelectAccount", intval($_GET["choose"]));
+        }
 
-			foreach( $this->accounts as $account )
-			{
-				print "<a href='?choose=".$account->AccountID."'>".$account->AccountName;
+        parent::parseRequestForCommand();
+    }
 
-				if ( $accountSession->AccountID == $account->AccountID )
-				{
-					print " - selected";
-				}
+    protected function printViewContent()
+    {
+        if (sizeof($this->accounts)) {
+            $accountSession = new AccountSession();
 
-				print "</a><br/>";
-			}
-	    }
-	    else
-	    {
-		    print "<p>You don't have any accounts yet.</p>";
-	    }
+            foreach ($this->accounts as $account) {
+                print "<a href='?choose=" . $account->AccountID . "'>" . $account->AccountName;
+
+                if ($accountSession->AccountID == $account->AccountID) {
+                    print " - selected";
+                }
+
+                print "</a><br/>";
+            }
+        } else {
+            print "<p>You don't have any accounts yet.</p>";
+        }
     }
 }

@@ -19,60 +19,52 @@
 namespace Rhubarb\Crown\Saas\Tenant;
 
 use Rhubarb\Crown\Encryption\EncryptionProvider;
-use Rhubarb\Crown\LoginProviders\LoginProvider;
-use Rhubarb\Stem\Repositories\Repository;
 use Rhubarb\Crown\Module;
-use Rhubarb\Leaf\UrlHandlers\MvpCollectionUrlHandler;
-use Rhubarb\Crown\Scaffolds\AuthenticationWithRoles\AuthenticationWithRolesModule;
 use Rhubarb\Crown\UrlHandlers\ClassMappedUrlHandler;
+use Rhubarb\Leaf\UrlHandlers\MvpCollectionUrlHandler;
+use Rhubarb\Scaffolds\AuthenticationWithRoles\AuthenticationWithRolesModule;
+use Rhubarb\Stem\Repositories\Repository;
 
 class SaasTenantModule extends Module
 {
-	public function __construct()
-	{
-		parent::__construct();
+    protected function initialise()
+    {
+        parent::initialise();
 
-		$this->namespace = __NAMESPACE__;
-		$this->AddClassPath( __DIR__ );
-	}
+        EncryptionProvider::setEncryptionProviderClassName('\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider');
+        Repository::setDefaultRepositoryClassName('\Rhubarb\Crown\Saas\Tenant\Repositories\SaasMySqlRepository');
+    }
 
-	protected function Initialise()
-	{
-		parent::Initialise();
+    protected function registerDependantModules()
+    {
+        parent::registerDependantModules();
 
-		EncryptionProvider::SetEncryptionProviderClassName( '\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider' );
-		Repository::SetDefaultRepositoryClassName( '\Rhubarb\Crown\Saas\Tenant\Repositories\SaasMySqlRepository' );
-	}
+        Module::registerModule(new AuthenticationWithRolesModule('\Rhubarb\Crown\Saas\Tenant\LoginProviders\TenantLoginProvider'));
+    }
 
-	protected function RegisterDependantModules()
-	{
-		parent::RegisterDependantModules();
+    protected function registerUrlHandlers()
+    {
+        parent::registerUrlHandlers();
 
-		Module::RegisterModule( new AuthenticationWithRolesModule( '\Rhubarb\Crown\Saas\Tenant\LoginProviders\TenantLoginProvider' ) );
-	}
+        $signUp = new ClassMappedUrlHandler("\Rhubarb\Crown\Saas\Tenant\Presenters\Registration\RegistrationPresenter");
+        $signUp->setPriority(20);
 
-	protected function RegisterUrlHandlers()
-	{
-		parent::RegisterUrlHandlers();
+        $login = new ClassMappedUrlHandler("\Rhubarb\Crown\Saas\Tenant\Presenters\Login\LoginPresenter", [
+            "reset/" => new MvpCollectionUrlHandler('\Rhubarb\Crown\Saas\Tenant\Presenters\Login\ResetPasswordPresenter',
+                '\Rhubarb\Crown\Saas\Tenant\Presenters\Login\ConfirmResetPasswordPresenter')
+        ]);
 
-		$signUp = new ClassMappedUrlHandler( "\Rhubarb\Crown\Saas\Tenant\Presenters\Registration\RegistrationPresenter" );
-		$signUp->SetPriority( 20 );
+        $login->setPriority(20);
+        $login->setName("login");
 
-		$login = new ClassMappedUrlHandler( "\Rhubarb\Crown\Saas\Tenant\Presenters\Login\LoginPresenter", [
-			"reset/" => new MvpCollectionUrlHandler( '\Rhubarb\Crown\Saas\Tenant\Presenters\Login\ResetPasswordPresenter', '\Rhubarb\Crown\Saas\Tenant\Presenters\Login\ConfirmResetPasswordPresenter' )
-		] );
-
-		$login->SetPriority( 20 );
-		$login->SetName( "login" );
-
-		$this->AddUrlHandlers(
-		[
-			"/accounts/" => new ClassMappedUrlHandler( "\Rhubarb\Crown\Saas\Tenant\Presenters\Accounts\AccountsListPresenter",
-			[
-				"new/" => new ClassMappedUrlHandler( '\Rhubarb\Crown\Saas\Tenant\Presenters\Accounts\NewAccountPresenter' )
-			]),
-			"/sign-up/" => $signUp,
-			"/login/" => $login
-		] );
-	}
+        $this->AddUrlHandlers(
+            [
+                "/accounts/" => new ClassMappedUrlHandler("\Rhubarb\Crown\Saas\Tenant\Presenters\Accounts\AccountsListPresenter",
+                    [
+                        "new/" => new ClassMappedUrlHandler('\Rhubarb\Crown\Saas\Tenant\Presenters\Accounts\NewAccountPresenter')
+                    ]),
+                "/sign-up/" => $signUp,
+                "/login/" => $login
+            ]);
+    }
 }

@@ -18,113 +18,107 @@
 
 namespace Rhubarb\Crown\Saas\Tenant\RestModels;
 
-use Rhubarb\Stem\ModelState;
-use Rhubarb\Crown\RestApi\Clients\RestClient;
-use Rhubarb\Crown\RestApi\Clients\RestHttpRequest;
-use Rhubarb\Crown\RestApi\Exceptions\RestImplementationException;
+use Rhubarb\Crown\Modelling\ModelState;
+use Rhubarb\RestApi\Clients\RestClient;
+use Rhubarb\RestApi\Clients\RestHttpRequest;
+use Rhubarb\RestApi\Exceptions\RestImplementationException;
 
 /**
  * Base class for RestModel objects.
  */
 abstract class RestModel extends ModelState
 {
-	private $_restResourceId = false;
+    private $restResourceId = false;
 
-	public function __construct( $restResourceId = null )
-	{
-		parent::__construct();
+    public function __construct($restResourceId = null)
+    {
+        parent::__construct();
 
-		if ( $restResourceId !== null )
-		{
-			// Load the resource via the API
-
-
-		}
-	}
+        if ($restResourceId !== null) {
+            // Load the resource via the API
 
 
-	/**
-	 * Returns the RestClient object to use for loading and saving the model.
-	 *
-	 * @return RestClient
-	 */
-	protected function GetRestClient()
-	{
+        }
+    }
 
-	}
 
-	/**
-	 * Returns the URI for the collection holding this type of model in the API.
-	 *
-	 * This will normally be just the portion of the full URL unique to this collection. For
-	 * example if the full URL was http://my.service.com/api/users then the return value would
-	 * be just /users
-	 *
-	 * @return string
-	 */
-	protected abstract function GetCollectionUri();
+    /**
+     * Returns the RestClient object to use for loading and saving the model.
+     *
+     * @return RestClient
+     */
+    protected function getRestClient()
+    {
 
-	/**
-	 * Returns the URL for a single instance of the model resource.
-	 */
-	protected function GetResourceUri()
-	{
-		$collectionUrl = $this->GetCollectionUri();
+    }
 
-		if ( $this->_restResourceId !== false )
-		{
-			return $collectionUrl."/".$this->_restResourceId;
-		}
-		else
-		{
-			return $collectionUrl;
-		}
-	}
+    /**
+     * Returns the URI for the collection holding this type of model in the API.
+     *
+     * This will normally be just the portion of the full URL unique to this collection. For
+     * example if the full URL was http://my.service.com/api/users then the return value would
+     * be just /users
+     *
+     * @return string
+     */
+    protected abstract function getCollectionUri();
 
-	public function Save()
-	{
-		$payload = $this->ExportRawData();
+    /**
+     * Returns the URL for a single instance of the model resource.
+     */
+    protected function getResourceUri()
+    {
+        $collectionUrl = $this->getCollectionUri();
 
-		$verb = ( $this->_restResourceId !== false ) ? "put" : "post";
+        if ($this->restResourceId !== false) {
+            return $collectionUrl . "/" . $this->restResourceId;
+        } else {
+            return $collectionUrl;
+        }
+    }
 
-		// This is a put operation as we're updating the existing resource.
-		$request = new RestHttpRequest( $this->GetResourceUri(), $verb, $payload );
+    public function save()
+    {
+        $payload = $this->exportRawData();
 
-		$client = $this->GetRestClient();
-		$response = $client->MakeRequest( $request );
+        $verb = ($this->restResourceId !== false) ? "put" : "post";
 
-		if ( isset( $response->result ) && !$response->result->status )
-		{
-			throw new RestImplementationException( "The rest model could not be saved." );
-		}
+        // This is a put operation as we're updating the existing resource.
+        $request = new RestHttpRequest($this->getResourceUri(), $verb, $payload);
 
-		if ( $verb == "post" )
-		{
-			$this->ImportFromRestResource( $response );
-		}
+        $client = $this->getRestClient();
+        $response = $client->makeRequest($request);
 
-		return $response;
-	}
+        if (isset($response->result) && !$response->result->status) {
+            throw new RestImplementationException("The rest model could not be saved.");
+        }
 
-	/**
-	 * Takes a stdClass object and imports the key value pairs into the model's state.
-	 *
-	 * @param $resourceObject
-	 */
-	public function ImportFromRestResource( $resourceObject )
-	{
-		$values = get_object_vars( $resourceObject );
+        if ($verb == "post") {
+            $this->importFromRestResource($response);
+        }
 
-		$this->ImportData( $values );
-	}
+        return $response;
+    }
 
-	/**
-	 * Exports the key value pairs required to represent this as a REST resource payload.
-	 *
-	 * @return array
-	 */
-	public function ExportAsRestPayload()
-	{
-		return $this->ExportRawData();
-	}
+    /**
+     * Takes a stdClass object and imports the key value pairs into the model's state.
+     *
+     * @param $resourceObject
+     */
+    public function importFromRestResource($resourceObject)
+    {
+        $values = get_object_vars($resourceObject);
+
+        $this->importData($values);
+    }
+
+    /**
+     * Exports the key value pairs required to represent this as a REST resource payload.
+     *
+     * @return array
+     */
+    public function exportAsRestPayload()
+    {
+        return $this->exportRawData();
+    }
 } 

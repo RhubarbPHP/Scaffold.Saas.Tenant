@@ -19,12 +19,11 @@
 namespace Rhubarb\Crown\Saas\Tenant\Sessions;
 
 use Rhubarb\Crown\Context;
-use Rhubarb\Stem\Repositories\MySql\MySql;
-use Rhubarb\Stem\Repositories\Repository;
-use Rhubarb\Stem\Schema\SolutionSchema;
 use Rhubarb\Crown\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\Crown\Scaffolds\Saas\Model\SaasSolutionSchema;
 use Rhubarb\Crown\Sessions\EncryptedSession;
+use Rhubarb\Stem\Repositories\Repository;
+use Rhubarb\Stem\Schema\SolutionSchema;
 
 /**
  * Stores key details for the selected tenant.
@@ -38,64 +37,58 @@ use Rhubarb\Crown\Sessions\EncryptedSession;
  */
 class AccountSession extends EncryptedSession
 {
-	/**
-	 * Override to return the encryption key salt to use.
-	 *
-	 * @return mixed
-	 */
-	protected function GetEncryptionKeySalt()
-	{
-		$context = new Context();
+    /**
+     * Override to return the encryption key salt to use.
+     *
+     * @return mixed
+     */
+    protected function getEncryptionKeySalt()
+    {
+        $context = new Context();
 
-		if ( isset( $_COOKIE[ "tsks" ] ) )
-		{
-			$keySalt = $_COOKIE[ "tsks" ];
-		}
-		else
-		{
-			/**
-			 * Generate a keySalt that contains randomness and the exact time of creation.
-			 */
-			$keySalt = sha1( uniqid().mt_rand() );
-		}
+        if (isset($_COOKIE["tsks"])) {
+            $keySalt = $_COOKIE["tsks"];
+        } else {
+            /**
+             * Generate a keySalt that contains randomness and the exact time of creation.
+             */
+            $keySalt = sha1(uniqid() . mt_rand());
+        }
 
-		if ( !$context->UnitTesting )
-		{
-			// The if test is required for unit testing due to the "output already having started" error.
-			setcookie( "tsks", $keySalt, null, "/" );
-		}
+        if (!$context->UnitTesting) {
+            // The if test is required for unit testing due to the "output already having started" error.
+            setcookie("tsks", $keySalt, null, "/");
+        }
 
-		$_COOKIE[ "tsks" ] = $keySalt;
+        $_COOKIE["tsks"] = $keySalt;
 
-		return $keySalt;
-	}
+        return $keySalt;
+    }
 
-	public function ConnectToAccount( $accountId )
-	{
-		$accountDetails = SaasGateway::GetAuthenticated( "/accounts/".$accountId );
+    public function connectToAccount($accountId)
+    {
+        $accountDetails = SaasGateway::getAuthenticated("/accounts/" . $accountId);
 
-		$this->AccountID = $accountId;
-		$this->AccountName = $accountDetails->AccountName;
-		$this->UniqueReference = $accountDetails->UniqueReference;
-		$this->ServerHost = $accountDetails->Server->Host;
-		$this->ServerPort = $accountDetails->Server->Port;
-		$this->CredentialsIV = $accountDetails->CredentialsIV;
-		$this->StoreSession();
+        $this->AccountID = $accountId;
+        $this->AccountName = $accountDetails->AccountName;
+        $this->UniqueReference = $accountDetails->UniqueReference;
+        $this->ServerHost = $accountDetails->Server->Host;
+        $this->ServerPort = $accountDetails->Server->Port;
+        $this->CredentialsIV = $accountDetails->CredentialsIV;
+        $this->storeSession();
 
-		$repos = Repository::GetDefaultRepositoryClassName();
+        $repos = Repository::getDefaultRepositoryClassName();
 
-		// If the Repos is connected to an actual database we need to reset it to allow a new
-		// connection to be created to the new account.
-		if ( method_exists( $repos, "ResetDefaultConnection" ) )
-		{
-			$repos::ResetDefaultConnection();
+        // If the Repos is connected to an actual database we need to reset it to allow a new
+        // connection to be created to the new account.
+        if (method_exists($repos, "ResetDefaultConnection")) {
+            $repos::resetDefaultConnection();
 
-			$solutionSchemas = SolutionSchema::GetAllSchemas();
+            $solutionSchemas = SolutionSchema::getAllSchemas();
 
-			foreach( $solutionSchemas as $schema )
-			{
-				$schema->CheckModelSchemas();
-			}
-		}
-	}
+            foreach ($solutionSchemas as $schema) {
+                $schema->checkModelSchemas();
+            }
+        }
+    }
 }

@@ -40,7 +40,7 @@ class AccountsListPresenterTest extends TenantTestCase
 		$this->assertCount( 2, $mockView->accounts );
 
 		$loginProvider = LoginProvider::GetDefaultLoginProvider();
-		$loginProvider->Login( "nigel", "abc123" );
+		$loginProvider->login( "nigel", "abc123" );
 
 		$presenter->Test();
 

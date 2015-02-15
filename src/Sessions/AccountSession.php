@@ -67,7 +67,7 @@ class AccountSession extends EncryptedSession
 
     public function connectToAccount($accountId)
     {
-        $accountDetails = SaasGateway::getAuthenticated("/accounts/" . $accountId);
+        $accountDetails = SaasGateway::getAuthenticated("/users/me/accounts/" . $accountId);
 
         $this->AccountID = $accountId;
         $this->AccountName = $accountDetails->AccountName;

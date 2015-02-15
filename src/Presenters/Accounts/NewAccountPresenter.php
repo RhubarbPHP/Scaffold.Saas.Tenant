@@ -42,7 +42,7 @@ class NewAccountPresenter extends Form
             $account->save();
 
             $session = new AccountSession();
-            $session->connectToAccount($account->AccountID);
+            $session->connectToAccount($account->_id);
 
             $settings = new TenantSettings();
             $response = new RedirectResponse($settings->DashboardUrl);

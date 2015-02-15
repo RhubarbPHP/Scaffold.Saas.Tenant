@@ -64,7 +64,7 @@ class TenantTestCase extends RhubarbTestCase
 
 
         // Make sure HTTP requests go the unit testing route.
-        HttpClient::setDefaultHttpClientClassName('\Rhubarb\Crown\Http\UnitTestingHttpClient');
+        HttpClient::setDefaultHttpClientClassName('\Rhubarb\Crown\Tests\Fixtures\UnitTestingHttpClient');
 
         $restClientSettings = new RestClientSettings();
         $restClientSettings->ApiUrl = "/api";

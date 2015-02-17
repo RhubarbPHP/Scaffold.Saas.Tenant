@@ -16,41 +16,31 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Exceptions;
 
 use Rhubarb\Crown\Exceptions\ForceResponseException;
+use Rhubarb\Crown\Exceptions\RhubarbException;
 use Rhubarb\Crown\Response\RedirectResponse;
-use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\Scaffolds\Saas\Tenant\RestModels\Me;
 use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
-use Rhubarb\Scaffolds\Saas\Tenant\Settings\TenantSettings;
-use Rhubarb\Leaf\Presenters\Forms\Form;
 
-class AccountsListPresenter extends Form
+class SaasNoTenantSelectedException extends SaasConnectionException
 {
-    protected function createView()
+    public function __construct($privateMessage = "", \Exception $previous = null)
     {
-        return new AccountsListView();
-    }
+        // If the user has a single account, we should auto connect them and redirect to the app.
+        // This should provide a good user experience in nearly all cases.
 
-    protected function applyModelToView()
-    {
-        $this->view->accounts = Me::getAccounts();
+        $accounts = Me::getAccounts();
 
-        parent::applyModelToView();
-    }
-
-    protected function configureView()
-    {
-        parent::configureView();
-
-        $this->view->attachEventHandler("SelectAccount", function ($accountId) {
+        if ( count( $accounts ) === 1 )
+        {
             $accountSession = new AccountSession();
-            $accountSession->connectToAccount($accountId);
+            $accountSession->connectToAccount( $accounts[0]->_id );
 
-            $settings = new TenantSettings();
+            throw new ForceResponseException( new RedirectResponse("/app/") );
+        }
 
-            throw new ForceResponseException(new RedirectResponse($settings->DashboardUrl));
-        });
+        throw new ForceResponseException( new RedirectResponse("/accounts/") );
     }
 }

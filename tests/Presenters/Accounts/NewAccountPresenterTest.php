@@ -29,7 +29,7 @@ class NewAccountPresenterTest extends TenantTestCase
 {
 	public function testAccountCreates()
 	{
-		$this->Login();
+		$this->loginWithMultipleAccounts();
 
 		$presenter = new NewAccountPresenter();
 		$view = new UnitTestView();

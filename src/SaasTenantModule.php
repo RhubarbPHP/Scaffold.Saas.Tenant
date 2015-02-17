@@ -19,6 +19,7 @@
 namespace Rhubarb\Scaffolds\Saas\Tenant;
 
 use Rhubarb\Crown\Encryption\EncryptionProvider;
+use Rhubarb\Crown\Exceptions\Handlers\ExceptionHandler;
 use Rhubarb\Crown\Module;
 use Rhubarb\Crown\UrlHandlers\ClassMappedUrlHandler;
 use Rhubarb\Leaf\UrlHandlers\MvpCollectionUrlHandler;
@@ -32,7 +33,8 @@ class SaasTenantModule extends Module
         parent::initialise();
 
         EncryptionProvider::setEncryptionProviderClassName('\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider');
-        Repository::setDefaultRepositoryClassName('\Rhubarb\Scaffolds\Saas\Tenant\Repositories\SaasMySqlRepository');
+        Repository::setDefaultRepositoryClassName(__NAMESPACE__ . '\Repositories\SaasMySqlRepository');
+        ExceptionHandler::setExceptionHandlerClassName(__NAMESPACE__ . '\Exceptions\ExceptionHandlers\TenantExceptionHandler');
     }
 
     protected function registerDependantModules()

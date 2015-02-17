@@ -18,9 +18,9 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Exceptions;
 
-use Exception;
+use Rhubarb\Crown\Exceptions\RhubarbException;
 
-class SaasConnectionException extends Exception
+class SaasConnectionException extends RhubarbException
 {
 
 } 

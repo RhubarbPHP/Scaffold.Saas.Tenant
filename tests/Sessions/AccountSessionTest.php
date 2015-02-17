@@ -76,7 +76,7 @@ class AccountSessionTest extends TenantTestCase
         } catch (SaasConnectionException $er) {
         }
 
-        $this->Login();
+        $this->loginWithMultipleAccounts();
 
         $session->connectToAccount(1);
 

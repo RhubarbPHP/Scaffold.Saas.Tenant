@@ -70,12 +70,28 @@ class TenantTestCase extends RhubarbTestCase
         $restClientSettings->ApiUrl = "/api";
     }
 
+    protected function logout()
+    {
+        $login = LoginProvider::getDefaultLoginProvider();
+        $login->logOut();
+    }
+
+
     /**
-     * Login as nigel
+     * Login as unit-tester
      */
-    protected function login()
+    protected function loginWithMultipleAccounts()
     {
         $login = LoginProvider::getDefaultLoginProvider();
         $login->login("unit-tester", "abc123");
+    }
+
+    /**
+     * Login as nigel
+     */
+    protected function loginWithSingleAccounts()
+    {
+        $login = LoginProvider::getDefaultLoginProvider();
+        $login->login("nigel", "abc123");
     }
 } 

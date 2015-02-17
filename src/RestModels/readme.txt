@@ -1,4 +1,4 @@
-This folder contains classes the model the resources returned from various landlord API calls. This provides a better
+This folder contains classes that model the resources returned from various landlord API calls. This provides a better
 developer experience for working with the API resources as the list of properties is known rather than inspecting a
 simple array or stdClass object.
 

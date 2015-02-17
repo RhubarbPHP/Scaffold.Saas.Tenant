@@ -18,7 +18,7 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Repositories;
 
-use Rhubarb\Scaffolds\Saas\Tenant\Exceptions\SaasConnectionException;
+use Rhubarb\Scaffolds\Saas\Tenant\Exceptions\SaasNoTenantSelectedException;
 use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
 use Rhubarb\Stem\Repositories\MySql\MySql;
 use Rhubarb\Stem\StemSettings;
@@ -28,11 +28,10 @@ class SaasMySqlRepository extends MySql
     public static function getDefaultConnection()
     {
         if (self::$defaultConnection === null) {
-            $session = new AccountSession();
 
-            if (!$session->AccountID) {
-                throw new SaasConnectionException("The application isn't connected to a tenant");
-            }
+            self::assertConnectedToTenant();
+
+            $session = new AccountSession();
 
             /**
              * Change the modelling settings to those provided by our SaasConnection
@@ -49,4 +48,18 @@ class SaasMySqlRepository extends MySql
 
         return self::$defaultConnection;
     }
-} 
+
+    /**
+     * Simply verifies a connection to a tenant is currently made and if not throws an exception.
+     *
+     * @throws SaasNoTenantSelectedException
+     */
+    public static function assertConnectedToTenant()
+    {
+        $session = new AccountSession();
+
+        if (!$session->AccountID) {
+            throw new SaasNoTenantSelectedException("The application isn't connected to a tenant");
+        }
+    }
+}

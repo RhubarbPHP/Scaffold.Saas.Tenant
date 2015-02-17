@@ -28,7 +28,7 @@ class SaasMySqlRepositoryTest extends TenantTestCase
 {
     public function testRepositoryGetsConnectionDetails()
     {
-        $this->Login();
+        $this->loginWithMultipleAccounts();
 
         $session = new AccountSession();
         $session->connectToAccount(1);

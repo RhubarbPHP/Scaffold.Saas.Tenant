@@ -24,6 +24,7 @@ use Rhubarb\Crown\Module;
 use Rhubarb\Crown\UrlHandlers\ClassMappedUrlHandler;
 use Rhubarb\Leaf\UrlHandlers\MvpCollectionUrlHandler;
 use Rhubarb\Scaffolds\AuthenticationWithRoles\AuthenticationWithRolesModule;
+use Rhubarb\Scaffolds\Saas\Tenant\UrlHandlers\ValidateTenantConnectedUrlHandler;
 use Rhubarb\Stem\Repositories\Repository;
 
 class SaasTenantModule extends Module
@@ -66,7 +67,8 @@ class SaasTenantModule extends Module
                         "new/" => new ClassMappedUrlHandler('\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\NewAccountPresenter')
                     ]),
                 "/sign-up/" => $signUp,
-                "/login/" => $login
+                "/login/" => $login,
+                "/app/" => new ValidateTenantConnectedUrlHandler()
             ]);
     }
 }

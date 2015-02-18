@@ -15,7 +15,8 @@
     "rhubarbphp/scaffold-authentication-with-roles": "dev-feature/MigrationFromCore",
     "rhubarbphp/module-stem": "dev-migration",
     "rhubarbphp/module-leaf": "dev-feature/MigrationFromCore",
-    "rhubarbphp/module-restapi": "dev-feature/MigrationFromCore"
+    "rhubarbphp/module-restapi": "dev-feature/MigrationFromCore",
+    "rhubarbphp/scaffold-application-versions": "dev-feature/FirstVersion"
   },
   "require-dev": {
     "phpunit/phpunit": "3.*",

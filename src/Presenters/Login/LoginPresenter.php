@@ -18,7 +18,13 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Login;
 
+use Rhubarb\Crown\Exceptions\ForceResponseException;
+use Rhubarb\Crown\Response\RedirectResponse;
+
 class LoginPresenter extends \Rhubarb\Scaffolds\Authentication\Presenters\LoginPresenter
 {
-
-} 
+    protected function onSuccess()
+    {
+        throw new ForceResponseException( new RedirectResponse( "/app/" ) );
+    }
+}

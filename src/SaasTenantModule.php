@@ -42,7 +42,7 @@ class SaasTenantModule extends Module
     {
         parent::registerDependantModules();
 
-        Module::registerModule(new AuthenticationWithRolesModule('\Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider'));
+        Module::registerModule(new AuthenticationWithRolesModule('\Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider', '/app/'));
     }
 
     protected function registerUrlHandlers()

@@ -11,12 +11,12 @@
     }
   },
   "require": {
-    "rhubarbphp/rhubarb": "dev-crown",
-    "rhubarbphp/scaffold-authentication-with-roles": "dev-feature/MigrationFromCore",
-    "rhubarbphp/module-stem": "dev-migration",
-    "rhubarbphp/module-leaf": "dev-feature/MigrationFromCore",
-    "rhubarbphp/module-restapi": "dev-feature/MigrationFromCore",
-    "rhubarbphp/scaffold-application-versions": "dev-feature/FirstVersion"
+    "rhubarbphp/rhubarb": ">=0.9",
+    "rhubarbphp/scaffold-authentication-with-roles": ">=0.9",
+    "rhubarbphp/module-stem": ">=0.9",
+    "rhubarbphp/module-leaf": ">=0.9",
+    "rhubarbphp/module-restapi": ">=0.9",
+    "rhubarbphp/scaffold-application-versions": ">=0.9"
   },
   "require-dev": {
     "phpunit/phpunit": "3.*",

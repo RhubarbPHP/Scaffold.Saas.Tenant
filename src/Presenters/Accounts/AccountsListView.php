@@ -37,6 +37,9 @@ class AccountsListView extends HtmlView
     protected function printViewContent()
     {
         if (sizeof($this->accounts)) {
+
+            print "<p>Please select an account.</p>";
+
             $accountSession = new AccountSession();
 
             foreach ($this->accounts as $account) {

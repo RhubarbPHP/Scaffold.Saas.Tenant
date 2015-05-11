@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Scaffolds\Saas\Tenant\Repositories;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Repositories\SaasMySqlRepository;
 
 use Rhubarb\Scaffolds\Saas\Tenant\Exceptions\SaasNoTenantSelectedException;
 use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;

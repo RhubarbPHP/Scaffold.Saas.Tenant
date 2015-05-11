@@ -34,7 +34,7 @@ class SaasTenantModule extends Module
         parent::initialise();
 
         EncryptionProvider::setEncryptionProviderClassName('\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider');
-        Repository::setDefaultRepositoryClassName(__NAMESPACE__ . '\Repositories\SaasMySqlRepository');
+        Repository::setDefaultRepositoryClassName(__NAMESPACE__ . '\Repositories\SaasMySqlRepository\SaasMySqlRepository');
         ExceptionHandler::setExceptionHandlerClassName(__NAMESPACE__ . '\Exceptions\ExceptionHandlers\TenantExceptionHandler');
     }
 

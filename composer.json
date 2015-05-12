@@ -11,16 +11,16 @@
     }
   },
   "require": {
-    "rhubarbphp/rhubarb": ">=0.9",
-    "rhubarbphp/scaffold-authentication-with-roles": ">=0.9",
-    "rhubarbphp/module-stem": ">=0.9",
-    "rhubarbphp/module-leaf": ">=0.9",
-    "rhubarbphp/module-restapi": ">=0.9",
-    "rhubarbphp/scaffold-application-versions": ">=0.9"
+    "rhubarbphp/rhubarb": "*",
+    "rhubarbphp/scaffold-authentication-with-roles": "*",
+    "rhubarbphp/module-stem": "*",
+    "rhubarbphp/module-leaf": "*",
+    "rhubarbphp/module-restapi": "*",
+    "rhubarbphp/scaffold-application-versions": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "3.*",
-    "rhubarbphp/scaffold-saas-landlord": ">=0.9"
+    "rhubarbphp/scaffold-saas-landlord": "*"
   }
 }
 

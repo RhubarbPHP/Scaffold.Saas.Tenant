@@ -19,9 +19,15 @@
 namespace Rhubarb\Scaffolds\Saas\Tenant\LoginProviders;
 
 use Rhubarb\Crown\LoginProviders\LoginProvider;
+use Rhubarb\Scaffolds\Authentication\User;
+use Rhubarb\Scaffolds\Saas\Tenant\Exceptions\SaasNoTenantSelectedException;
+use Rhubarb\Scaffolds\Saas\Tenant\Repositories\SaasMySqlRepository\SaasMySqlRepository;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\AuthenticatedRestClient;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\RestApi\Exceptions\RestAuthenticationException;
+use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
+use Rhubarb\Stem\Exceptions\RecordNotFoundException;
+use Rhubarb\Stem\Filters\Equals;
 
 /**
  * A login provider that understands when a user has logged into the saas system.
@@ -67,7 +73,8 @@ class TenantLoginProvider extends LoginProvider
                 [
                     "Forename" => $me->Forename,
                     "Surname" => $me->Surname,
-                    "Email" => $me->Email
+                    "Email" => $me->Email,
+                    "Username" => $username
                 ];
 
             $this->StoreSession();
@@ -76,5 +83,33 @@ class TenantLoginProvider extends LoginProvider
         } catch (RestAuthenticationException $er) {
             return false;
         }
+    }
+
+    public function GetUserOnCurrentTenant()
+    {
+        $session = new AccountSession();
+
+        if (!$session->AccountID) {
+            throw new SaasNoTenantSelectedException("The application isn't connected to a tenant");
+        }
+
+        $userEmail = $this->LoggedInData[ 'Email' ];
+        try {
+            $user = User::findFirst(
+                new Equals( "Email", $userEmail )
+            );
+        } catch( RecordNotFoundException $ex ) {
+            $user = new User();
+            $user->Email =  $userEmail;
+            $user->Enabled = true;
+            $user->Username = $this->LoggedInData[ 'Username' ];
+        }
+
+        //update the user info
+        $user->Forename = $this->LoggedInData[ 'Forename' ];
+        $user->Surname = $this->LoggedInData[ 'Surname' ];
+        $user->save();
+
+        return $user;
     }
 }

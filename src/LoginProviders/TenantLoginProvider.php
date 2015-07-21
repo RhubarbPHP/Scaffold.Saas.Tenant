@@ -18,6 +18,8 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\LoginProviders;
 
+use Rhubarb\Crown\Logging\Log;
+use Rhubarb\Crown\LoginProviders\Exceptions\LoginFailedException;
 use Rhubarb\Crown\LoginProviders\LoginProvider;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\AuthenticatedRestClient;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
@@ -74,7 +76,8 @@ class TenantLoginProvider extends LoginProvider
 
             return true;
         } catch (RestAuthenticationException $er) {
-            return false;
+            Log::debug( "Saas login failed for {$username} - the credentials were rejected by the landlord", "LOGIN" );
+            throw new LoginFailedException();
         }
     }
 }

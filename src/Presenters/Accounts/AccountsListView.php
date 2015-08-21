@@ -40,9 +40,9 @@ class AccountsListView extends HtmlView
             $accountSession = new AccountSession();
 
             foreach ($this->accounts as $account) {
-                print "<a href='?choose=" . $account->AccountID . "'>" . $account->AccountName;
+                print "<a href='?choose=" . $account->_id . "'>" . $account->AccountName;
 
-                if ($accountSession->AccountID == $account->AccountID) {
+                if ($accountSession->AccountID == $account->_id) {
                     print " - selected";
                 }
 

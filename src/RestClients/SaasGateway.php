@@ -61,13 +61,12 @@ class SaasGateway
      * DELETEs to an unauthenticated resource
      *
      * @param $uri
-     * @param $payload
      * @return mixed
      */
-    public static function deleteUnauthenticated($uri, $payload)
+    public static function deleteUnauthenticated($uri)
     {
         $client = self::getUnAuthenticatedRestClient();
-        $request = new RestHttpRequest($uri, "delete", $payload);
+        $request = new RestHttpRequest($uri, "delete");
 
         return $client->makeRequest($request);
     }

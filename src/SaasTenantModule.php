@@ -42,7 +42,7 @@ class SaasTenantModule extends Module
     {
         parent::registerDependantModules();
 
-        Module::registerModule(new AuthenticationWithRolesModule('\Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider', '/app/'));
+        //Module::registerModule(new AuthenticationWithRolesModule('\Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider', '/app/'));
     }
 
     protected function registerUrlHandlers()
@@ -60,12 +60,15 @@ class SaasTenantModule extends Module
         $login->setPriority(20);
         $login->setName("login");
 
+        $accounts = new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\AccountsListPresenter",
+            [
+                "new/" => new ClassMappedUrlHandler('\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\NewAccountPresenter')
+            ]);
+        $accounts->setPriority( 1000 );
+
         $this->AddUrlHandlers(
             [
-                "/accounts/" => new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\AccountsListPresenter",
-                    [
-                        "new/" => new ClassMappedUrlHandler('\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\NewAccountPresenter')
-                    ]),
+                "/accounts/" => $accounts,
                 "/sign-up/" => $signUp,
                 "/login/" => $login,
                 "/app/" => new ValidateTenantConnectedUrlHandler()

@@ -19,6 +19,7 @@
 namespace Rhubarb\Scaffolds\Saas\Tenant\LoginProviders;
 
 use Rhubarb\Crown\Logging\Log;
+use Rhubarb\Crown\Context;
 use Rhubarb\Crown\LoginProviders\Exceptions\LoginFailedException;
 use Rhubarb\Crown\LoginProviders\LoginProvider;
 use Rhubarb\Scaffolds\Authentication\User;
@@ -28,8 +29,11 @@ use Rhubarb\Scaffolds\Saas\Tenant\RestClients\AuthenticatedRestClient;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\RestApi\Exceptions\RestAuthenticationException;
 use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
+use Rhubarb\Scaffolds\Saas\Tenant\Sessions\RestSession;
 use Rhubarb\Stem\Exceptions\RecordNotFoundException;
 use Rhubarb\Stem\Filters\Equals;
+use Rhubarb\Crown\Http\HttpResponse;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * A login provider that understands when a user has logged into the saas system.
@@ -66,6 +70,18 @@ class TenantLoginProvider extends LoginProvider
         $this->logOut();
 
         try {
+            $this->getMe($username,$password);
+
+            return true;
+        } catch (RestAuthenticationException $er) {
+            Log::debug( "Saas login failed for {$username} - the credentials were rejected by the landlord", "LOGIN" );
+            throw new LoginFailedException();
+        }
+    }
+
+    private function getMe( $username = "", $password = "" )
+    {
+        try {
             $me = SaasGateway::getAuthenticated("/users/me", $username, $password);
 
             // Note we are note capturing the user id from the landlord system as we should not be using it
@@ -76,15 +92,31 @@ class TenantLoginProvider extends LoginProvider
                     "Forename" => $me->Forename,
                     "Surname" => $me->Surname,
                     "Email" => $me->Email,
-                    "Username" => $username
+                    "Username" => $username,
+                    "Token" => $me->Token
                 ];
 
             $this->StoreSession();
+        } catch( RestAuthenticationException $er ){}
+    }
 
-            return true;
-        } catch (RestAuthenticationException $er) {
-            Log::debug( "Saas login failed for {$username} - the credentials were rejected by the landlord", "LOGIN" );
-            throw new LoginFailedException();
+    protected function initialiseDefaultValues()
+    {
+        parent::initialiseDefaultValues();
+
+        // If we're not logged in, let's see if we can auto login using a saved token.
+        if (!$this->isLoggedIn()) {
+            $request = Context::currentRequest();
+
+            if ($request->cookie('ltk') != "") {
+                $token = $request->cookie('ltk');
+
+                $session = new RestSession();
+                $session->ApiToken = $token;
+                $session->storeSession();
+
+                $this->getMe();
+            }
         }
     }
 
@@ -114,5 +146,19 @@ class TenantLoginProvider extends LoginProvider
         $user->save();
 
         return $user;
+    }
+
+    public function rememberLogin()
+    {
+        $session = new RestSession();
+
+        HttpResponse::setCookie('ltk', $session->ApiToken );
+    }
+
+    protected function onLogOut()
+    {
+        parent::onLogOut();
+
+        HttpResponse::unsetCookie('ltk');
     }
 }

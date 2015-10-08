@@ -37,6 +37,7 @@ abstract class RestModel extends ModelState
         if ($restResourceId !== null) {
             // Load the resource via the API
 
+            $this->restResourceId = $restResourceId;
 
         }
     }

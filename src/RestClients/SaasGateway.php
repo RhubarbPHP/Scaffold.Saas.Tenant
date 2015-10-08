@@ -134,4 +134,12 @@ class SaasGateway
         $settings = new RestClientSettings();
         return $settings->ApiUrl;
     }
+
+    public static function getUser( $username )
+    {
+        $client = self::getAuthenticatedRestClient();
+        $request = new RestHttpRequest( "users/{$username}" );
+        $response = $client->makeRequest( $request );
+        die( $response );
+    }
 } 

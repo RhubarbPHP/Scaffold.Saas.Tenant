@@ -148,4 +148,11 @@ class TenantLoginProvider extends LoginProvider
         $this->storeSession();
     }
 
+    protected function detectRememberMe()
+    {
+        // Blank function to stop the broken base implementation of 'remember me'
+        // TODO: Make remember me work in TenantLoginProvider
+    }
+
+
 }

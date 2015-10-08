@@ -24,8 +24,10 @@ use Rhubarb\Crown\Module;
 use Rhubarb\Crown\UrlHandlers\ClassMappedUrlHandler;
 use Rhubarb\Leaf\UrlHandlers\MvpCollectionUrlHandler;
 use Rhubarb\Scaffolds\AuthenticationWithRoles\AuthenticationWithRolesModule;
+use Rhubarb\Scaffolds\Saas\Tenant\Model\TenantSolutionSchema;
 use Rhubarb\Scaffolds\Saas\Tenant\UrlHandlers\ValidateTenantConnectedUrlHandler;
 use Rhubarb\Stem\Repositories\Repository;
+use Rhubarb\Stem\Schema\SolutionSchema;
 
 class SaasTenantModule extends Module
 {
@@ -36,6 +38,8 @@ class SaasTenantModule extends Module
         EncryptionProvider::setEncryptionProviderClassName('\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider');
         Repository::setDefaultRepositoryClassName(__NAMESPACE__ . '\Repositories\SaasMySqlRepository\SaasMySqlRepository');
         ExceptionHandler::setExceptionHandlerClassName(__NAMESPACE__ . '\Exceptions\ExceptionHandlers\TenantExceptionHandler');
+
+        SolutionSchema::registerSchema("TenantSolutionSchema", TenantSolutionSchema::class);
     }
 
     protected function registerDependantModules()

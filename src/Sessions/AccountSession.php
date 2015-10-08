@@ -99,7 +99,9 @@ class AccountSession extends EncryptedSession
         // Now that we are connected to the repo, we can safely have the login provider update the User
 
         /** @var TenantLoginProvider $loginProvider */
-        $loginProvider = LoginProvider::getDefaultLoginProvider();
-        $loginProvider->setLoggedInUserIdentifierFromLandlordData( $loggedInUserData );
+        if ( $loggedInUserData !== false ) {
+            $loginProvider = LoginProvider::getDefaultLoginProvider();
+            $loginProvider->setLoggedInUserIdentifierFromLandlordData($loggedInUserData);
+        }
     }
 }

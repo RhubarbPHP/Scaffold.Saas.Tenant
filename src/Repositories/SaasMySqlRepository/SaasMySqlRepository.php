@@ -39,9 +39,9 @@ class SaasMySqlRepository extends MySql
             $db = new StemSettings();
             $db->Host = $session->ServerHost;
             $db->Port = $session->ServerPort;
-            $db->Username = $session->UniqueReference;
-            $db->Database = $session->UniqueReference;
-            $db->Password = sha1($session->UniqueReference . strrev($session->CredentialsIV));
+            $db->Username = $session->AccountID;
+            $db->Database = $session->AccountID;
+            $db->Password = sha1($session->AccountID . strrev($session->CredentialsIV));
         }
 
         parent::getDefaultConnection();

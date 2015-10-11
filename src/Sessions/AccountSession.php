@@ -32,7 +32,6 @@ use Rhubarb\Stem\Schema\SolutionSchema;
  *
  * @property int $AccountID
  * @property string $AccountName
- * @property string $UniqueReference
  * @property string $ServerHost
  * @property string $ServerPort
  * @property string $CredentialsIV
@@ -74,7 +73,6 @@ class AccountSession extends EncryptedSession
 
         $this->AccountID = $accountId;
         $this->AccountName = $accountDetails->AccountName;
-        $this->UniqueReference = $accountDetails->UniqueReference;
         $this->ServerHost = $accountDetails->Server->Host;
         $this->ServerPort = $accountDetails->Server->Port;
         $this->CredentialsIV = $accountDetails->CredentialsIV;

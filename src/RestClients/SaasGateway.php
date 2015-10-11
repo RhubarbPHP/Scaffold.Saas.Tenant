@@ -18,6 +18,7 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\RestClients;
 
+use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
 use Rhubarb\Scaffolds\Saas\Tenant\Settings\RestClientSettings;
 use Rhubarb\RestApi\Clients\RestHttpRequest;
 
@@ -28,6 +29,18 @@ use Rhubarb\RestApi\Clients\RestHttpRequest;
  */
 class SaasGateway
 {
+    /**
+     * Get's an array of users connected to the account the current users is connected to.
+     */
+    public static function getUsers()
+    {
+        $accountSession = new AccountSession();
+
+        $uri = "/accounts/".$accountSession->AccountID."/users";
+
+        return self::getAuthenticated($uri);
+    }
+
     /**
      * Makes an unauthenticated GET request
      *

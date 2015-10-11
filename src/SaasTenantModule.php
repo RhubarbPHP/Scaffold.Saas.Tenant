@@ -25,6 +25,7 @@ use Rhubarb\Crown\UrlHandlers\ClassMappedUrlHandler;
 use Rhubarb\Leaf\UrlHandlers\MvpCollectionUrlHandler;
 use Rhubarb\Scaffolds\AuthenticationWithRoles\AuthenticationWithRolesModule;
 use Rhubarb\Scaffolds\Saas\Tenant\Model\TenantSolutionSchema;
+use Rhubarb\Scaffolds\Saas\Tenant\Presenters\Users\UsersCollectionPresenter;
 use Rhubarb\Scaffolds\Saas\Tenant\UrlHandlers\ValidateTenantConnectedUrlHandler;
 use Rhubarb\Stem\Repositories\Repository;
 use Rhubarb\Stem\Schema\SolutionSchema;
@@ -75,7 +76,8 @@ class SaasTenantModule extends Module
                 "/accounts/" => $accounts,
                 "/sign-up/" => $signUp,
                 "/login/" => $login,
-                "/app/" => new ValidateTenantConnectedUrlHandler()
+                "/app/" => new ValidateTenantConnectedUrlHandler(),
+                "/app/users/" => new MvpCollectionUrlHandler(UsersCollectionPresenter::class, null)
             ]);
     }
 }

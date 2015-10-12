@@ -28,7 +28,7 @@ class AccountsListView extends HtmlView
     protected function parseRequestForCommand()
     {
         if (isset($_GET["choose"])) {
-            $this->raiseEvent("SelectAccount", intval($_GET["choose"]));
+            $this->raiseEvent("SelectAccount", $_GET["choose"]);
         }
 
         parent::parseRequestForCommand();

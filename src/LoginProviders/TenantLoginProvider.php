@@ -205,7 +205,7 @@ class TenantLoginProvider extends LoginProvider
     {
         AuthenticatedRestClient::clearToken();
         HttpResponse::unsetCookie('ltk');
-        
+
         parent::onLogOut();
     }
 }

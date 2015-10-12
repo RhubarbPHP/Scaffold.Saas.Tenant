@@ -6,9 +6,9 @@ use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 
 class Me extends User
 {
-    protected function getResourceUri()
+    public function __construct($restResourceId = null)
     {
-        return "/users/me";
+        parent::__construct('me');
     }
 
     public static function getAccounts()

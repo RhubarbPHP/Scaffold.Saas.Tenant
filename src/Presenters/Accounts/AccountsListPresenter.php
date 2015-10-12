@@ -47,10 +47,14 @@ class AccountsListPresenter extends Form
         $this->view->attachEventHandler("SelectAccount", function ($accountId) {
             $accountSession = new AccountSession();
             $accountSession->connectToAccount($accountId);
-
-            $settings = new TenantSettings();
-
-            throw new ForceResponseException(new RedirectResponse($settings->DashboardUrl));
+            $this->onAccountSelected();
         });
     }
+
+    protected function onAccountSelected()
+    {
+        $settings = new TenantSettings();
+        throw new ForceResponseException(new RedirectResponse($settings->DashboardUrl));
+    }
+
 }

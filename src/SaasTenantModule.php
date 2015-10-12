@@ -24,8 +24,11 @@ use Rhubarb\Crown\Module;
 use Rhubarb\Crown\UrlHandlers\ClassMappedUrlHandler;
 use Rhubarb\Leaf\UrlHandlers\MvpCollectionUrlHandler;
 use Rhubarb\Scaffolds\AuthenticationWithRoles\AuthenticationWithRolesModule;
+use Rhubarb\Scaffolds\Saas\Tenant\Model\TenantSolutionSchema;
+use Rhubarb\Scaffolds\Saas\Tenant\Presenters\Users\UsersCollectionPresenter;
 use Rhubarb\Scaffolds\Saas\Tenant\UrlHandlers\ValidateTenantConnectedUrlHandler;
 use Rhubarb\Stem\Repositories\Repository;
+use Rhubarb\Stem\Schema\SolutionSchema;
 
 class SaasTenantModule extends Module
 {
@@ -36,13 +39,15 @@ class SaasTenantModule extends Module
         EncryptionProvider::setEncryptionProviderClassName('\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider');
         Repository::setDefaultRepositoryClassName(__NAMESPACE__ . '\Repositories\SaasMySqlRepository\SaasMySqlRepository');
         ExceptionHandler::setExceptionHandlerClassName(__NAMESPACE__ . '\Exceptions\ExceptionHandlers\TenantExceptionHandler');
+
+        SolutionSchema::registerSchema("TenantSolutionSchema", TenantSolutionSchema::class);
     }
 
     protected function registerDependantModules()
     {
         parent::registerDependantModules();
 
-        Module::registerModule(new AuthenticationWithRolesModule('\Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider', '/app/'));
+        //Module::registerModule(new AuthenticationWithRolesModule('\Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider', '/app/'));
     }
 
     protected function registerUrlHandlers()
@@ -60,15 +65,19 @@ class SaasTenantModule extends Module
         $login->setPriority(20);
         $login->setName("login");
 
+        $accounts = new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\AccountsListPresenter",
+            [
+                "new/" => new ClassMappedUrlHandler('\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\NewAccountPresenter')
+            ]);
+        $accounts->setPriority( 1000 );
+
         $this->AddUrlHandlers(
             [
-                "/accounts/" => new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\AccountsListPresenter",
-                    [
-                        "new/" => new ClassMappedUrlHandler('\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\NewAccountPresenter')
-                    ]),
+                "/accounts/" => $accounts,
                 "/sign-up/" => $signUp,
                 "/login/" => $login,
-                "/app/" => new ValidateTenantConnectedUrlHandler()
+                "/app/" => new ValidateTenantConnectedUrlHandler(),
+                "/app/users/" => new MvpCollectionUrlHandler(UsersCollectionPresenter::class, null)
             ]);
     }
 }

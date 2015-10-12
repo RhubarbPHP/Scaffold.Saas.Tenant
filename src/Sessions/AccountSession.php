@@ -19,6 +19,8 @@
 namespace Rhubarb\Scaffolds\Saas\Tenant\Sessions;
 
 use Rhubarb\Crown\Context;
+use Rhubarb\Scaffolds\Authentication\LoginProvider;
+use Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\Crown\Scaffolds\Saas\Model\SaasSolutionSchema;
 use Rhubarb\Crown\Sessions\EncryptedSession;
@@ -30,10 +32,10 @@ use Rhubarb\Stem\Schema\SolutionSchema;
  *
  * @property int $AccountID
  * @property string $AccountName
- * @property string $UniqueReference
  * @property string $ServerHost
  * @property string $ServerPort
  * @property string $CredentialsIV
+ * @property object $LoggedInUserData
  */
 class AccountSession extends EncryptedSession
 {
@@ -71,10 +73,11 @@ class AccountSession extends EncryptedSession
 
         $this->AccountID = $accountId;
         $this->AccountName = $accountDetails->AccountName;
-        $this->UniqueReference = $accountDetails->UniqueReference;
         $this->ServerHost = $accountDetails->Server->Host;
         $this->ServerPort = $accountDetails->Server->Port;
         $this->CredentialsIV = $accountDetails->CredentialsIV;
+        $loggedInUserData = unserialize($this->LoggedInUserData);
+        $this->LoggedInUserData = null;
         $this->storeSession();
 
         $repos = Repository::getDefaultRepositoryClassName();
@@ -89,6 +92,14 @@ class AccountSession extends EncryptedSession
             foreach ($solutionSchemas as $schema) {
                 $schema->checkModelSchemas();
             }
+        }
+
+        // Now that we are connected to the repo, we can safely have the login provider update the User
+
+        /** @var TenantLoginProvider $loginProvider */
+        if ( $loggedInUserData !== false ) {
+            $loginProvider = LoginProvider::getDefaultLoginProvider();
+            $loginProvider->setLoggedInUserIdentifierFromLandlordData($loggedInUserData);
         }
     }
 }

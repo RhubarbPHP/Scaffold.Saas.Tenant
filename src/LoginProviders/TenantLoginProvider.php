@@ -21,19 +21,17 @@ namespace Rhubarb\Scaffolds\Saas\Tenant\LoginProviders;
 use Rhubarb\Crown\Logging\Log;
 use Rhubarb\Crown\Context;
 use Rhubarb\Crown\LoginProviders\Exceptions\LoginFailedException;
-use Rhubarb\Crown\LoginProviders\LoginProvider;
+use Rhubarb\RestApi\Exceptions\RestAuthenticationException;
+use Rhubarb\Scaffolds\Authentication\LoginProvider;
 use Rhubarb\Scaffolds\Authentication\User;
-use Rhubarb\Scaffolds\Saas\Tenant\Exceptions\SaasNoTenantSelectedException;
-use Rhubarb\Scaffolds\Saas\Tenant\Repositories\SaasMySqlRepository\SaasMySqlRepository;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\AuthenticatedRestClient;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
-use Rhubarb\RestApi\Exceptions\RestAuthenticationException;
 use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
 use Rhubarb\Scaffolds\Saas\Tenant\Sessions\RestSession;
 use Rhubarb\Stem\Exceptions\RecordNotFoundException;
 use Rhubarb\Stem\Filters\Equals;
 use Rhubarb\Crown\Http\HttpResponse;
-use Symfony\Component\Config\Definition\Exception\Exception;
+use Rhubarb\Stem\Schema\SolutionSchema;
 
 /**
  * A login provider that understands when a user has logged into the saas system.
@@ -44,26 +42,13 @@ use Symfony\Component\Config\Definition\Exception\Exception;
  */
 class TenantLoginProvider extends LoginProvider
 {
-    public function isLoggedIn()
-    {
-        return parent::isLoggedIn();
-    }
-
-    public function logOut()
-    {
-        AuthenticatedRestClient::clearToken();
-
-        $this->LoggedInData = [];
-
-        parent::logOut();
-    }
-
     /**
      * Attempts to login by accessing the me resource.
      *
      * @param $username
      * @param $password
      * @return bool True if the login succeeded, False if it didn't
+     * @throws LoginFailedException
      */
     public function login($username, $password)
     {
@@ -86,6 +71,7 @@ class TenantLoginProvider extends LoginProvider
 
             // Note we are note capturing the user id from the landlord system as we should not be using it
             // on the tenant anywhere. Email is our 'unique' handle for each user as far as the tenant is concerned.
+
             $this->LoggedIn = true;
             $this->LoggedInData =
                 [
@@ -96,8 +82,19 @@ class TenantLoginProvider extends LoginProvider
                     "Token" => $me->Token
                 ];
 
-            $this->StoreSession();
-        } catch( RestAuthenticationException $er ){}
+            $this->storeSession();
+
+            $accountSession = new AccountSession();
+            // Place the me resource temporarily in the AccountSession so that it can update a tenant
+            // once connected. This is not a duplication of the code above.
+            $accountSession->LoggedInUserData = serialize( $me );
+            $accountSession->storeSession();
+
+            return true;
+        } catch (RestAuthenticationException $er) {
+            Log::debug("Saas login failed for {$username} - the credentials were rejected by the landlord", "LOGIN");
+            throw new LoginFailedException();
+        }
     }
 
     protected function initialiseDefaultValues()
@@ -120,32 +117,81 @@ class TenantLoginProvider extends LoginProvider
         }
     }
 
-    public function GetUserOnCurrentTenant()
+    /**
+     * @param object $data
+     *
+     * @return User|\Rhubarb\Stem\Models\Model
+     * @throws \Exception
+     * @throws \Rhubarb\Stem\Exceptions\ModelConsistencyValidationException
+     */
+    protected function createUpdateUserFromLandlordData($data)
     {
-        $session = new AccountSession();
-
-        if (!$session->AccountID) {
-            throw new SaasNoTenantSelectedException("The application isn't connected to a tenant");
-        }
-
-        $userEmail = $this->LoggedInData[ 'Email' ];
+        $userClass = SolutionSchema::getModelClass('User');
         try {
-            $user = User::findFirst(
-                new Equals( "Email", $userEmail )
-            );
-        } catch( RecordNotFoundException $ex ) {
-            $user = new User();
-            $user->Email =  $userEmail;
-            $user->Enabled = true;
-            $user->Username = $this->LoggedInData[ 'Username' ];
+            $user = $this->loadUserFromLandlordData($userClass, $data);
+        } catch (RecordNotFoundException $ex) {
+            $user = $this->createUserFromLandlordData($userClass, $data);
         }
 
-        //update the user info
-        $user->Forename = $this->LoggedInData[ 'Forename' ];
-        $user->Surname = $this->LoggedInData[ 'Surname' ];
+        $this->updateUserFromLandlordData($user, $data);
         $user->save();
 
         return $user;
+    }
+
+    /**
+     * @param string $userClassName
+     * @param object $data
+     *
+     * @return User
+     * @throws RecordNotFoundException
+     */
+    protected function loadUserFromLandlordData($userClassName, $data)
+    {
+        return $userClassName::findFirst(
+            new Equals("Email", $data->Email)
+        );
+    }
+
+    /**
+     * @param string $userClassName
+     * @param object $data
+     *
+     * @return User
+     */
+    protected function createUserFromLandlordData($userClassName, $data)
+    {
+        $user = new $userClassName();
+        $user->Username = $data->Username;
+        $user->Email = $data->Email;
+        $user->Enabled = true;
+
+        return $user;
+    }
+
+    /**
+     * @param User   $user
+     * @param object $data
+     */
+    protected function updateUserFromLandlordData($user, $data)
+    {
+        $user->Forename = $data->Forename;
+        $user->Surname = $data->Surname;
+    }
+
+    /**
+     * @param object $data
+     */
+    public function setLoggedInUserIdentifierFromLandlordData($data)
+    {
+        $this->LoggedInUserIdentifier = $this->createUpdateUserFromLandlordData($data)->getUniqueIdentifier();
+        $this->storeSession();
+    }
+
+    protected function detectRememberMe()
+    {
+        // Blank function to stop the broken base implementation of 'remember me'
+        // TODO: Make remember me work in TenantLoginProvider
     }
 
     public function rememberLogin()
@@ -157,8 +203,9 @@ class TenantLoginProvider extends LoginProvider
 
     protected function onLogOut()
     {
-        parent::onLogOut();
-
+        AuthenticatedRestClient::clearToken();
         HttpResponse::unsetCookie('ltk');
+        
+        parent::onLogOut();
     }
 }

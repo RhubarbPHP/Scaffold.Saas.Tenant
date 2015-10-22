@@ -18,9 +18,10 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\RestClients;
 
+use Rhubarb\RestApi\Clients\RestHttpRequest;
+use Rhubarb\Scaffolds\Saas\Tenant\Model\User;
 use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
 use Rhubarb\Scaffolds\Saas\Tenant\Settings\RestClientSettings;
-use Rhubarb\RestApi\Clients\RestHttpRequest;
 
 /**
  * A simple static class to simplify to process of talking to the landlord.
@@ -39,6 +40,18 @@ class SaasGateway
         $uri = "/accounts/".$accountSession->AccountID."/users";
 
         return self::getAuthenticated($uri);
+    }
+
+    public static function updateMe(User $user)
+    {
+        $data = $user->exportPublicData();
+
+        // Ensure we don't send unwanted role info to the landlord
+        if (isset($data['RoleID'])) {
+            unset($data['RoleID']);
+        }
+
+        self::putAuthenticated('users/me', $data);
     }
 
     /**
@@ -94,6 +107,21 @@ class SaasGateway
     public static function putUnauthenticated($uri, $payload)
     {
         $client = self::getUnAuthenticatedRestClient();
+        $request = new RestHttpRequest($uri, "put", $payload);
+
+        return $client->makeRequest($request);
+    }
+
+    /**
+     * PUTs to an unauthenticated resource
+     *
+     * @param $uri
+     * @param $payload
+     * @return mixed
+     */
+    public static function putAuthenticated($uri, $payload)
+    {
+        $client = self::getAuthenticatedRestClient();
         $request = new RestHttpRequest($uri, "put", $payload);
 
         return $client->makeRequest($request);

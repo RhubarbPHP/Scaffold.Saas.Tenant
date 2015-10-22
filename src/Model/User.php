@@ -2,6 +2,9 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Model;
 
+use Rhubarb\Crown\LoginProviders\Exceptions\NotLoggedInException;
+use Rhubarb\Scaffolds\Authentication\LoginProvider;
+use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\Stem\Filters\Equals;
 use Rhubarb\Stem\Schema\Columns\UUID;
 use Rhubarb\Stem\Schema\ModelSchema;
@@ -37,4 +40,39 @@ class User extends \Rhubarb\Scaffolds\AuthenticationWithRoles\User
     {
         return static::findFirst( new Equals( 'UUID', $uuid ) );
     }
+
+    protected function beforeSave()
+    {
+        parent::beforeSave();
+
+        // Sync changes to "me" with the landlord
+        try {
+            $loginProvider = LoginProvider::getDefaultLoginProvider();
+            $currentUser = $loginProvider::getLoggedInUser();
+
+            // if the current user is editing themselves
+            if (!$this->isNewRecord() && $currentUser->UserID == $this->UserID) {
+                $changes = $this->getModelChanges();
+                $numChanges = count($changes);
+                // So long as the only change ISN'T role (which should not be synced to the landlord)
+                if ($numChanges > 0 && !($numChanges === 1 && isset($changes['RoleID']))) {
+                    SaasGateway::updateMe($this);
+                }
+            }
+        } catch (NotLoggedInException $ex) {
+            // Probably a system change (triggered by landlord call), these won't get propagated to the landlord
+        }
+    }
+
+    protected function getPublicPropertyList()
+    {
+        return [
+            'Forename',
+            'Surname',
+            'Username',
+            'Email',
+            'RoleID'
+        ];
+    }
+
 }

@@ -22,13 +22,17 @@ use Rhubarb\Crown\Encryption\EncryptionProvider;
 use Rhubarb\Crown\Exceptions\Handlers\ExceptionHandler;
 use Rhubarb\Crown\Module;
 use Rhubarb\Crown\UrlHandlers\ClassMappedUrlHandler;
+use Rhubarb\Custard\Command\CustardCommand;
 use Rhubarb\Leaf\UrlHandlers\MvpCollectionUrlHandler;
 use Rhubarb\Scaffolds\AuthenticationWithRoles\AuthenticationWithRolesModule;
+use Rhubarb\Scaffolds\Saas\Tenant\Custard\TenantSelectionRepositoryConnector;
 use Rhubarb\Scaffolds\Saas\Tenant\Model\TenantSolutionSchema;
 use Rhubarb\Scaffolds\Saas\Tenant\Presenters\Users\UsersCollectionPresenter;
 use Rhubarb\Scaffolds\Saas\Tenant\UrlHandlers\ValidateTenantConnectedUrlHandler;
+use Rhubarb\Stem\Custard\RequiresRepositoryCommand;
 use Rhubarb\Stem\Repositories\Repository;
 use Rhubarb\Stem\Schema\SolutionSchema;
+use Symfony\Component\Console\Command\Command;
 
 class SaasTenantModule extends Module
 {
@@ -79,5 +83,23 @@ class SaasTenantModule extends Module
                 "/app/" => new ValidateTenantConnectedUrlHandler(),
                 "/app/users/" => new MvpCollectionUrlHandler(UsersCollectionPresenter::class, null)
             ]);
+    }
+
+    /**
+     * An opportunity for the module to return a list custard command line commands to register.
+     *
+     * Note that modules are asked for commands in the same order in which the modules themselves
+     * were registered. This allows extending modules or scaffolds to superseed a command with an
+     * improved version by simply reregistering a command with the same name.
+     *
+     * @return Command[]
+     */
+    public function getCustardCommands()
+    {
+        RequiresRepositoryCommand::setRepositoryConnector(
+            new TenantSelectionRepositoryConnector()
+        );
+
+        return parent::getCustardCommands();
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Model;
 
+use Rhubarb\Stem\Filters\Equals;
+use Rhubarb\Stem\Schema\Columns\UUID;
 use Rhubarb\Stem\Schema\ModelSchema;
 
 class User extends \Rhubarb\Scaffolds\AuthenticationWithRoles\User
@@ -16,12 +18,23 @@ class User extends \Rhubarb\Scaffolds\AuthenticationWithRoles\User
 
     protected function extendSchema(ModelSchema $schema)
     {
+        parent::extendSchema($schema);
+
         $schema->removeColumnByName("Token");
         $schema->removeColumnByName("Password");
         $schema->removeColumnByName("TokenExpiry");
         $schema->removeColumnByName("PasswordResetHash");
         $schema->removeColumnByName("PasswordResetDate");
+        $schema->addColumn(new UUID());
+    }
 
-        parent::extendSchema($schema);
+    /**
+     * @param string $uuid
+     * @return \Rhubarb\Stem\Models\Model|static
+     * @throws \Rhubarb\Stem\Exceptions\RecordNotFoundException
+     */
+    public function findByUUID( $uuid )
+    {
+        return static::findFirst( new Equals( 'UUID', $uuid ) );
     }
 }

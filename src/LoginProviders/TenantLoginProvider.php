@@ -148,8 +148,8 @@ class TenantLoginProvider extends LoginProvider
      */
     protected function loadUserFromLandlordData($userClassName, $data)
     {
-        return $userClassName::findFirst(
-            new Equals("Email", $data->Email)
+        return $userClassName::findByUUID(
+            $data->UUID
         );
     }
 
@@ -162,9 +162,7 @@ class TenantLoginProvider extends LoginProvider
     protected function createUserFromLandlordData($userClassName, $data)
     {
         $user = new $userClassName();
-        $user->Username = $data->Username;
-        $user->Email = $data->Email;
-        $user->Enabled = true;
+        $user->UUID = $data->UUID;
 
         return $user;
     }
@@ -175,8 +173,10 @@ class TenantLoginProvider extends LoginProvider
      */
     protected function updateUserFromLandlordData($user, $data)
     {
+        $user->Email = $data->Email;
         $user->Forename = $data->Forename;
         $user->Surname = $data->Surname;
+        $user->Username = $data->Username;
     }
 
     /**

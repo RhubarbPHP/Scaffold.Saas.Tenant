@@ -29,14 +29,37 @@ use Rhubarb\RestApi\Clients\RestHttpRequest;
  */
 class SaasGateway
 {
+    public static function inviteUser($email)
+    {
+        $accountSession = new AccountSession();
+
+        $uri = "/accounts/".$accountSession->AccountID."/invites";
+
+        return self::postAuthenticated($uri, [
+            "Email" => $email
+        ]);
+    }
+
     /**
-     * Get's an array of users connected to the account the current users is connected to.
+     * Get's an array of users connected to the account the current user is connected to.
      */
     public static function getUsers()
     {
         $accountSession = new AccountSession();
 
         $uri = "/accounts/".$accountSession->AccountID."/users";
+
+        return self::getAuthenticated($uri);
+    }
+
+    /**
+     * Get's an array of users invited to the account the current user is connected to.
+     */
+    public static function getOutstandingInvites()
+    {
+        $accountSession = new AccountSession();
+
+        $uri = "/accounts/".$accountSession->AccountID."/invites";
 
         return self::getAuthenticated($uri);
     }
@@ -65,6 +88,21 @@ class SaasGateway
     public static function postUnauthenticated($uri, $payload)
     {
         $client = self::getUnAuthenticatedRestClient();
+        $request = new RestHttpRequest($uri, "post", $payload);
+
+        return $client->makeRequest($request);
+    }
+
+    /**
+     * POSTs to an authenticated resource
+     *
+     * @param $uri
+     * @param $payload
+     * @return mixed
+     */
+    public static function postAuthenticated($uri, $payload)
+    {
+        $client = self::getAuthenticatedRestClient();
         $request = new RestHttpRequest($uri, "post", $payload);
 
         return $client->makeRequest($request);

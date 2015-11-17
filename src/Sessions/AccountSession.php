@@ -24,6 +24,7 @@ use Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\Crown\Scaffolds\Saas\Model\SaasSolutionSchema;
 use Rhubarb\Crown\Sessions\EncryptedSession;
+use Rhubarb\Stem\Models\Model;
 use Rhubarb\Stem\Repositories\Repository;
 use Rhubarb\Stem\Schema\SolutionSchema;
 
@@ -92,6 +93,8 @@ class AccountSession extends EncryptedSession
             foreach ($solutionSchemas as $schema) {
                 $schema->checkModelSchemas();
             }
+
+            Model::clearAllRepositories();
         }
 
         // Now that we are connected to the repo, we can safely have the login provider update the User

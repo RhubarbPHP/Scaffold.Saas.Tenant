@@ -33,7 +33,7 @@ class User extends \Rhubarb\Scaffolds\AuthenticationWithRoles\User
      * @return \Rhubarb\Stem\Models\Model|static
      * @throws \Rhubarb\Stem\Exceptions\RecordNotFoundException
      */
-    public function findByUUID( $uuid )
+    public static function findByUUID( $uuid )
     {
         return static::findFirst( new Equals( 'UUID', $uuid ) );
     }

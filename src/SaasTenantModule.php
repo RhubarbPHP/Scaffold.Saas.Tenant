@@ -73,14 +73,13 @@ class SaasTenantModule extends Module
             [
                 "new/" => new ClassMappedUrlHandler('\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\NewAccountPresenter')
             ]);
-        $accounts->setPriority( 1000 );
 
         $this->AddUrlHandlers(
             [
-                "/accounts/" => $accounts,
                 "/sign-up/" => $signUp,
                 "/login/" => $login,
                 "/app/" => new ValidateTenantConnectedUrlHandler(),
+                "/app/accounts/" => $accounts,
                 "/app/users/" => new MvpCollectionUrlHandler(UsersCollectionPresenter::class, null)
             ]);
     }

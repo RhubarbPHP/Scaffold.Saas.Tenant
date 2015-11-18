@@ -52,10 +52,10 @@ class UsersAddPresenter extends Form
             $payloadUser = SaasGateway::inviteUser($this->Email);
 
             try {
-                $user = User::findByUUID($payloadUser->UUID);
+                $user = User::findByUUID($payloadUser->UserUUID);
             } catch (RecordNotFoundException $er){
                 $user = new User();
-                $user->UUID = $payloadUser->UUID;
+                $user->UUID = $payloadUser->UserUUID;
             }
 
             $user->RoleID = $this->RoleID;

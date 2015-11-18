@@ -109,6 +109,22 @@ class SaasGateway
     }
 
     /**
+     * PUTs to an authenticated resource
+     *
+     * @param $uri
+     * @param $payload
+     * @return mixed
+     * @throws \Rhubarb\RestApi\Exceptions\RestImplementationExceptio
+     */
+    public static function putAuthenticated($uri, $payload)
+    {
+        $client = self::getAuthenticatedRestClient();
+        $request = new RestHttpRequest($uri, "put", $payload);
+
+        return $client->makeRequest($request);
+    }
+
+    /**
      * DELETEs to an unauthenticated resource
      *
      * @param $uri

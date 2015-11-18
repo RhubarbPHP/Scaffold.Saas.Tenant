@@ -18,6 +18,7 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts;
 
+use Rhubarb\Crown\Context;
 use Rhubarb\Crown\Exceptions\ForceResponseException;
 use Rhubarb\Crown\Response\RedirectResponse;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
@@ -35,7 +36,13 @@ class AccountsListPresenter extends Form
 
     protected function applyModelToView()
     {
+        // If we have an invitation code we should pass this to the landlord
+        // It might need to assign this invitation to this user.
+        $request = Context::currentRequest();
+        $invitation = $request->get("i");
+
         $this->view->accounts = Me::getAccounts();
+        $this->view->invites = Me::getInvites($invitation);
 
         parent::applyModelToView();
     }
@@ -48,6 +55,10 @@ class AccountsListPresenter extends Form
             $accountSession = new AccountSession();
             $accountSession->connectToAccount($accountId);
             $this->onAccountSelected();
+        });
+
+        $this->view->attachEventHandler("AcceptInvite", function ($inviteId) {
+            Me::acceptInvite($inviteId);
         });
     }
 

@@ -134,7 +134,10 @@ class TenantLoginProvider extends LoginProvider
         }
 
         $this->updateUserFromLandlordData($user, $data);
-        $user->save();
+
+        // Force save as sometimes it's on login that other models are refreshed with the logged in user
+        // details.
+        $user->save(true);
 
         return $user;
     }

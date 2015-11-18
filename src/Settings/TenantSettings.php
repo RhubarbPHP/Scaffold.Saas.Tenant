@@ -34,8 +34,8 @@ class TenantSettings extends Settings
         parent::initialiseDefaultValues();
 
         $this->RegistrationUrl = "/sign-up/";
-        $this->PostRegistrationUrl = "/accounts/";
-        $this->AccountsUrl = "/accounts/";
+        $this->PostRegistrationUrl = "/app/accounts/";
+        $this->AccountsUrl = "/app/accounts/";
         $this->DashboardUrl = "/app/";
     }
 }

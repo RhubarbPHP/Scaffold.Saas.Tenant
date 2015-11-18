@@ -37,7 +37,7 @@ class UsersCollectionView extends HtmlView
 
     protected function printInviteButton()
     {
-        print "<a href=''>Invite a user</a>";
+        print "<a href='add/'>Invite a user</a>";
     }
 
     protected function printUsers()

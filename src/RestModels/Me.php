@@ -11,6 +11,35 @@ class Me extends User
         parent::__construct('me');
     }
 
+    /**
+     * Gets the users outstanding invitations.
+     *
+     * @param null $newInvitationCode If a new invitation code is being redeemed this is passed here to the landlord.
+     * @return mixed
+     */
+    public static function getInvites($newInvitationCode = null)
+    {
+        $url = "/users/me/invites";
+
+        if ($newInvitationCode){
+            $url .= "?invitation=".$newInvitationCode;
+        }
+
+        $accounts = SaasGateway::getAuthenticated($url);
+
+        return $accounts->items;
+    }
+
+    public static function acceptInvite($inviteId)
+    {
+        $payload =
+            [
+                "Accepted" => true
+            ];
+
+        SaasGateway::putAuthenticated("/users/me/invites/".$inviteId, $payload );
+    }
+
     public static function getAccounts()
     {
         $accounts = SaasGateway::getAuthenticated("/users/me/accounts");

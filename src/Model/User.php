@@ -3,7 +3,7 @@
 namespace Rhubarb\Scaffolds\Saas\Tenant\Model;
 
 use Rhubarb\Stem\Filters\Equals;
-use Rhubarb\Stem\Schema\Columns\UUID;
+use Rhubarb\Stem\Schema\Columns\UUIDColumn;
 use Rhubarb\Stem\Schema\ModelSchema;
 
 class User extends \Rhubarb\Scaffolds\AuthenticationWithRoles\User
@@ -25,7 +25,7 @@ class User extends \Rhubarb\Scaffolds\AuthenticationWithRoles\User
         $schema->removeColumnByName("TokenExpiry");
         $schema->removeColumnByName("PasswordResetHash");
         $schema->removeColumnByName("PasswordResetDate");
-        $schema->addColumn(new UUID());
+        $schema->addColumn(new UUIDColumn());
     }
 
     /**

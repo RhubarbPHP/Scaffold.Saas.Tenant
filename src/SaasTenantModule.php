@@ -30,6 +30,7 @@ use Rhubarb\Scaffolds\Saas\Tenant\Model\TenantSolutionSchema;
 use Rhubarb\Scaffolds\Saas\Tenant\Presenters\Users\UsersCollectionPresenter;
 use Rhubarb\Scaffolds\Saas\Tenant\UrlHandlers\ValidateTenantConnectedUrlHandler;
 use Rhubarb\Stem\Custard\RequiresRepositoryCommand;
+use Rhubarb\Stem\Custard\SeedDemoDataCommand;
 use Rhubarb\Stem\Repositories\Repository;
 use Rhubarb\Stem\Schema\SolutionSchema;
 use Symfony\Component\Console\Command\Command;
@@ -42,7 +43,6 @@ class SaasTenantModule extends Module
 
         EncryptionProvider::setEncryptionProviderClassName('\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider');
         Repository::setDefaultRepositoryClassName(__NAMESPACE__ . '\Repositories\SaasMySqlRepository\SaasMySqlRepository');
-        ExceptionHandler::setExceptionHandlerClassName(__NAMESPACE__ . '\Exceptions\ExceptionHandlers\TenantExceptionHandler');
 
         SolutionSchema::registerSchema("TenantSolutionSchema", TenantSolutionSchema::class);
     }
@@ -99,6 +99,6 @@ class SaasTenantModule extends Module
             new TenantSelectionRepositoryConnector()
         );
 
-        return parent::getCustardCommands();
+        return [];
     }
 }

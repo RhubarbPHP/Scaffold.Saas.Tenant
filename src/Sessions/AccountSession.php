@@ -78,7 +78,7 @@ class AccountSession extends EncryptedSession
         $this->ServerPort = $accountDetails->Server->Port;
         $this->CredentialsIV = $accountDetails->CredentialsIV;
         $loggedInUserData = unserialize($this->LoggedInUserData);
-        $this->LoggedInUserData = null;
+        //$this->LoggedInUserData = null;
         $this->storeSession();
 
         $repos = Repository::getDefaultRepositoryClassName();

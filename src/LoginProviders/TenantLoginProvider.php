@@ -112,7 +112,11 @@ class TenantLoginProvider extends LoginProvider
                 $session->ApiToken = $token;
                 $session->storeSession();
 
-                $this->getMe();
+                try {
+                    $this->getMe();
+                } catch (LoginFailedException $er){
+
+                }
             }
         }
     }

@@ -18,9 +18,11 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\RestClients;
 
+use Rhubarb\RestApi\Clients\RestHttpRequest;
+use Rhubarb\RestApi\Clients\TokenAuthenticatedRestClient;
+use Rhubarb\RestApi\Exceptions\RestResponseException;
 use Rhubarb\Scaffolds\Saas\Tenant\Exceptions\SaasAuthenticationException;
 use Rhubarb\Scaffolds\Saas\Tenant\Sessions\RestSession;
-use Rhubarb\RestApi\Clients\TokenAuthenticatedRestClient;
 
 class AuthenticatedRestClient extends TokenAuthenticatedRestClient
 {
@@ -76,4 +78,15 @@ class AuthenticatedRestClient extends TokenAuthenticatedRestClient
 
         return "";
     }
+
+    public function makeRequest(RestHttpRequest $request)
+    {
+        try {
+            return parent::makeRequest($request);
+        } catch (RestResponseException $ex) {
+            throw new TenantRestClientResponseException($ex->getMessage(), $ex->response);
+        }
+    }
+
+
 }

@@ -64,6 +64,15 @@ class TenantLoginProvider extends LoginProvider
         }
     }
 
+    public function logOut()
+    {
+        parent::logOut();
+
+        $accountSession = new AccountSession();
+        $accountSession->AccountID = null;
+        $accountSession->storeSession();
+    }
+
     private function getMe( $username = "", $password = "" )
     {
         try {

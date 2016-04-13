@@ -41,17 +41,17 @@ class SaasTenantModule extends Module
     {
         parent::initialise();
 
-        EncryptionProvider::setEncryptionProviderClassName('\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider');
+        EncryptionProvider::setProviderClassName('\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider');
         Repository::setDefaultRepositoryClassName(__NAMESPACE__ . '\Repositories\SaasMySqlRepository\SaasMySqlRepository');
 
         SolutionSchema::registerSchema("TenantSolutionSchema", TenantSolutionSchema::class);
     }
 
-    protected function registerDependantModules()
+    protected function getModules()
     {
-        parent::registerDependantModules();
-
-        Module::registerModule(new AuthenticationWithRolesModule('\Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider', '/app/'));
+        return [
+                new AuthenticationWithRolesModule('\Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider', '/app/')
+            ];
     }
 
     protected function registerUrlHandlers()

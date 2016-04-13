@@ -31,17 +31,17 @@ class SaasMySqlRepository extends MySql
 
             self::assertConnectedToTenant();
 
-            $session = new AccountSession();
+            $session = AccountSession::singleton();
 
             /**
              * Change the modelling settings to those provided by our SaasConnection
              */
-            $db = new StemSettings();
-            $db->Host = $session->ServerHost;
-            $db->Port = $session->ServerPort;
-            $db->Username = $session->AccountID;
-            $db->Database = $session->AccountID;
-            $db->Password = sha1($session->AccountID . strrev($session->CredentialsIV));
+            $db = StemSettings::singleton();
+            $db->host = $session->serverHost;
+            $db->port = $session->serverPort;
+            $db->username = $session->accountId;
+            $db->database = $session->accountId;
+            $db->password = sha1($session->accountId . strrev($session->credentialsIV));
         }
 
         parent::getDefaultConnection();
@@ -56,9 +56,9 @@ class SaasMySqlRepository extends MySql
      */
     public static function assertConnectedToTenant()
     {
-        $session = new AccountSession();
+        $session = AccountSession::singleton();
 
-        if (!$session->AccountID) {
+        if (!$session->accountId) {
             throw new SaasNoTenantSelectedException("The application isn't connected to a tenant");
         }
     }

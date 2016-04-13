@@ -18,15 +18,14 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Tests\Fixtures;
 
-use Rhubarb\Crown\Context;
 use Rhubarb\Crown\Encryption\EncryptionProvider;
 use Rhubarb\Crown\Encryption\HashProvider;
 use Rhubarb\Crown\Http\HttpClient;
 use Rhubarb\Crown\Layout\LayoutModule;
 use Rhubarb\Crown\LoginProviders\LoginProvider;
 use Rhubarb\Crown\Module;
+use Rhubarb\Crown\Request\Request;
 use Rhubarb\Scaffolds\Saas\Tenant\SaasTenantModule;
-use Rhubarb\Crown\Tests\RhubarbTestCase;
 use Rhubarb\Scaffolds\Saas\Landlord\SaasLandlordModule;
 use Rhubarb\Scaffolds\Saas\Landlord\Tests\Fixtures\SaasTestCaseTrait;
 use Rhubarb\Scaffolds\Saas\Tenant\Settings\RestClientSettings;
@@ -55,24 +54,24 @@ class TenantTestCase extends RhubarbTestCase
         $context = new Context();
         $context->UnitTesting = true;
 
-        $request = Context::currentRequest();
+        $request = Request::current();
         $request->reset();
 
-        HashProvider::setHashProviderClassName("\Rhubarb\Crown\Encryption\Sha512HashProvider");
+        HashProvider::setProviderClassName("\Rhubarb\Crown\Encryption\Sha512HashProvider");
 
-        EncryptionProvider::setEncryptionProviderClassName('\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider');
+        EncryptionProvider::setProviderClassName('\Rhubarb\Crown\Encryption\Aes256ComputedKeyEncryptionProvider');
 
 
         // Make sure HTTP requests go the unit testing route.
-        HttpClient::setDefaultHttpClientClassName('\Rhubarb\Crown\Tests\Fixtures\UnitTestingHttpClient');
+        HttpClient::setProviderClassName('\Rhubarb\Crown\Tests\Fixtures\UnitTestingHttpClient');
 
-        $restClientSettings = new RestClientSettings();
-        $restClientSettings->ApiUrl = "/api";
+        $restClientSettings = RestClientSettings::singleton();
+        $restClientSettings->apiUrl = "/api";
     }
 
     protected function logout()
     {
-        $login = LoginProvider::getDefaultLoginProvider();
+        $login = LoginProvider::getProvider();
         $login->logOut();
     }
 
@@ -82,7 +81,7 @@ class TenantTestCase extends RhubarbTestCase
      */
     protected function loginWithMultipleAccounts()
     {
-        $login = LoginProvider::getDefaultLoginProvider();
+        $login = LoginProvider::getProvider();
         $login->login("unit-tester", "abc123");
     }
 
@@ -91,7 +90,7 @@ class TenantTestCase extends RhubarbTestCase
      */
     protected function loginWithSingleAccounts()
     {
-        $login = LoginProvider::getDefaultLoginProvider();
+        $login = LoginProvider::getProvider();
         $login->login("nigel", "abc123");
     }
 } 

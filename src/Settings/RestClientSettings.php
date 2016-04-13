@@ -20,10 +20,7 @@ namespace Rhubarb\Scaffolds\Saas\Tenant\Settings;
 
 use Rhubarb\Crown\Settings;
 
-/**
- * @property string $ApiUrl
- */
 class RestClientSettings extends Settings
 {
-
+    public $apiUrl = "";
 } 

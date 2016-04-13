@@ -18,9 +18,9 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Registration;
 
-use Rhubarb\Crown\Context;
 use Rhubarb\Crown\Exceptions\ForceResponseException;
 use Rhubarb\Crown\LoginProviders\LoginProvider;
+use Rhubarb\Crown\Request\Request;
 use Rhubarb\Crown\Response\RedirectResponse;
 use Rhubarb\Scaffolds\Saas\Tenant\RestModels\User;
 use Rhubarb\Scaffolds\Saas\Tenant\Settings\TenantSettings;
@@ -35,7 +35,7 @@ class RegistrationPresenter extends Form
      */
     protected function initialiseModel()
     {
-        $context = Context::currentRequest();
+        $context = Request::current();
         $i = $context->get("i");
 
         if ($i){
@@ -81,10 +81,10 @@ class RegistrationPresenter extends Form
         try {
             $user->save();
 
-            $loginProvider = LoginProvider::getDefaultLoginProvider();
+            $loginProvider = LoginProvider::getProvider();
             $loggedIn = $loginProvider->login($this->model->Username, $this->model->NewPassword);
 
-            $settings = new TenantSettings();
+            $settings = TenantSettings::singleton();
         } catch (\Exception $er) {
             /// TODO: What happens now?
         }

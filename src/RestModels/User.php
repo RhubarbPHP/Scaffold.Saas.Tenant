@@ -45,8 +45,8 @@ class User extends RestModel
 
     protected function getRestClient()
     {
-        $settings = new RestClientSettings();
+        $settings = RestClientSettings::singleton();
 
-        return new UnAuthenticatedRestClient($settings->ApiUrl);
+        return new UnAuthenticatedRestClient($settings->apiUrl);
     }
 }

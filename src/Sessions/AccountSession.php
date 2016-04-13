@@ -18,11 +18,10 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Sessions;
 
-use Rhubarb\Crown\Context;
-use Rhubarb\Scaffolds\Authentication\LoginProvider;
+use Rhubarb\Crown\Application;
+use Rhubarb\Crown\LoginProviders\LoginProvider;
 use Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
-use Rhubarb\Crown\Scaffolds\Saas\Model\SaasSolutionSchema;
 use Rhubarb\Crown\Sessions\EncryptedSession;
 use Rhubarb\Stem\Models\Model;
 use Rhubarb\Stem\Repositories\Repository;
@@ -31,15 +30,17 @@ use Rhubarb\Stem\Schema\SolutionSchema;
 /**
  * Stores key details for the selected tenant.
  *
- * @property int $AccountID
- * @property string $AccountName
- * @property string $ServerHost
- * @property string $ServerPort
- * @property string $CredentialsIV
- * @property object $LoggedInUserData
+
  */
 class AccountSession extends EncryptedSession
 {
+    public $accountId;
+    public $accountName;
+    public $serverHost;
+    public $serverPort;
+    public $credentialsIV;
+    public $loggedInUserData;
+
     /**
      * Override to return the encryption key salt to use.
      *
@@ -47,8 +48,6 @@ class AccountSession extends EncryptedSession
      */
     protected function getEncryptionKeySalt()
     {
-        $context = new Context();
-
         if (isset($_COOKIE["tsks"])) {
             $keySalt = $_COOKIE["tsks"];
         } else {
@@ -58,7 +57,7 @@ class AccountSession extends EncryptedSession
             $keySalt = sha1(uniqid() . mt_rand());
         }
 
-        if (!$context->UnitTesting) {
+        if (!Application::current()->unitTesting) {
             // The if test is required for unit testing due to the "output already having started" error.
             setcookie("tsks", $keySalt, null, "/");
         }
@@ -72,13 +71,13 @@ class AccountSession extends EncryptedSession
     {
         $accountDetails = SaasGateway::getAuthenticated("/users/me/accounts/" . $accountId);
 
-        $this->AccountID = $accountId;
-        $this->AccountName = $accountDetails->AccountName;
-        $this->ServerHost = $accountDetails->Server->Host;
-        $this->ServerPort = $accountDetails->Server->Port;
-        $this->CredentialsIV = $accountDetails->CredentialsIV;
-        $loggedInUserData = unserialize($this->LoggedInUserData);
-        $this->LoggedInUserData = null;
+        $this->accountId = $accountId;
+        $this->accountName = $accountDetails->AccountName;
+        $this->serverHost = $accountDetails->Server->Host;
+        $this->serverPort = $accountDetails->Server->Port;
+        $this->credentialsIV = $accountDetails->CredentialsIV;
+        $loggedInUserData = unserialize($this->loggedInUserData);
+        $this->loggedInUserData = null;
         $this->storeSession();
 
         $repos = Repository::getDefaultRepositoryClassName();
@@ -101,7 +100,7 @@ class AccountSession extends EncryptedSession
 
         /** @var TenantLoginProvider $loginProvider */
         if ( $loggedInUserData !== false ) {
-            $loginProvider = LoginProvider::getDefaultLoginProvider();
+            $loginProvider = LoginProvider::getProvider();
             $loginProvider->setLoggedInUserIdentifierFromLandlordData($loggedInUserData);
         }
     }

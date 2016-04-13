@@ -23,9 +23,8 @@ use Rhubarb\Crown\Sessions\Session;
 /**
  * Stores the token used for authenticated api access.
  *
- * @property string $ApiToken
  */
 class RestSession extends Session
 {
-
+    public $apiToken = "";
 } 

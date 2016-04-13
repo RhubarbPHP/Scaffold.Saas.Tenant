@@ -2,7 +2,8 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Custard;
 
-use Rhubarb\Crown\Context;
+use Rhubarb\Crown\Application;
+use Rhubarb\Crown\DependencyInjection\Container;
 use Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider;
 use Rhubarb\Scaffolds\Saas\Tenant\RestModels\Me;
 use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
@@ -51,7 +52,7 @@ class TenantSelectionRepositoryConnector implements RepositoryConnectorInterface
             $this->password = $helper->ask($input, $output, $question);
         }
 
-        $tenantLoginProvider = new TenantLoginProvider();
+        $tenantLoginProvider = Container::singleton(TenantLoginProvider::class);
 
         if ( !$tenantLoginProvider->login($this->username, $this->password) ) {
             $output->writeln("<error>The login credentials were rejected.</error>");
@@ -103,18 +104,16 @@ class TenantSelectionRepositoryConnector implements RepositoryConnectorInterface
         $this->password = ($passwordSwitch) ? $passwordSwitch : $this->password;
         $this->selectedAccount = ($selectedAccountSwitch) ? $selectedAccountSwitch : $this->selectedAccount;
 
-        $tenantLoginProvider = new TenantLoginProvider();
+        $tenantLoginProvider = Container::singleton(TenantLoginProvider::class);
 
         if ( !$tenantLoginProvider->login($this->username, $this->password) ) {
             throw new \Exception();
         }
 
-        $session = new AccountSession();
+        $session = AccountSession::singleton();
         $session->connectToAccount($this->selectedAccount);
 
-        $context = new Context();
-
-        if ( $context->DeveloperMode ) {
+        if ( Application::current()->developerMode ) {
             // If we get this far we should update our default values to make it faster next time.
             $settings = ["username" => $this->username, "password" => $this->password, "account" => $this->selectedAccount];
 

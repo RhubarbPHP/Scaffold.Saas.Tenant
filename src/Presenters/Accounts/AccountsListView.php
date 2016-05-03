@@ -42,14 +42,14 @@ class AccountsListView extends HtmlView
     protected function printViewContent()
     {
         if (sizeof($this->accounts)) {
-            $accountSession = new AccountSession();
+            $accountSession = AccountSession::singleton();
 
             print "<h2>Connected Accounts</h2>";
 
             foreach ($this->accounts as $account) {
                 print "<a href='?choose=" . $account->_id . "'>" . $account->AccountName;
 
-                if ($accountSession->AccountID == $account->_id) {
+                if ($accountSession->accountId == $account->_id) {
                     print " - selected";
                 }
 

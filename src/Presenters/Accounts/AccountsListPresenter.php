@@ -18,10 +18,9 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts;
 
-use Rhubarb\Crown\Context;
 use Rhubarb\Crown\Exceptions\ForceResponseException;
+use Rhubarb\Crown\Request\Request;
 use Rhubarb\Crown\Response\RedirectResponse;
-use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\Scaffolds\Saas\Tenant\RestModels\Me;
 use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
 use Rhubarb\Scaffolds\Saas\Tenant\Settings\TenantSettings;
@@ -38,7 +37,7 @@ class AccountsListPresenter extends Form
     {
         // If we have an invitation code we should pass this to the landlord
         // It might need to assign this invitation to this user.
-        $request = Context::currentRequest();
+        $request = Request::current();
         $invitation = $request->get("i");
 
         $this->view->accounts = Me::getAccounts();
@@ -52,7 +51,7 @@ class AccountsListPresenter extends Form
         parent::configureView();
 
         $this->view->attachEventHandler("SelectAccount", function ($accountId) {
-            $accountSession = new AccountSession();
+            $accountSession = AccountSession::singleton();
             $accountSession->connectToAccount($accountId);
             $this->onAccountSelected();
         });
@@ -64,8 +63,8 @@ class AccountsListPresenter extends Form
 
     protected function onAccountSelected()
     {
-        $settings = new TenantSettings();
-        throw new ForceResponseException(new RedirectResponse($settings->DashboardUrl));
+        $settings = TenantSettings::singleton();
+        throw new ForceResponseException(new RedirectResponse($settings->dashboardUrl));
     }
 
 }

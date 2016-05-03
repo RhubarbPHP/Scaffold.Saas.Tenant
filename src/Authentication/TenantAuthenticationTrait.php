@@ -18,6 +18,7 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Authentication;
 
+use Rhubarb\Crown\DependencyInjection\Container;
 use Rhubarb\Scaffolds\AuthenticationWithRoles\PermissionException;
 use Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider;
 use Rhubarb\Scaffolds\Saas\Tenant\Model\User;
@@ -28,7 +29,7 @@ trait TenantAuthenticationTrait
 
     public function beforeRenderView()
     {
-        $loginProvider = new TenantLoginProvider();
+        $loginProvider = Container::singleton(TenantLoginProvider::class);
 
         /** @var User $user */
         $user = $loginProvider->getLoggedInUser();

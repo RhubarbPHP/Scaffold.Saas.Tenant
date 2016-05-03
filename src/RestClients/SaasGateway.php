@@ -31,9 +31,9 @@ class SaasGateway
 {
     public static function inviteUser($email)
     {
-        $accountSession = new AccountSession();
+        $accountSession = AccountSession::singleton();
 
-        $uri = "/accounts/".$accountSession->AccountID."/invites";
+        $uri = "/accounts/".$accountSession->accountId."/invites";
 
         return self::postAuthenticated($uri, [
             "Email" => $email
@@ -45,9 +45,9 @@ class SaasGateway
      */
     public static function getUsers()
     {
-        $accountSession = new AccountSession();
+        $accountSession = AccountSession::singleton();
 
-        $uri = "/accounts/".$accountSession->AccountID."/users";
+        $uri = "/accounts/".$accountSession->accountId."/users";
 
         return self::getAuthenticated($uri);
     }
@@ -57,9 +57,9 @@ class SaasGateway
      */
     public static function getOutstandingInvites()
     {
-        $accountSession = new AccountSession();
+        $accountSession = AccountSession::singleton();
 
-        $uri = "/accounts/".$accountSession->AccountID."/invites";
+        $uri = "/accounts/".$accountSession->accountId."/invites";
 
         return self::getAuthenticated($uri);
     }
@@ -198,8 +198,8 @@ class SaasGateway
      */
     public static function getApiUrl()
     {
-        $settings = new RestClientSettings();
-        return $settings->ApiUrl;
+        $settings = RestClientSettings::singleton();
+        return $settings->apiUrl;
     }
 
     public static function getUser( $username )

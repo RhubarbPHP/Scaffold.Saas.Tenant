@@ -16,12 +16,12 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Login;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Login;
 
 use Rhubarb\Crown\Exceptions\ForceResponseException;
 use Rhubarb\Crown\Response\RedirectResponse;
 
-class LoginPresenter extends \Rhubarb\Scaffolds\Authentication\Presenters\LoginPresenter
+class Login extends \Rhubarb\Scaffolds\Authentication\Leaves\Login
 {
     protected function getDefaultSuccessUrl()
     {

@@ -16,25 +16,28 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Login;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Login;
 
-use Rhubarb\Crown\Logging\Log;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
-use Rhubarb\Crown\Scaffolds\Authentication\User;
 
-class ConfirmResetPasswordPresenter extends \Rhubarb\Scaffolds\Authentication\Presenters\ConfirmResetPasswordPresenter
+class ConfirmResetPassword extends \Rhubarb\Scaffolds\Authentication\Leaves\ConfirmResetPassword
 {
-    protected function createView()
-    {
-        return new ConfirmResetPasswordView();
+	/**
+	 * Returns the name of the standard view used for this leaf.
+	 *
+	 * @return string
+	 */
+	protected function getViewClass()
+	{
+		return ConfirmResetPasswordView::class;
     }
 
 	protected function confirmPasswordReset()
 	{
 		$payload = new \stdClass();
 
-		$payload->PasswordResetHash = $this->ItemIdentifier;
-		$payload->NewPassword = $this->NewPassword;
+		$payload->PasswordResetHash = $this->itemIdentifier;
+		$payload->NewPassword = $this->model->newPassword;
 
 		SaasGateway::putUnauthenticated( "/users/password-reset-invitations", $payload );
 	}

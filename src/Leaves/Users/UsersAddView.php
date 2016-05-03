@@ -1,21 +1,20 @@
 <?php
 
-namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Users;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Users;
 
-use Rhubarb\Leaf\Presenters\Controls\Selection\DropDown\DropDown;
-use Rhubarb\Leaf\Presenters\Controls\Text\TextBox\TextBox;
+use Rhubarb\Leaf\Controls\Common\Text\TextBox;
 use Rhubarb\Patterns\Mvp\Crud\CrudView;
 use Rhubarb\Scaffolds\AuthenticationWithRoles\Role;
 
 class UsersAddView extends CrudView
 {
-    public function createPresenters()
+    protected function createSubLeaves()
     {
-        parent::createPresenters();
+        parent::createSubLeaves();
 
-        $this->addPresenters(
-            new TextBox("Email",100),
-            $role = new DropDown("RoleID")
+        $this->registerSubLeaf(
+            new TextBox("email",100),
+            $role = new DropDown("roleId")
         );
 
         $role->setSelectionItems([
@@ -27,11 +26,11 @@ class UsersAddView extends CrudView
 
     protected function printViewContent()
     {
-        $this->printFieldset(
+        $this->layoutItemsWithContainer(
             "",
             [
-                "Email",
-                "RoleID",
+                "email",
+                "roleId",
                 "" => "{Save} {Cancel}"
             ]
         );

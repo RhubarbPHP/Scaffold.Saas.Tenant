@@ -16,34 +16,39 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Accounts;
 
-use Rhubarb\Leaf\Presenters\Controls\Buttons\Button;
-use Rhubarb\Leaf\Presenters\Controls\Text\TextBox\TextBox;
-use Rhubarb\Leaf\Views\HtmlView;
+use Rhubarb\Leaf\Controls\Common\Buttons\Button;
+use Rhubarb\Leaf\Controls\Common\Text\TextBox;
+use Rhubarb\Leaf\Views\View;
 
-class NewAccountView extends HtmlView
+class NewAccountView extends View
 {
-    public function createPresenters()
+    /**
+     * @var NewAccountModel
+     */
+    protected $model;
+
+    protected function createSubLeaves()
     {
-        $this->addPresenters(
-            new TextBox("AccountName", 50),
+        $this->registerSubLeaf(
+            new TextBox("accountName", 50),
             new Button("CreateAccount", "Create Account", function () {
-                $this->raiseEvent("CreateAccount");
+                $this->model->createAccountEvent->raise();
             })
         );
 
-        parent::createPresenters();
+        parent::createSubLeaves();
     }
 
 
     protected function printViewContent()
     {
-        $this->printFieldset("",
+        $this->layoutItemsWithContainer("",
             [
                 "AccountName"
             ]);
 
-        print $this->presenters["CreateAccount"];
+        print $this->leaves["CreateAccount"];
     }
 }

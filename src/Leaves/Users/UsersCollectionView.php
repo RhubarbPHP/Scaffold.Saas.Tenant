@@ -1,15 +1,20 @@
 <?php
 
-namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Users;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Users;
 
-use Rhubarb\Leaf\Presenters\Controls\Buttons\Button;
-use Rhubarb\Leaf\Views\HtmlView;
+use Rhubarb\Leaf\Controls\Common\Buttons\Button;
+use Rhubarb\Leaf\Views\View;
 use Rhubarb\Scaffolds\Saas\Tenant\Model\User;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\Stem\Exceptions\RecordNotFoundException;
 
-class UsersCollectionView extends HtmlView
+class UsersCollectionView extends View
 {
+    /**
+     * @var UsersCollectionModel
+     */
+    protected $model;
+
     protected function printViewContent()
     {
         parent::printViewContent();
@@ -19,17 +24,17 @@ class UsersCollectionView extends HtmlView
     }
 
     /**
-     * Called to allow a view to instantiate any sub presenters that may be needed.
+     * Called to allow a view to instantiate any sub Leaves that may be needed.
      *
      * Called by the presenter when it is ready to receive any corresponding events.
      */
-    public function createPresenters()
+    protected function createSubLeaves()
     {
-        parent::createPresenters();
+        parent::createSubLeaves();
 
-        $this->addPresenters(
+        $this->registerSubLeaf(
             new Button("ResendInvite", "Resend", function($email){
-                $this->raiseEvent("ResendInvite", base64_decode($email));
+                $this->model->resentInviteEvent->raise(base64_decode($email));
             })
         );
     }
@@ -93,7 +98,7 @@ class UsersCollectionView extends HtmlView
                 <tr>
                     <td><?=$invite->Email;?></td>
                     <td><?=($localUser && $localUser->Role) ? $localUser->Role->RoleName : "";?></td>
-                    <td>Pending <?php $this->presenters["ResendInvite"]->displayWithIndex(base64_encode($invite->Email));?></td>
+                    <td>Pending <?php $this->leaves["ResendInvite"]->displayWithIndex(base64_encode($invite->Email));?></td>
                 </tr><?php
             }
 

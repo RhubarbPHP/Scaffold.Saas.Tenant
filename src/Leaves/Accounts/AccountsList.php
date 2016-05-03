@@ -16,55 +16,60 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Accounts;
 
 use Rhubarb\Crown\Exceptions\ForceResponseException;
 use Rhubarb\Crown\Request\Request;
 use Rhubarb\Crown\Response\RedirectResponse;
+use Rhubarb\Leaf\Leaves\Leaf;
+use Rhubarb\Leaf\Leaves\LeafModel;
 use Rhubarb\Scaffolds\Saas\Tenant\RestModels\Me;
 use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
 use Rhubarb\Scaffolds\Saas\Tenant\Settings\TenantSettings;
-use Rhubarb\Leaf\Presenters\Forms\Form;
 
-class AccountsListPresenter extends Form
+class AccountsList extends Leaf
 {
-    protected function createView()
-    {
-        return new AccountsListView();
-    }
-
-    protected function applyModelToView()
-    {
-        // If we have an invitation code we should pass this to the landlord
-        // It might need to assign this invitation to this user.
-        $request = Request::current();
-        $invitation = $request->get("i");
-
-        $this->view->accounts = Me::getAccounts();
-        $this->view->invites = Me::getInvites($invitation);
-
-        parent::applyModelToView();
-    }
-
-    protected function configureView()
-    {
-        parent::configureView();
-
-        $this->view->attachEventHandler("SelectAccount", function ($accountId) {
-            $accountSession = AccountSession::singleton();
-            $accountSession->connectToAccount($accountId);
-            $this->onAccountSelected();
-        });
-
-        $this->view->attachEventHandler("AcceptInvite", function ($inviteId) {
-            Me::acceptInvite($inviteId);
-        });
-    }
-
     protected function onAccountSelected()
     {
         $settings = TenantSettings::singleton();
         throw new ForceResponseException(new RedirectResponse($settings->dashboardUrl));
     }
 
+    /**
+     * Returns the name of the standard view used for this leaf.
+     *
+     * @return string
+     */
+    protected function getViewClass()
+    {
+        return AccountsListView::class;
+    }
+
+    /**
+     * Should return a class that derives from LeafModel
+     *
+     * @return LeafModel
+     */
+    protected function createModel()
+    {
+        $model = new AccountsListModel();
+
+        $request = Request::current();
+        $invitation = $request->get("i");
+
+        $model->accounts = Me::getAccounts();
+        $model->invites = Me::getInvites($invitation);
+
+        $model->selectAccountEvent->attachHandler(function ($accountId) {
+            $accountSession = AccountSession::singleton();
+            $accountSession->connectToAccount($accountId);
+            $this->onAccountSelected();
+        });
+
+        $model->acceptInviteEvent->attachHandler(function ($inviteId) {
+            Me::acceptInvite($inviteId);
+        });
+
+        return $model;
+    }
 }

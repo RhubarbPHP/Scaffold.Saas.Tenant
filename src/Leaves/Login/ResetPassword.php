@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Login;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Login;
 
 use Rhubarb\Crown\Email\Email;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
@@ -24,7 +24,7 @@ use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 /**
  * Overrides the normal password reset presenter as we must intercept the reset request to pass it to the landlord.
  */
-class ResetPasswordPresenter extends \Rhubarb\Scaffolds\Authentication\Presenters\ResetPasswordPresenter
+class ResetPassword extends \Rhubarb\Scaffolds\Authentication\Leaves\ResetPassword
 {
     protected function initiateResetPassword()
     {

@@ -19,18 +19,15 @@
 namespace Rhubarb\Scaffolds\Saas\Tenant;
 
 use Rhubarb\Crown\Encryption\EncryptionProvider;
-use Rhubarb\Crown\Exceptions\Handlers\ExceptionHandler;
 use Rhubarb\Crown\Module;
 use Rhubarb\Crown\UrlHandlers\ClassMappedUrlHandler;
-use Rhubarb\Custard\Command\CustardCommand;
-use Rhubarb\Leaf\UrlHandlers\MvpCollectionUrlHandler;
+use Rhubarb\Leaf\UrlHandlers\LeafCollectionUrlHandler;
 use Rhubarb\Scaffolds\AuthenticationWithRoles\AuthenticationWithRolesModule;
 use Rhubarb\Scaffolds\Saas\Tenant\Custard\TenantSelectionRepositoryConnector;
+use Rhubarb\Scaffolds\Saas\Tenant\Leaves\Users\UsersCollection;
 use Rhubarb\Scaffolds\Saas\Tenant\Model\TenantSolutionSchema;
-use Rhubarb\Scaffolds\Saas\Tenant\Presenters\Users\UsersCollectionPresenter;
 use Rhubarb\Scaffolds\Saas\Tenant\UrlHandlers\ValidateTenantConnectedUrlHandler;
 use Rhubarb\Stem\Custard\RequiresRepositoryCommand;
-use Rhubarb\Stem\Custard\SeedDemoDataCommand;
 use Rhubarb\Stem\Repositories\Repository;
 use Rhubarb\Stem\Schema\SolutionSchema;
 use Symfony\Component\Console\Command\Command;
@@ -58,29 +55,29 @@ class SaasTenantModule extends Module
     {
         parent::registerUrlHandlers();
 
-        $signUp = new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Registration\RegistrationPresenter");
+        $signUp = new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Leaves\Registration\Registration");
         $signUp->setPriority(20);
 
-        $login = new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Login\LoginPresenter", [
-            "reset/" => new MvpCollectionUrlHandler('\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Login\ResetPasswordPresenter',
-                '\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Login\ConfirmResetPasswordPresenter')
+        $login = new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Leaves\Login\Login", [
+            "reset/" => new LeafCollectionUrlHandler('\Rhubarb\Scaffolds\Saas\Tenant\Leaves\Login\ResetPassword',
+                '\Rhubarb\Scaffolds\Saas\Tenant\Leaves\Login\ConfirmResetPassword')
         ]);
 
         $login->setPriority(20);
         $login->setName("login");
 
-        $accounts = new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\AccountsListPresenter",
+        $accounts = new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Leaves\Accounts\AccountsList",
             [
-                "new/" => new ClassMappedUrlHandler('\Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts\NewAccountPresenter')
+                "new/" => new ClassMappedUrlHandler('\Rhubarb\Scaffolds\Saas\Tenant\Leaves\Accounts\NewAccount')
             ]);
 
-        $this->AddUrlHandlers(
+        $this->addUrlHandlers(
             [
                 "/sign-up/" => $signUp,
                 "/login/" => $login,
                 "/app/" => new ValidateTenantConnectedUrlHandler(),
                 "/app/accounts/" => $accounts,
-                "/app/users/" => new MvpCollectionUrlHandler(UsersCollectionPresenter::class, null)
+                "/app/users/" => new LeafCollectionUrlHandler(UsersCollection::class, null)
             ]);
     }
 

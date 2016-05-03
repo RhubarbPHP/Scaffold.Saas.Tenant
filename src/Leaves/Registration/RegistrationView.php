@@ -16,20 +16,20 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Registration;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Registration;
 
-use Rhubarb\Leaf\Presenters\Controls\Buttons\Button;
-use Rhubarb\Leaf\Presenters\Controls\Text\Password\Password;
-use Rhubarb\Leaf\Presenters\Controls\Text\TextBox\TextBox;
-use Rhubarb\Leaf\Views\HtmlView;
+use Rhubarb\Leaf\Leaves\Controls\Buttons\Button;
+use Rhubarb\Leaf\Leaves\Controls\Text\Password\Password;
+use Rhubarb\Leaf\Leaves\Controls\Text\TextBox\TextBox;
+use Rhubarb\Leaf\Views\View;
 
-class RegistrationView extends HtmlView
+class RegistrationView extends View
 {
-    protected function configurePresenters()
+    protected function configureLeaves()
     {
-        parent::configurePresenters();
+        parent::configureLeaves();
 
-        $this->addPresenters(
+        $this->registerSubLeaf(
             new TextBox("Forename"),
             new TextBox("Surname"),
             new TextBox("Email", 80),
@@ -46,7 +46,7 @@ class RegistrationView extends HtmlView
     {
         parent::printViewContent();
 
-        $this->printFieldset(
+        $this->layoutItemsWithContainer(
             "",
             [
                 "Forename",
@@ -58,6 +58,6 @@ class RegistrationView extends HtmlView
             ]
         );
 
-        print $this->presenters["Signup"];
+        print $this->Leaves["Signup"];
     }
 }

@@ -16,37 +16,40 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Scaffolds\Saas\Tenant\Presenters\Accounts;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Accounts;
 
+use Rhubarb\Crown\Request\WebRequest;
 use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
-use Rhubarb\Leaf\Views\HtmlView;
+use Rhubarb\Leaf\Views\View;
 
-class AccountsListView extends HtmlView
+class AccountsListView extends View
 {
-    public $accounts = [];
-    public $invites = [];
+    /**
+     * @var AccountsListModel
+     */
+    protected $model;
 
-    protected function parseRequestForCommand()
+    protected function parseRequest(WebRequest $request)
     {
         if (isset($_GET["choose"])) {
-            $this->raiseEvent("SelectAccount", $_GET["choose"]);
+            $this->model->selectAccountEvent->raise($_GET["choose"]);
         }
 
         if (isset($_GET["accept"])) {
-            $this->raiseEvent("AcceptInvite", $_GET["accept"]);
+            $this->model->acceptInviteEvent->raise($_GET["accept"]);
         }
 
-        parent::parseRequestForCommand();
+        parent::parseRequest($request);
     }
 
     protected function printViewContent()
     {
-        if (sizeof($this->accounts)) {
+        if (sizeof($this->model->accounts)) {
             $accountSession = AccountSession::singleton();
 
             print "<h2>Connected Accounts</h2>";
 
-            foreach ($this->accounts as $account) {
+            foreach ($this->model->accounts as $account) {
                 print "<a href='?choose=" . $account->_id . "'>" . $account->AccountName;
 
                 if ($accountSession->accountId == $account->_id) {
@@ -59,12 +62,12 @@ class AccountsListView extends HtmlView
             print "<p>You don't have any accounts yet.</p>";
         }
 
-        if (sizeof($this->invites)) {
+        if (sizeof($this->model->invites)) {
 
             print "<h2>Invitations</h2>
             <p>You've been invited to join the following accounts:</p>";
 
-            foreach ($this->invites as $invite) {
+            foreach ($this->model->invites as $invite) {
                 print $invite->Account->AccountName." - <a href='?accept=".$invite->_id."''>Accept</a><br/>";
             }
         }

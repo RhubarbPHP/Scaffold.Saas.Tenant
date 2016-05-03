@@ -22,7 +22,7 @@ use Rhubarb\Crown\Logging\Log;
 use Rhubarb\Crown\Context;
 use Rhubarb\Crown\LoginProviders\Exceptions\LoginFailedException;
 use Rhubarb\RestApi\Exceptions\RestAuthenticationException;
-use Rhubarb\Scaffolds\Authentication\LoginProvider;
+use Rhubarb\Scaffolds\Authentication\LoginProviders\LoginProvider;
 use Rhubarb\Scaffolds\Authentication\User;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\AuthenticatedRestClient;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;

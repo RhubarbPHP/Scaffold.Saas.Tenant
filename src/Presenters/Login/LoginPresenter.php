@@ -23,8 +23,8 @@ use Rhubarb\Crown\Response\RedirectResponse;
 
 class LoginPresenter extends \Rhubarb\Scaffolds\Authentication\Presenters\LoginPresenter
 {
-    protected function onSuccess()
+    protected function getDefaultSuccessUrl()
     {
-        throw new ForceResponseException( new RedirectResponse( "/app/" ) );
+        return "/app/";
     }
 }

@@ -18,6 +18,7 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Tests\LoginProviders;
 
+use Rhubarb\Crown\DependencyInjection\Container;
 use Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider;
 use Rhubarb\Scaffolds\Saas\Tenant\Tests\Fixtures\TenantTestCase;
 
@@ -25,7 +26,7 @@ class TenantLoginProviderTest extends TenantTestCase
 {
     public function testLoginWorks()
     {
-        $loginProvider = new TenantLoginProvider();
+        $loginProvider = Container::singleton(TenantLoginProvider::class);
 
         $this->assertFalse($loginProvider->isLoggedIn(), "I shouldn't be logged in before Login is called");
 

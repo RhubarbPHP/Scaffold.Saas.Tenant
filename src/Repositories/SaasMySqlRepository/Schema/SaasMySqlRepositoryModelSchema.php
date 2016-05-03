@@ -16,15 +16,11 @@
  *  limitations under the License.
  */
 
-namespace Rhubarb\Scaffolds\Saas\Tenant\Sessions;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Repositories\SaasMySqlRepository\Schema;
 
-use Rhubarb\Crown\Sessions\Session;
+use Rhubarb\Stem\Repositories\MySql\Schema\MySqlModelSchema;
 
-/**
- * Stores the token used for authenticated api access.
- *
- */
-class RestSession extends Session
+class SaasMySqlRepositoryModelSchema extends MySqlModelSchema
 {
-    public $apiToken = "";
-} 
+
+}

@@ -29,13 +29,8 @@ use Rhubarb\Crown\Settings;
  */
 class TenantSettings extends Settings
 {
-    protected function initialiseDefaultValues()
-    {
-        parent::initialiseDefaultValues();
-
-        $this->RegistrationUrl = "/sign-up/";
-        $this->PostRegistrationUrl = "/accounts/";
-        $this->AccountsUrl = "/accounts/";
-        $this->DashboardUrl = "/app/";
-    }
+    public $postRegistrationUrl = "/app/accounts/";
+    public $registrationUrl = "/sign-up/";
+    public $accountsUrl = "/app/accounts/";
+    public $dashboardUrl = "/app/";
 }

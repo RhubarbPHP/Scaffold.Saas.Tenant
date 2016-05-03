@@ -18,6 +18,7 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\RestClients;
 
+use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
 use Rhubarb\Scaffolds\Saas\Tenant\Settings\RestClientSettings;
 use Rhubarb\RestApi\Clients\RestHttpRequest;
 
@@ -28,6 +29,41 @@ use Rhubarb\RestApi\Clients\RestHttpRequest;
  */
 class SaasGateway
 {
+    public static function inviteUser($email)
+    {
+        $accountSession = AccountSession::singleton();
+
+        $uri = "/accounts/".$accountSession->accountId."/invites";
+
+        return self::postAuthenticated($uri, [
+            "Email" => $email
+        ]);
+    }
+
+    /**
+     * Get's an array of users connected to the account the current user is connected to.
+     */
+    public static function getUsers()
+    {
+        $accountSession = AccountSession::singleton();
+
+        $uri = "/accounts/".$accountSession->accountId."/users";
+
+        return self::getAuthenticated($uri);
+    }
+
+    /**
+     * Get's an array of users invited to the account the current user is connected to.
+     */
+    public static function getOutstandingInvites()
+    {
+        $accountSession = AccountSession::singleton();
+
+        $uri = "/accounts/".$accountSession->accountId."/invites";
+
+        return self::getAuthenticated($uri);
+    }
+
     /**
      * Makes an unauthenticated GET request
      *
@@ -53,6 +89,51 @@ class SaasGateway
     {
         $client = self::getUnAuthenticatedRestClient();
         $request = new RestHttpRequest($uri, "post", $payload);
+
+        return $client->makeRequest($request);
+    }
+
+    /**
+     * POSTs to an authenticated resource
+     *
+     * @param $uri
+     * @param $payload
+     * @return mixed
+     */
+    public static function postAuthenticated($uri, $payload)
+    {
+        $client = self::getAuthenticatedRestClient();
+        $request = new RestHttpRequest($uri, "post", $payload);
+
+        return $client->makeRequest($request);
+    }
+
+    /**
+     * PUTs to an authenticated resource
+     *
+     * @param $uri
+     * @param $payload
+     * @return mixed
+     * @throws \Rhubarb\RestApi\Exceptions\RestImplementationExceptio
+     */
+    public static function putAuthenticated($uri, $payload)
+    {
+        $client = self::getAuthenticatedRestClient();
+        $request = new RestHttpRequest($uri, "put", $payload);
+
+        return $client->makeRequest($request);
+    }
+
+    /**
+     * DELETEs to an unauthenticated resource
+     *
+     * @param $uri
+     * @return mixed
+     */
+    public static function deleteUnauthenticated($uri)
+    {
+        $client = self::getUnAuthenticatedRestClient();
+        $request = new RestHttpRequest($uri, "delete");
 
         return $client->makeRequest($request);
     }
@@ -117,7 +198,15 @@ class SaasGateway
      */
     public static function getApiUrl()
     {
-        $settings = new RestClientSettings();
-        return $settings->ApiUrl;
+        $settings = RestClientSettings::singleton();
+        return $settings->apiUrl;
+    }
+
+    public static function getUser( $username )
+    {
+        $client = self::getAuthenticatedRestClient();
+        $request = new RestHttpRequest( "users/{$username}" );
+        $response = $client->makeRequest( $request );
+        die( $response );
     }
 } 

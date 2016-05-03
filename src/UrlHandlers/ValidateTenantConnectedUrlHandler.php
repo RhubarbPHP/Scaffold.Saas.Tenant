@@ -18,11 +18,14 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\UrlHandlers;
 
+use Rhubarb\Crown\DependencyInjection\Container;
 use Rhubarb\Crown\Exceptions\ForceResponseException;
 use Rhubarb\Crown\Response\RedirectResponse;
 use Rhubarb\Crown\UrlHandlers\UrlHandler;
+use Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider;
 use Rhubarb\Scaffolds\Saas\Tenant\RestModels\Me;
 use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
+use Rhubarb\Scaffolds\Saas\Tenant\Settings\TenantSettings;
 
 class ValidateTenantConnectedUrlHandler extends UrlHandler
 {
@@ -38,21 +41,25 @@ class ValidateTenantConnectedUrlHandler extends UrlHandler
         // If the user has a single account, we should auto connect them and redirect to the app.
         // This should provide a good user experience in nearly all cases.
 
-        $session = new AccountSession();
+        Container::singleton(TenantLoginProvider::class);
 
-        if ( !$session->AccountID )
+        $session = AccountSession::singleton();
+
+        if ( !$session->accountId )
         {
             $accounts = Me::getAccounts();
 
+            $tenantSettings = TenantSettings::singleton();
+
             if ( count( $accounts ) === 1 )
             {
-                $accountSession = new AccountSession();
+                $accountSession = AccountSession::singleton();
                 $accountSession->connectToAccount( $accounts[0]->_id );
 
-                throw new ForceResponseException( new RedirectResponse("/app/") );
+                throw new ForceResponseException( new RedirectResponse($tenantSettings->dashboardUrl) );
             }
 
-            throw new ForceResponseException( new RedirectResponse("/accounts/") );
+            throw new ForceResponseException( new RedirectResponse($tenantSettings->accountsUrl) );
         }
 
         return false;

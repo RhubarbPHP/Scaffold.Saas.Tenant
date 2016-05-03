@@ -48,7 +48,7 @@ class SaasMySqlRepositoryTest extends TenantTestCase
         $this->assertEquals("9876", $settings->Port);
         $this->assertEquals("widgets-co", $settings->Username);
         $this->assertEquals("widgets-co", $settings->Database);
-        $this->assertEquals(sha1($session->UniqueReference . strrev($session->CredentialsIV)), $settings->Password);
+        $this->assertEquals(sha1($session->AccountID . strrev($session->CredentialsIV)), $settings->Password);
 
     }
 }

@@ -42,8 +42,8 @@ class Account extends RestModel
 
     protected function getRestClient()
     {
-        $settings = new RestClientSettings();
+        $settings = RestClientSettings::singleton();
 
-        return new AuthenticatedRestClient($settings->ApiUrl, "", "");
+        return new AuthenticatedRestClient($settings->apiUrl, "", "");
     }
 }

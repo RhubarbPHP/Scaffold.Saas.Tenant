@@ -42,8 +42,8 @@ class AuthenticatedRestClient extends TokenAuthenticatedRestClient
      */
     protected function onTokenReceived($token)
     {
-        $session = new RestSession();
-        $session->ApiToken = $token;
+        $session = RestSession::singleton();
+        $session->apiToken = $token;
         $session->storeSession();
 
         parent::onTokenReceived($token);
@@ -54,9 +54,9 @@ class AuthenticatedRestClient extends TokenAuthenticatedRestClient
      */
     public static function clearToken()
     {
-        $session = new RestSession();
+        $session = RestSession::singleton();
 
-        unset($session->ApiToken);
+        unset($session->apiToken);
 
         $session->storeSession();
     }
@@ -68,10 +68,10 @@ class AuthenticatedRestClient extends TokenAuthenticatedRestClient
      */
     private static function getStoredToken()
     {
-        $session = new RestSession();
+        $session = RestSession::singleton();
 
-        if (isset($session->ApiToken)) {
-            return $session->ApiToken;
+        if (isset($session->apiToken)) {
+            return $session->apiToken;
         }
 
         return "";

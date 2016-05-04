@@ -28,6 +28,8 @@ class RegistrationModel extends LeafModel
 
     public function __construct()
     {
+        parent::__construct();
+        
         $this->createUserEvent = new Event();
     }
 

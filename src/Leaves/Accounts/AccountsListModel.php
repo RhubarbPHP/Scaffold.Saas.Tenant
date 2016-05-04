@@ -29,6 +29,8 @@ class AccountsListModel extends LeafModel
 
     public function __construct()
     {
+        parent::__construct();
+        
         $this->acceptInviteEvent = new Event();
         $this->selectAccountEvent = new Event();
     }

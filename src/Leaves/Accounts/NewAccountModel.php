@@ -16,6 +16,8 @@ class NewAccountModel extends LeafModel
 
     public function __construct()
     {
+        parent::__construct();
+        
         $this->createAccountEvent = new Event();
     }
 

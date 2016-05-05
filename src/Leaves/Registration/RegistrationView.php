@@ -58,6 +58,6 @@ class RegistrationView extends View
             ]
         );
 
-        print $this->Leaves["Signup"];
+        print $this->leaves["Signup"];
     }
 }

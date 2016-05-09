@@ -3,7 +3,6 @@
 namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Users;
 
 use Rhubarb\Leaf\Leaves\Leaf;
-use Rhubarb\Leaf\Leaves\Leaf;
 use Rhubarb\Leaf\Leaves\LeafModel;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 

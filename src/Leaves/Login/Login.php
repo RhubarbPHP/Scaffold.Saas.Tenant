@@ -24,15 +24,6 @@ use Rhubarb\Scaffolds\Saas\Tenant\SaasTenantModule;
 
 class Login extends \Rhubarb\Scaffolds\Authentication\Leaves\Login
 {
-    /**
-     * @param null $loginProviderClassName If not supplied, the default login provider will be used.
-     */
-    public function __construct($loginProviderClassName = null)
-    {
-        parent::__construct($loginProviderClassName, SaasTenantModule::getIdentityColumnName());
-    }
-
-
     protected function getDefaultSuccessUrl()
     {
         return "/app/";

@@ -18,7 +18,9 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Login;
 
+use Rhubarb\Crown\DependencyInjection\Container;
 use Rhubarb\Crown\Email\Email;
+use Rhubarb\Scaffolds\Authentication\Emails\ResetPasswordInvitationEmail;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 
 /**
@@ -29,23 +31,14 @@ class ResetPassword extends \Rhubarb\Scaffolds\Authentication\Leaves\ResetPasswo
     protected function initiateResetPassword()
     {
         $data = new \stdClass();
-        $data->Username = $this->model->Username;
+        $data->Username = $this->model->username;
 
         $response = SaasGateway::postUnauthenticated("/users/password-reset-invitations", $data);
 
-        // If a user could not be found the $response could be null. For security reasons we
-        // just pretend things went okay and simply skip the following process.
-        if ($response != null) {
-            $emailData = ["PasswordResetHash" => $response->PasswordResetHash];
-
-            $resetPasswordEmailClass = $this->resetPasswordInvitationEmailClassName;
-
-            /**
-             * @var Email $resetPasswordEmail
-             */
-            $resetPasswordEmail = new $resetPasswordEmailClass($emailData);
-            $resetPasswordEmail->addRecipient($response->Email, $response->FullName);
-            $resetPasswordEmail->send();
+        if (($response == null) || !isset($response->Email)) {
+            $this->model->usernameNotFound = true;
+        } else {
+            $this->model->sent = true;
         }
     }
 } 

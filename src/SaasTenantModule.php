@@ -22,6 +22,7 @@ use Rhubarb\Crown\Encryption\EncryptionProvider;
 use Rhubarb\Crown\Module;
 use Rhubarb\Crown\UrlHandlers\ClassMappedUrlHandler;
 use Rhubarb\Leaf\UrlHandlers\LeafCollectionUrlHandler;
+use Rhubarb\Scaffolds\Authentication\Settings\AuthenticationSettings;
 use Rhubarb\Scaffolds\AuthenticationWithRoles\AuthenticationWithRolesModule;
 use Rhubarb\Scaffolds\Saas\Tenant\Custard\TenantSelectionRepositoryConnector;
 use Rhubarb\Scaffolds\Saas\Tenant\Leaves\Accounts\AccountsList;
@@ -41,21 +42,12 @@ use Symfony\Component\Console\Command\Command;
 
 class SaasTenantModule extends Module
 {
-    /**
-     * @var string The name of the field in the user table used as the logging in user's identity.
-     */
-    private static $identityColumnName;
-
     public function __construct($identityColumnName = "Username")
     {
-        self::$identityColumnName = $identityColumnName;
+        $settings = AuthenticationSettings::singleton();
+        $settings->identityColumnName = $identityColumnName;
 
         parent::__construct();
-    }
-
-    public static function getIdentityColumnName()
-    {
-        return self::$identityColumnName;
     }
 
     protected function initialise()

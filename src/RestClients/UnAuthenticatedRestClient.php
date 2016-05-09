@@ -30,7 +30,7 @@ class UnAuthenticatedRestClient extends BasicAuthenticatedRestClient
     /// TODO: Change this class to use PayloadSignatureRestClient
     public function __construct($apiUrl)
     {
-        $clientSettings = new UnAuthenticatedRestClientSettings();
+        $clientSettings = UnAuthenticatedRestClientSettings::singleton();
 
         parent::__construct($apiUrl, $clientSettings->Username, $clientSettings->Password);
     }

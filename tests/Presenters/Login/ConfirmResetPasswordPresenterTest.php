@@ -34,7 +34,7 @@ class ConfirmResetPasswordPresenterTest extends TenantTestCase
 		$view = new UnitTestView();
 		$mvp->AttachMockView( $view );
 
-		$mvp->ItemIdentifier = $hash;
+		$mvp->itemIdentifier = $hash;
 		$mvp->NewPassword = "def324";
 
 		$view->simulateEvent( "ConfirmPasswordReset" );

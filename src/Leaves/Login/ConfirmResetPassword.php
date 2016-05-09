@@ -19,6 +19,7 @@
 namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Login;
 
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
+use Rhubarb\Stem\Exceptions\RecordNotFoundException;
 
 class ConfirmResetPassword extends \Rhubarb\Scaffolds\Authentication\Leaves\ConfirmResetPassword
 {
@@ -34,11 +35,32 @@ class ConfirmResetPassword extends \Rhubarb\Scaffolds\Authentication\Leaves\Conf
 
 	protected function confirmPasswordReset()
 	{
-		$payload = new \stdClass();
 
-		$payload->PasswordResetHash = $this->itemIdentifier;
-		$payload->NewPassword = $this->model->newPassword;
+		if ($this->model->newPassword == $this->model->confirmNewPassword && $this->model->newPassword != "") {
+			try {
+				$payload = new \stdClass();
+				$payload->PasswordResetHash = $this->itemIdentifier;
+				$payload->NewPassword = $this->model->newPassword;
 
-		SaasGateway::putUnauthenticated( "/users/password-reset-invitations", $payload );
+				$response = SaasGateway::putUnauthenticated( "/users/password-reset-invitations", $payload );
+				
+				if (isset($response->result) && !$response->result->status){
+					$this->model->message = "HashInvalid";
+					return false;
+				} else {
+					$this->model->message = "PasswordReset";
+					return true;
+				}
+			} catch (RecordNotFoundException $ex) {
+				$this->model->message = "UserNotRecognised";
+				return false;
+			}
+		} else if ($this->model->newPassword == "") {
+			$this->model->message = "PasswordEmpty";
+			return false;
+		} else {
+			$this->model->message = "PasswordsDontMatch";
+			return false;
+		}
 	}
 }

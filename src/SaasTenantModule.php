@@ -24,7 +24,14 @@ use Rhubarb\Crown\UrlHandlers\ClassMappedUrlHandler;
 use Rhubarb\Leaf\UrlHandlers\LeafCollectionUrlHandler;
 use Rhubarb\Scaffolds\AuthenticationWithRoles\AuthenticationWithRolesModule;
 use Rhubarb\Scaffolds\Saas\Tenant\Custard\TenantSelectionRepositoryConnector;
+use Rhubarb\Scaffolds\Saas\Tenant\Leaves\Accounts\AccountsList;
+use Rhubarb\Scaffolds\Saas\Tenant\Leaves\Accounts\NewAccount;
+use Rhubarb\Scaffolds\Saas\Tenant\Leaves\Login\ConfirmResetPassword;
+use Rhubarb\Scaffolds\Saas\Tenant\Leaves\Login\Login;
+use Rhubarb\Scaffolds\Saas\Tenant\Leaves\Login\ResetPassword;
+use Rhubarb\Scaffolds\Saas\Tenant\Leaves\Registration\Registration;
 use Rhubarb\Scaffolds\Saas\Tenant\Leaves\Users\UsersCollection;
+use Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider;
 use Rhubarb\Scaffolds\Saas\Tenant\Model\TenantSolutionSchema;
 use Rhubarb\Scaffolds\Saas\Tenant\UrlHandlers\ValidateTenantConnectedUrlHandler;
 use Rhubarb\Stem\Custard\RequiresRepositoryCommand;
@@ -34,6 +41,23 @@ use Symfony\Component\Console\Command\Command;
 
 class SaasTenantModule extends Module
 {
+    /**
+     * @var string The name of the field in the user table used as the logging in user's identity.
+     */
+    private static $identityColumnName;
+
+    public function __construct($identityColumnName = "Username")
+    {
+        self::$identityColumnName = $identityColumnName;
+
+        parent::__construct();
+    }
+
+    public static function getIdentityColumnName()
+    {
+        return self::$identityColumnName;
+    }
+
     protected function initialise()
     {
         parent::initialise();
@@ -47,7 +71,7 @@ class SaasTenantModule extends Module
     protected function getModules()
     {
         return [
-                new AuthenticationWithRolesModule('\Rhubarb\Scaffolds\Saas\Tenant\LoginProviders\TenantLoginProvider', '/app/')
+                new AuthenticationWithRolesModule(TenantLoginProvider::class, '/app/')
             ];
     }
 
@@ -55,20 +79,20 @@ class SaasTenantModule extends Module
     {
         parent::registerUrlHandlers();
 
-        $signUp = new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Leaves\Registration\Registration");
+        $signUp = new ClassMappedUrlHandler(Registration::class);
         $signUp->setPriority(20);
 
-        $login = new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Leaves\Login\Login", [
-            "reset/" => new LeafCollectionUrlHandler('\Rhubarb\Scaffolds\Saas\Tenant\Leaves\Login\ResetPassword',
-                '\Rhubarb\Scaffolds\Saas\Tenant\Leaves\Login\ConfirmResetPassword')
+        $login = new ClassMappedUrlHandler(Login::class, [
+            "reset/" => new LeafCollectionUrlHandler(ResetPassword::class,
+                ConfirmResetPassword::class)
         ]);
 
         $login->setPriority(20);
         $login->setName("login");
 
-        $accounts = new ClassMappedUrlHandler("\Rhubarb\Scaffolds\Saas\Tenant\Leaves\Accounts\AccountsList",
+        $accounts = new ClassMappedUrlHandler(AccountsList::class,
             [
-                "new/" => new ClassMappedUrlHandler('\Rhubarb\Scaffolds\Saas\Tenant\Leaves\Accounts\NewAccount')
+                "new/" => new ClassMappedUrlHandler(NewAccount::class)
             ]);
 
         $this->addUrlHandlers(

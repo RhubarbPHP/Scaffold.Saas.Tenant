@@ -25,7 +25,10 @@ use Rhubarb\Crown\Response\RedirectResponse;
 use Rhubarb\Leaf\Leaves\Leaf;
 use Rhubarb\Leaf\Leaves\LeafModel;
 use Rhubarb\Scaffolds\Authentication\Settings\AuthenticationSettings;
+use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
+use Rhubarb\Scaffolds\Saas\Tenant\RestModels\Me;
 use Rhubarb\Scaffolds\Saas\Tenant\RestModels\User;
+use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
 use Rhubarb\Scaffolds\Saas\Tenant\Settings\TenantSettings;
 use Rhubarb\Leaf\Leaves\Forms\Form;
 
@@ -58,13 +61,21 @@ class Registration extends Leaf
 
             $loginProvider = LoginProvider::getProvider();
             $loggedIn = $loginProvider->login($this->model->email, $this->model->newPassword);
+
         } catch (\Exception $er) {
             /// TODO: What happens now?
         }
 
         if ($loggedIn) {
             $settings = TenantSettings::singleton();
-            throw new ForceResponseException(new RedirectResponse($settings->postRegistrationUrl));
+            $url = $settings->postRegistrationUrl;
+
+            if ($this->model->inviteId){
+                $accounts = Me::getAccounts();
+                $url .= "?choose=".$accounts[0]->_id;
+            }
+
+            throw new ForceResponseException(new RedirectResponse($url));
         }
     }
 

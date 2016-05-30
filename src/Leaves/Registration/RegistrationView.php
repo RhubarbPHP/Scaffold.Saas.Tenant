@@ -18,26 +18,30 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Registration;
 
-use Rhubarb\Leaf\Leaves\Controls\Buttons\Button;
-use Rhubarb\Leaf\Leaves\Controls\Text\Password\Password;
-use Rhubarb\Leaf\Leaves\Controls\Text\TextBox\TextBox;
+use Rhubarb\Leaf\Controls\Common\Buttons\Button;
+use Rhubarb\Leaf\Controls\Common\Text\PasswordTextBox;
+use Rhubarb\Leaf\Controls\Common\Text\TextBox;
 use Rhubarb\Leaf\Views\View;
 
 class RegistrationView extends View
 {
-    protected function configureLeaves()
+    /**
+     * @var RegistrationModel
+     */
+    protected $model;
+
+    protected function createSubLeaves()
     {
-        parent::configureLeaves();
+        parent::createSubLeaves();
 
         $this->registerSubLeaf(
-            new TextBox("Forename"),
-            new TextBox("Surname"),
-            new TextBox("Email", 80),
-            new TextBox("Username"),
-            new Password("NewPassword"),
-            new Password("NewPasswordConfirm"),
+            new TextBox("forename"),
+            new TextBox("surname"),
+            new TextBox("email", 80),
+            new PasswordTextBox("newPassword"),
+            new PasswordTextBox("newPasswordConfirm"),
             $submit = new Button("Signup", "Sign Up", function () {
-                $this->raiseEvent("CreateUser");
+                $this->model->createUserEvent->raise();
             })
         );
     }
@@ -49,12 +53,11 @@ class RegistrationView extends View
         $this->layoutItemsWithContainer(
             "",
             [
-                "Forename",
-                "Surname",
-                "Email",
-                "Username",
-                "Password" => "NewPassword",
-                "Confirm Password" => "NewPasswordConfirm"
+                "forename",
+                "surname",
+                "email",
+                "Password" => "newPassword",
+                "Confirm Password" => "newPasswordConfirm"
             ]
         );
 

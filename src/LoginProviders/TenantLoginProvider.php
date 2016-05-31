@@ -199,7 +199,10 @@ class TenantLoginProvider extends LoginProvider
         $user->Email = $data->Email;
         $user->Forename = $data->Forename;
         $user->Surname = $data->Surname;
-        $user->Username = $data->Username;
+
+        if (isset($data->Username)) {
+            $user->Username = $data->Username;
+        }
     }
 
     /**

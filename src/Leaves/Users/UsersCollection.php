@@ -2,11 +2,11 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Users;
 
-use Rhubarb\Leaf\Leaves\Leaf;
+use Rhubarb\Leaf\Crud\Leaves\ModelBoundLeaf;
 use Rhubarb\Leaf\Leaves\LeafModel;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 
-class UsersCollection extends Leaf
+class UsersCollection extends ModelBoundLeaf
 {
     /**
      * Returns the name of the standard view used for this leaf.

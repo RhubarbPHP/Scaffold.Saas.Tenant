@@ -37,7 +37,7 @@ class RegistrationView extends View
         $this->registerSubLeaf(
             new TextBox("forename"),
             new TextBox("surname"),
-            new TextBox("email", 80),
+            new TextBox("email"),
             new PasswordTextBox("newPassword"),
             new PasswordTextBox("newPasswordConfirm"),
             $submit = new Button("Signup", "Sign Up", function () {

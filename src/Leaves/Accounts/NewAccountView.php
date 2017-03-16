@@ -32,7 +32,7 @@ class NewAccountView extends View
     protected function createSubLeaves()
     {
         $this->registerSubLeaf(
-            new TextBox("accountName", 50),
+            new TextBox("accountName"),
             new Button("CreateAccount", "Create Account", function () {
                 $this->model->createAccountEvent->raise();
             })

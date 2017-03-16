@@ -14,7 +14,7 @@ class UsersAddView extends CrudView
         parent::createSubLeaves();
 
         $this->registerSubLeaf(
-            new TextBox("email",100),
+            new TextBox("email"),
             $role = new DropDown("roleId")
         );
 

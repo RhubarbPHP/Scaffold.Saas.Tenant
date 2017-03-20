@@ -4,13 +4,14 @@ namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Users;
 
 use Rhubarb\Crown\Exceptions\ForceResponseException;
 use Rhubarb\Crown\Response\RedirectResponse;
+use Rhubarb\Leaf\Crud\Leaves\CrudLeaf;
 use Rhubarb\Leaf\Leaves\Leaf;
 use Rhubarb\Leaf\Leaves\LeafModel;
 use Rhubarb\Scaffolds\Saas\Tenant\Model\User;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\Stem\Exceptions\RecordNotFoundException;
 
-class UsersAdd extends Leaf
+class UsersAdd extends CrudLeaf
 {
     /**
      * @var UsersAddModel

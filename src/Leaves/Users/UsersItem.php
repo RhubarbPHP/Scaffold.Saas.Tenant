@@ -1,10 +1,13 @@
 <?php
 
-namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Users\Edit;
+namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Users;
 
+use Rhubarb\Crown\Exceptions\ForceResponseException;
+use Rhubarb\Crown\Response\RedirectResponse;
+use Rhubarb\Scaffolds\Saas\Tenant\Model\User;
 use Rhubarb\Leaf\Crud\Leaves\CrudLeaf;
 
-class UserEdit extends CrudLeaf
+class UsersItem extends CrudLeaf
 {
     /**
      * @var UserEditModel
@@ -28,13 +31,13 @@ class UserEdit extends CrudLeaf
      */
     protected function createModel()
     {
-        $model = new UsersEditModel();
+        $model = new UsersItemModel();
         $model->cancelPressedEvent->attachHandler(function(){
             throw new ForceResponseException(new RedirectResponse("../"));
         });
 
         $model->savePressedEvent->attachHandler(function(){
-            $payloadUser = $this->model;
+            $payloadUser = $this->model->restModel;
 
             try {
                 $user = User::findByUUID($payloadUser->UserUUID);

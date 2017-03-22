@@ -2,7 +2,9 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Users;
 
+use Rhubarb\Leaf\Controls\Common\Examples\Text\TextBox\TextBox;
 use Rhubarb\Leaf\Controls\Common\SelectionControls\DropDown\DropDown;
+use Rhubarb\Leaf\Controls\Common\Text\TextAreaView;
 use Rhubarb\Leaf\Crud\Leaves\CrudView;
 use Rhubarb\Scaffolds\AuthenticationWithRoles\Role;
 

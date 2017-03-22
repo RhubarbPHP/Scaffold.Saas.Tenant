@@ -5,13 +5,15 @@ namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Users;
 use Rhubarb\Crown\Exceptions\ForceResponseException;
 use Rhubarb\Crown\Response\RedirectResponse;
 use Rhubarb\Scaffolds\Saas\Tenant\Model\User;
+use Rhubarb\Leaf\Leaves\Leaf;
+use Rhubarb\Leaf\Leaves\LeafModel;
 use Rhubarb\Leaf\Crud\Leaves\CrudLeaf;
 use Rhubarb\Stem\Exceptions\RecordNotFoundException;
 
 class UsersItem extends CrudLeaf
 {
     /**
-     * @var UserEditModel
+     * @var UsersItemModel
      */
     protected $model;
 
@@ -41,13 +43,13 @@ class UsersItem extends CrudLeaf
             $payloadUser = $this->model->restModel;
 
             try {
-                $user = User::findByUUID($payloadUser->UserUUID);
+                $user = User::findByUUID($payloadUser->UUID);
             } catch (RecordNotFoundException $er){
                 $user = new User();
-                $user->UUID = $payloadUser->UserUUID;
+                $user->UUID = $payloadUser->UUID;
             }
 
-            $user->RoleID = $this->model->roleId;
+            $user->RoleID = $payloadUser->RoleID;
             $this->onUserSaving($user);
             $user->save();
 

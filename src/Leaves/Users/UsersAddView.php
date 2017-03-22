@@ -7,7 +7,6 @@ use Rhubarb\Leaf\Controls\Common\Text\TextBox;
 use Rhubarb\Leaf\Crud\Leaves\CrudView;
 use Rhubarb\Scaffolds\AuthenticationWithRoles\Role;
 
-
 class UsersAddView extends CrudView
 {
     protected function createSubLeaves()

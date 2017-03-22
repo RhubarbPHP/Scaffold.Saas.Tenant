@@ -6,6 +6,7 @@ use Rhubarb\Crown\Exceptions\ForceResponseException;
 use Rhubarb\Crown\Response\RedirectResponse;
 use Rhubarb\Scaffolds\Saas\Tenant\Model\User;
 use Rhubarb\Leaf\Crud\Leaves\CrudLeaf;
+use Rhubarb\Stem\Exceptions\RecordNotFoundException;
 
 class UsersItem extends CrudLeaf
 {
@@ -21,7 +22,7 @@ class UsersItem extends CrudLeaf
      */
     protected function getViewClass()
     {
-        return UserEditView::class;
+        return UsersItemView::class;
     }
 
     /**

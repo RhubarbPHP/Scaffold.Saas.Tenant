@@ -51,11 +51,22 @@ class UsersAdd extends CrudLeaf
             }
 
             $user->RoleID = $this->model->roleId;
+            $this->onUserSaving($user);
             $user->save();
 
             throw new ForceResponseException(new RedirectResponse("../"));
         });
 
         return $model;
+    }
+
+    /**
+     * An opportunity for extenders to augment the model with custom attributes taken in the real UI
+     *
+     * @param User $user
+     */
+    protected function onUserSaving(User $user)
+    {
+
     }
 }

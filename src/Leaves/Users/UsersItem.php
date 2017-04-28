@@ -41,17 +41,9 @@ class UsersItem extends CrudLeaf
 
         $model->savePressedEvent->attachHandler(function(){
             $payloadUser = $this->model->restModel;
-
-            try {
-                $user = User::findByUUID($payloadUser->UUID);
-            } catch (RecordNotFoundException $er){
-                $user = new User();
-                $user->UUID = $payloadUser->UUID;
-            }
-
-            $user->RoleID = $payloadUser->RoleID;
-            $this->onUserSaving($user);
-            $user->save();
+            
+            $this->onUserSaving($payloadUser);
+            $payloadUser->save();
 
             throw new ForceResponseException(new RedirectResponse("../"));
         });

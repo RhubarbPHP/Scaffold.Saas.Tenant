@@ -44,6 +44,10 @@ class RegistrationView extends View
                 $this->model->createUserEvent->raise();
             })
         );
+
+        if ($this->model->email != "") {
+            $this->leaves["email"]->setValue($this->model->email);
+        }
     }
 
     protected function printViewContent()

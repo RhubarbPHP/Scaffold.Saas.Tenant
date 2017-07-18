@@ -35,7 +35,7 @@ class UsersCollectionView extends View
         $this->registerSubLeaf(
             new Button("ResendInvite", "Resend", function($email){
                 $this->model->resentInviteEvent->raise(base64_decode($email));
-            })
+            }, true)
         );
     }
 

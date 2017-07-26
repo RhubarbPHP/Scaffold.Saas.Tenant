@@ -8,6 +8,7 @@ use Rhubarb\Scaffolds\Saas\Tenant\Model\User;
 use Rhubarb\Leaf\Leaves\Leaf;
 use Rhubarb\Leaf\Leaves\LeafModel;
 use Rhubarb\Leaf\Crud\Leaves\CrudLeaf;
+use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\Stem\Exceptions\RecordNotFoundException;
 
 class UsersItem extends CrudLeaf
@@ -44,6 +45,8 @@ class UsersItem extends CrudLeaf
             
             $this->onUserSaving($payloadUser);
             $payloadUser->save();
+
+            SaasGateway::updateUser($payloadUser->UUID, $payloadUser->Forename, $payloadUser->Surname, $payloadUser->Username, $payloadUser->Email);
 
             throw new ForceResponseException(new RedirectResponse("../"));
         });

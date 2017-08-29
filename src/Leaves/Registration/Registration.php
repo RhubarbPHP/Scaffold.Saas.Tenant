@@ -109,6 +109,16 @@ class Registration extends Leaf
            $this->createUser();
         });
 
+        if (isset($model->inviteId)) {
+            $invitedUsers = SaasGateway::getOutstandingInvites();
+
+            foreach($invitedUsers->items as $invitedUser) {
+                if ($model->inviteId == $invitedUser->_id) {
+                    $model->email = $invitedUser->Email;
+                }
+            }
+        }
+
         return $model;
     }
 } 

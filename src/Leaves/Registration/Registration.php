@@ -105,6 +105,12 @@ class Registration extends Leaf
             $model->inviteId = $i;
         }
 
+        $e = $context->get("e");
+
+        if ($e) {
+            $model->email = $e;
+        }
+
         $model->createUserEvent->attachHandler(function() {
            $this->createUser();
         });

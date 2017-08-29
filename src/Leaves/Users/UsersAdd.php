@@ -51,7 +51,9 @@ class UsersAdd extends CrudLeaf
                 $user->UUID = $payloadUser->UserUUID;
             }
 
+            $user->Email = $this->model->email;
             $user->RoleID = $this->model->roleId;
+
             $this->onUserSaving($user);
 
             try {

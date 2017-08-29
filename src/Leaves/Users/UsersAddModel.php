@@ -9,4 +9,6 @@ class UsersAddModel extends CrudModel
     public $email;
 
     public $roleId;
+
+    public $validationErrors;
 }

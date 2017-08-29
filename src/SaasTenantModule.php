@@ -42,10 +42,14 @@ use Symfony\Component\Console\Command\Command;
 
 class SaasTenantModule extends Module
 {
-    public function __construct($identityColumnName = "Username")
+    private $loginProviderClassName;
+
+    public function __construct($identityColumnName = "Username", $loginProviderClassName = "")
     {
         $settings = AuthenticationSettings::singleton();
         $settings->identityColumnName = $identityColumnName;
+
+        $this->loginProviderClassName = ($loginProviderClassName != "") ? $loginProviderClassName : TenantLoginProvider::class;
 
         parent::__construct();
     }
@@ -63,8 +67,8 @@ class SaasTenantModule extends Module
     protected function getModules()
     {
         return [
-                new AuthenticationWithRolesModule(TenantLoginProvider::class, '/app/')
-            ];
+            new AuthenticationWithRolesModule($this->loginProviderClassName, '/app/')
+        ];
     }
 
     protected function registerUrlHandlers()

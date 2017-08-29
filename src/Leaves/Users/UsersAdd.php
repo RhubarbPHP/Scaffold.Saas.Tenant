@@ -9,6 +9,7 @@ use Rhubarb\Leaf\Leaves\Leaf;
 use Rhubarb\Leaf\Leaves\LeafModel;
 use Rhubarb\Scaffolds\Saas\Tenant\Model\User;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
+use Rhubarb\Stem\Exceptions\ModelConsistencyValidationException;
 use Rhubarb\Stem\Exceptions\RecordNotFoundException;
 
 class UsersAdd extends CrudLeaf
@@ -54,9 +55,13 @@ class UsersAdd extends CrudLeaf
             $user->RoleID = $this->model->roleId;
 
             $this->onUserSaving($user);
-            $user->save();
 
-            throw new ForceResponseException(new RedirectResponse("../"));
+            try {
+                $user->save();
+                throw new ForceResponseException(new RedirectResponse("../"));
+            } catch (ModelConsistencyValidationException $e) {
+                $this->model->validationErrors = $e->getErrors();
+            }
         });
 
         return $model;

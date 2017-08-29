@@ -53,6 +53,30 @@ class SaasGateway
     }
 
     /**
+     * Update a User identified by UUID
+     *
+     * @param $userUuid
+     * @param $forename
+     * @param $surname
+     * @param $username
+     * @param $email
+     * @return mixed
+     */
+    public static function updateUser($userUuid, $forename, $surname, $username, $email)
+    {
+        $accountSession = AccountSession::singleton();
+
+        $uri = "/accounts/".$accountSession->accountId."/users/".$userUuid;
+
+        return self::putAuthenticated($uri, [
+            "Forename" => $forename,
+            "Surname" => $surname,
+            "Username" => $username,
+            "Email" => $email
+        ]);
+    }
+
+    /**
      * Get's an array of users invited to the account the current user is connected to.
      */
     public static function getOutstandingInvites()

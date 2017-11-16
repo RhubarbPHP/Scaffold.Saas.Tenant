@@ -20,7 +20,9 @@ namespace Rhubarb\Scaffolds\Saas\Tenant;
 
 use Rhubarb\Crown\Encryption\EncryptionProvider;
 use Rhubarb\Crown\Module;
+use Rhubarb\Crown\UrlHandlers\CallableUrlHandler;
 use Rhubarb\Crown\UrlHandlers\ClassMappedUrlHandler;
+use Rhubarb\Crown\UrlHandlers\GreedyUrlHandler;
 use Rhubarb\Leaf\UrlHandlers\LeafCollectionUrlHandler;
 use Rhubarb\Scaffolds\Authentication\Settings\AuthenticationSettings;
 use Rhubarb\Scaffolds\AuthenticationWithRoles\AuthenticationWithRolesModule;
@@ -44,11 +46,8 @@ class SaasTenantModule extends Module
 {
     private $loginProviderClassName;
 
-    public function __construct($identityColumnName = "Username", $loginProviderClassName = "")
+    public function __construct($loginProviderClassName = "")
     {
-        $settings = AuthenticationSettings::singleton();
-        $settings->identityColumnName = $identityColumnName;
-
         $this->loginProviderClassName = ($loginProviderClassName != "") ? $loginProviderClassName : TenantLoginProvider::class;
 
         parent::__construct();
@@ -71,6 +70,13 @@ class SaasTenantModule extends Module
         ];
     }
 
+    private function getProvider()
+    {
+        $providerClassName = $this->loginProviderClassName;
+        return $providerClassName::singleton();
+    }
+
+
     protected function registerUrlHandlers()
     {
         parent::registerUrlHandlers();
@@ -78,9 +84,16 @@ class SaasTenantModule extends Module
         $signUp = new ClassMappedUrlHandler(Registration::class);
         $signUp->setPriority(20);
 
-        $login = new ClassMappedUrlHandler(Login::class, [
-            "reset/" => new LeafCollectionUrlHandler(ResetPassword::class,
-                ConfirmResetPassword::class)
+        $login = new CallableUrlHandler(function(){
+            return new Login($this->getProvider());
+            }, [
+            "reset/" => new CallableUrlHandler(function(){
+                return new ResetPassword($this->getProvider());
+            },[
+                '' => new GreedyUrlHandler(function($parentHandler, $captured){
+                    return new ConfirmResetPassword($this->getProvider(), $captured);
+                })
+            ]),
         ]);
 
         $login->setPriority(20);

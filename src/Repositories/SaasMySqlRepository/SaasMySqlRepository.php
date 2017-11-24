@@ -49,6 +49,12 @@ class SaasMySqlRepository extends MySql
         return self::$defaultConnection;
     }
 
+    public static function getReadOnlyConnection()
+    {
+        return self::getDefaultConnection();
+    }
+
+
     /**
      * Simply verifies a connection to a tenant is currently made and if not throws an exception.
      *

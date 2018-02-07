@@ -39,7 +39,7 @@ class ConfirmResetPassword extends \Rhubarb\Scaffolds\Authentication\Leaves\Conf
 		if ($this->model->newPassword == $this->model->confirmNewPassword && $this->model->newPassword != "") {
 			try {
 				$payload = new \stdClass();
-				$payload->PasswordResetHash = $this->itemIdentifier;
+				$payload->PasswordResetHash = $this->resetHash;
 				$payload->NewPassword = $this->model->newPassword;
 
 				$response = SaasGateway::putUnauthenticated( "/users/password-reset-invitations", $payload );

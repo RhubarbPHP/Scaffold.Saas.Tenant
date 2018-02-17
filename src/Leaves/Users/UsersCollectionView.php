@@ -103,7 +103,7 @@ class UsersCollectionView extends View
                     <td><?=$invite->Email;?></td>
                     <td><?=($localUser && $localUser->Role) ? $localUser->Role->RoleName : "";?></td>
                     <td>Pending <?php $this->leaves["ResendInvite"]->printWithIndex(base64_encode($invite->Email));?></td>
-                    <td>Revoke <?php $this->leaves["RevokeInvite"]->printWithIndex(base64_encode($invite->Email));?></td>
+                    <td><?php $this->leaves["RevokeInvite"]->printWithIndex(base64_encode($invite->Email));?></td>
                 </tr><?php
             }
 

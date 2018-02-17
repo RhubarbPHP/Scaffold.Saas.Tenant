@@ -40,6 +40,17 @@ class SaasGateway
         ]);
     }
 
+    public static function revokeUser($email)
+    {
+        $accountSession = AccountSession::singleton();
+
+        $uri = "/accounts/".$accountSession->accountId."/invites/revoke";
+
+        return self::postAuthenticated($uri, [
+            "Email" => $email
+        ]);
+    }
+
     /**
      * Get's an array of users connected to the account the current user is connected to.
      */

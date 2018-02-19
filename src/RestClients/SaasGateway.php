@@ -35,7 +35,7 @@ class SaasGateway
 
         $uri = "/accounts/".$accountSession->accountId."/invites";
 
-        return self::postAuthenticated($uri, [
+        return self::putAuthenticated($uri, [
             "Email" => $email
         ]);
     }

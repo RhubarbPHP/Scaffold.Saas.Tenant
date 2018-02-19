@@ -87,6 +87,17 @@ class SaasGateway
         ]);
     }
 
+    public static function disableUser($userUuid)
+    {
+        $accountSession = AccountSession::singleton();
+
+        $uri = "/accounts/".$accountSession->accountId."/users/".$userUuid;
+
+        return self::putAuthenticated($uri, [
+            "Enabled" => false
+        ]);
+    }
+
     /**
      * Get's an array of users invited to the account the current user is connected to.
      */

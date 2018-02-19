@@ -13,8 +13,11 @@ class UsersCollectionModel extends ModelBoundModel
      */
     public $resentInviteEvent;
 
-    /** @var Event\ $revokeInviteEvent */
+    /** @var Event $revokeInviteEvent */
     public $revokeInviteEvent;
+
+    /** @var Event $disableUserEvent */
+    public $disableUserEvent;
 
     public function __construct()
     {
@@ -22,5 +25,6 @@ class UsersCollectionModel extends ModelBoundModel
         
         $this->resentInviteEvent = new Event();
         $this->revokeInviteEvent = new Event();
+        $this->disableUserEvent = new Event();
     }
 }

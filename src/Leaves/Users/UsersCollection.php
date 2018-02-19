@@ -32,6 +32,9 @@ class UsersCollection extends ModelBoundLeaf
         $model->revokeInviteEvent->attachHandler(function($email){
             SaasGateway::revokeUser($email);
         });
+        $model->disableUserEvent->attachHandler(function($userUuid){
+            SaasGateway::disableUser($userUuid);
+        });
 
         return $model;
     }

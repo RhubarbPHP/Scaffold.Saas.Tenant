@@ -36,8 +36,8 @@ class UsersCollectionView extends View
             new Button("ResendInvite", "Resend", function($email){
                 $this->model->resentInviteEvent->raise(base64_decode($email));
             }, true),
-            new Button("RevokeInvite", "Revoke", function($email){
-                $this->model->revokeInviteEvent->raise(base64_decode($email));
+            new Button("RevokeInvite", "Revoke", function($inviteID){
+                $this->model->revokeInviteEvent->raise(base64_decode($inviteID));
             }, true)
         );
     }
@@ -103,7 +103,7 @@ class UsersCollectionView extends View
                     <td><?=$invite->Email;?></td>
                     <td><?=($localUser && $localUser->Role) ? $localUser->Role->RoleName : "";?></td>
                     <td>Pending <?php $this->leaves["ResendInvite"]->printWithIndex(base64_encode($invite->Email));?></td>
-                    <td><?php $this->leaves["RevokeInvite"]->printWithIndex(base64_encode($invite->Email));?></td>
+                    <td><?php $this->leaves["RevokeInvite"]->printWithIndex(base64_encode($invite->InviteID));?></td>
                 </tr><?php
             }
 

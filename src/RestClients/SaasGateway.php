@@ -40,14 +40,14 @@ class SaasGateway
         ]);
     }
 
-    public static function revokeUser($email)
+    public static function revokeUserInvite($inviteID)
     {
         $accountSession = AccountSession::singleton();
 
-        $uri = "/accounts/".$accountSession->accountId."/invites/revoke";
+        $uri = "/accounts/".$accountSession->accountId."/invites/" . $inviteID . "/revoke";
 
         return self::putAuthenticated($uri, [
-            "Email" => $email
+            "Revoked" => true
         ]);
     }
 

@@ -56,7 +56,7 @@ class Registration extends Leaf
         if (isset($invite->items[0])) {
             $invite = $invite->items[0];
 
-            if (!$invite->Revoked) {
+            if ($invite->Revoked) {
                 $this->model->revoked = true;
             }
         } else {

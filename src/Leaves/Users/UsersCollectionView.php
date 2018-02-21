@@ -93,6 +93,10 @@ class UsersCollectionView extends View
             <?php
 
             foreach ($users->items as $invite) {
+                if ($invite->Revoked) {
+                    continue;
+                }
+
                 $localUser = false;
                 try {
                     $localUser = User::findByUUID($invite->UserUUID);

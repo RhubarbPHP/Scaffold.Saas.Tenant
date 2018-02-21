@@ -50,16 +50,20 @@ class RegistrationView extends View
     {
         parent::printViewContent();
 
-        $this->layoutItemsWithContainer(
-            "",
-            [
-                "forename",
-                "surname",
-                "email",
-                "Password" => "newPassword",
-                "Confirm Password" => "newPasswordConfirm"
-            ]
-        );
+        if (!$this->model->revoked) {
+            $this->layoutItemsWithContainer(
+                "",
+                [
+                    "forename",
+                    "surname",
+                    "email",
+                    "Password" => "newPassword",
+                    "Confirm Password" => "newPasswordConfirm"
+                ]
+            );
+        } else {
+            print "Sorry this invite has expired.";
+        }
 
         print $this->leaves["Signup"];
     }

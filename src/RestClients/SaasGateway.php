@@ -110,6 +110,13 @@ class SaasGateway
         return self::getAuthenticated($uri);
     }
 
+    public static function getInvite($inviteId)
+    {
+        $uri = "/invite/" . $inviteId;
+
+        return self::getUnauthenticated($uri);
+    }
+
     /**
      * Makes an unauthenticated GET request
      *

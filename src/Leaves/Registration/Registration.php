@@ -39,6 +39,31 @@ class Registration extends Leaf
      */
     protected $model;
 
+    public function __construct(?string $name = null, ?callable $initialiseModelBeforeView = null)
+    {
+        parent::__construct($name, $initialiseModelBeforeView);
+
+        $this->validateInvite();
+    }
+
+    private function validateInvite()
+    {
+        $request = Request::current();
+        $inviteID = $request->get('i');
+
+        $invite = SaasGateway::getInvite($inviteID);
+
+        if (isset($invite->items[0])) {
+            $invite = $invite->items[0];
+
+            if (!$invite->Revoked) {
+                $this->model->revoked = true;
+            }
+        } else {
+            throw new SaasInviteNotFoundException('The requested invite was not found.');
+        }
+    }
+
     private function createUser()
     {
         // Assumes the model has been populated with all the various settings.

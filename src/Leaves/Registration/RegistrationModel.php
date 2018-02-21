@@ -21,6 +21,8 @@ class RegistrationModel extends LeafModel
 
     public $newPasswordConfirm = "";
 
+    public $revoked = false;
+
     /**
      * @var Event
      */

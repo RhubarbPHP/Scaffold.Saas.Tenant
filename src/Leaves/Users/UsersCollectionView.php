@@ -38,7 +38,7 @@ class UsersCollectionView extends View
             }, true),
             new Button("RevokeInvite", "Revoke", function($inviteID){
                 $this->model->revokeInviteEvent->raise(base64_decode($inviteID));
-            }, true)
+            })
         );
     }
 

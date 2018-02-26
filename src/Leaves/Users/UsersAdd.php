@@ -2,8 +2,10 @@
 
 namespace Rhubarb\Scaffolds\Saas\Tenant\Leaves\Users;
 
+use Gcd\Chariteer\Landlord\Emails\ChariteerInviteEmail;
 use Rhubarb\Crown\Exceptions\ForceResponseException;
 use Rhubarb\Crown\Response\RedirectResponse;
+use Rhubarb\Crown\Sendables\SendableProvider;
 use Rhubarb\Leaf\Crud\Leaves\CrudLeaf;
 use Rhubarb\Leaf\Leaves\Leaf;
 use Rhubarb\Leaf\Leaves\LeafModel;
@@ -43,6 +45,10 @@ class UsersAdd extends CrudLeaf
 
         $model->savePressedEvent->attachHandler(function(){
             $payloadUser = SaasGateway::inviteUser($this->model->email);
+
+
+            $email = new ChariteerInviteEmail($payloadUser);
+            SendableProvider::selectProviderAndSend($email);
 
             try {
                 $user = User::findByUUID($payloadUser->UserUUID);

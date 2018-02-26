@@ -35,7 +35,10 @@ class UsersCollectionView extends View
         $this->registerSubLeaf(
             new Button("ResendInvite", "Resend", function($email){
                 $this->model->resentInviteEvent->raise(base64_decode($email));
-            }, true)
+            }, true),
+            new Button("RevokeInvite", "Revoke", function($inviteID){
+                $this->model->revokeInviteEvent->raise(base64_decode($inviteID));
+            })
         );
     }
 
@@ -83,12 +86,17 @@ class UsersCollectionView extends View
                 <th>Email</th>
                 <th>Role</th>
                 <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <?php
 
             foreach ($users->items as $invite) {
+                if ($invite->Revoked) {
+                    continue;
+                }
+
                 $localUser = false;
                 try {
                     $localUser = User::findByUUID($invite->UserUUID);
@@ -99,6 +107,7 @@ class UsersCollectionView extends View
                     <td><?=$invite->Email;?></td>
                     <td><?=($localUser && $localUser->Role) ? $localUser->Role->RoleName : "";?></td>
                     <td>Pending <?php $this->leaves["ResendInvite"]->printWithIndex(base64_encode($invite->Email));?></td>
+                    <td><?php $this->leaves["RevokeInvite"]->printWithIndex(base64_encode($invite->InviteID));?></td>
                 </tr><?php
             }
 

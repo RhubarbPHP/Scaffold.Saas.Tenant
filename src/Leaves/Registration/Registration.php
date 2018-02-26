@@ -25,6 +25,7 @@ use Rhubarb\Crown\Response\RedirectResponse;
 use Rhubarb\Leaf\Leaves\Leaf;
 use Rhubarb\Leaf\Leaves\LeafModel;
 use Rhubarb\Scaffolds\Authentication\Settings\AuthenticationSettings;
+use Rhubarb\Scaffolds\Saas\Tenant\Exceptions\SaasInviteNotFoundException;
 use Rhubarb\Scaffolds\Saas\Tenant\RestClients\SaasGateway;
 use Rhubarb\Scaffolds\Saas\Tenant\RestModels\Me;
 use Rhubarb\Scaffolds\Saas\Tenant\RestModels\User;
@@ -38,6 +39,24 @@ class Registration extends Leaf
      * @var RegistrationModel
      */
     protected $model;
+
+    private function validateInvite()
+    {
+        $request = Request::current();
+        $inviteID = $request->get('i');
+
+        $invite = SaasGateway::getInvite($inviteID);
+
+        if (isset($invite->items[0])) {
+            $invite = $invite->items[0];
+
+            if ($invite->Revoked == true) {
+                $this->model->revoked = true;
+            }
+        } else {
+            throw new SaasInviteNotFoundException('The requested invite was not found.');
+        }
+    }
 
     private function createUser()
     {
@@ -116,5 +135,12 @@ class Registration extends Leaf
         });
 
         return $model;
+    }
+
+    protected function onModelCreated()
+    {
+        parent::onModelCreated();
+
+        $this->validateInvite();
     }
 } 

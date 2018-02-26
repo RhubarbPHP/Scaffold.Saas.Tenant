@@ -40,6 +40,17 @@ class SaasGateway
         ]);
     }
 
+    public static function revokeUserInvite($inviteID)
+    {
+        $accountSession = AccountSession::singleton();
+
+        $uri = "/accounts/".$accountSession->accountId."/invites/" . $inviteID . "/revoke";
+
+        return self::putAuthenticated($uri, [
+            "Revoked" => true
+        ]);
+    }
+
     /**
      * Get's an array of users connected to the account the current user is connected to.
      */
@@ -76,6 +87,17 @@ class SaasGateway
         ]);
     }
 
+    public static function disableUser($userUuid)
+    {
+        $accountSession = AccountSession::singleton();
+
+        $uri = "/accounts/".$accountSession->accountId."/users/".$userUuid;
+
+        return self::putAuthenticated($uri, [
+            "Enabled" => false
+        ]);
+    }
+
     /**
      * Get's an array of users invited to the account the current user is connected to.
      */
@@ -86,6 +108,13 @@ class SaasGateway
         $uri = "/accounts/".$accountSession->accountId."/invites";
 
         return self::getAuthenticated($uri);
+    }
+
+    public static function getInvite($inviteId)
+    {
+        $uri = "/invite/" . $inviteId;
+
+        return self::getUnauthenticated($uri);
     }
 
     /**

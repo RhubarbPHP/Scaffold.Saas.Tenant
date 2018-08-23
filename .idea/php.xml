@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/rhubarbphp/module-jsvalidation" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/vendor/rhubarbphp/scaffold-saas-landlord" />
+      <path value="$PROJECT_DIR$/vendor/rhubarbphp/custard" />
+      <path value="$PROJECT_DIR$/vendor/rhubarbphp/module-leaf" />
+      <path value="$PROJECT_DIR$/vendor/rhubarbphp/scaffold-authentication" />
+      <path value="$PROJECT_DIR$/vendor/rhubarbphp/module-stem" />
+      <path value="$PROJECT_DIR$/vendor/rhubarbphp/module-leaf-common-controls" />
+      <path value="$PROJECT_DIR$/vendor/rhubarbphp/module-patterns" />
+      <path value="$PROJECT_DIR$/vendor/rhubarbphp/rhubarb" />
+      <path value="$PROJECT_DIR$/vendor/rhubarbphp/scaffold-navigation-menu" />
+      <path value="$PROJECT_DIR$/vendor/rhubarbphp/module-csrfprotection" />
+      <path value="$PROJECT_DIR$/vendor/rhubarbphp/scaffold-authentication-with-roles" />
+      <path value="$PROJECT_DIR$/vendor/rhubarbphp/module-restapi" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/vendor/rhubarbphp/scaffold-token-based-restapi" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/phpunit-mock-objects" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-token-stream" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+    </include_path>
+  </component>
+</project>

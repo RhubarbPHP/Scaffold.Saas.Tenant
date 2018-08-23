@@ -41,13 +41,14 @@ class NewAccountView extends View
         parent::createSubLeaves();
     }
 
-
     protected function printViewContent()
     {
-        $this->layoutItemsWithContainer("",
+        $this->layoutItemsWithContainer(
+            "",
             [
-                "AccountName"
-            ]);
+                "accountName"
+            ]
+        );
 
         print $this->leaves["CreateAccount"];
     }

@@ -25,10 +25,12 @@ use Rhubarb\Leaf\Leaves\LeafModel;
 use Rhubarb\Scaffolds\Saas\Tenant\RestModels\Account;
 use Rhubarb\Scaffolds\Saas\Tenant\Sessions\AccountSession;
 use Rhubarb\Scaffolds\Saas\Tenant\Settings\TenantSettings;
-use Rhubarb\Leaf\Leaves\Forms\Form;
 
 class NewAccount extends Leaf
 {
+    /** @var NewAccountModel $model */
+    protected $model;
+
     /**
      * Returns the name of the standard view used for this leaf.
      *
@@ -48,20 +50,33 @@ class NewAccount extends Leaf
     {
         $model = new NewAccountModel();
 
-        $model->createAccountEvent->attachHandler(function () {
-            $account = new Account();
-            $account->AccountName = $this->model->accountName;
-            $account->save();
+        $model->createAccountEvent->attachHandler(
+            function () {
+                $this->createAccount();
+                $settings = TenantSettings::singleton();
+                $response = new RedirectResponse($settings->dashboardUrl);
+                throw new ForceResponseException($response);
+            }
+        );
 
-            $session = AccountSession::singleton();
-            $session->connectToAccount($account->_id);
-
-            $settings = TenantSettings::singleton();
-            $response = new RedirectResponse($settings->dashboardUrl);
-
-            throw new ForceResponseException($response);
-        });
-        
         return $model;
+    }
+
+    /**
+     * @return Account $account
+     * @throws \Rhubarb\RestApi\Exceptions\RestImplementationException
+     *
+     * Override to add project specific account setup steps. E.g. Menus / Permissions
+     */
+    protected function createAccount()
+    {
+        $account = new Account();
+        $account->AccountName = $this->model->accountName;
+        $account->save();
+
+        $session = AccountSession::singleton();
+        $session->connectToAccount($account->_id);
+
+        return $account;
     }
 }
